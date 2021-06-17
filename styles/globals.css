@@ -13,3 +13,26 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* Overide bootstrap btn style */
+.btn {
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background-color: #ffba33;
+  border-color: #ffba33;
+  color: #6a4029;
+}
+
+.btn-primary:hover,
+.btn-secondary {
+  background-color: #6a4029;
+  border-color: #6a4029;
+}
+
+.btn-secondary:hover {
+  background-color: #412719;
+  border-color: #412719;
+}
