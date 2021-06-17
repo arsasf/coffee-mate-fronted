@@ -27,12 +27,14 @@ a {
 }
 
 .btn-primary:hover,
+.btn-primary:focus,
 .btn-secondary {
   background-color: #6a4029;
   border-color: #6a4029;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover,
+.btn-secondary:focus {
   background-color: #412719;
   border-color: #412719;
 }
