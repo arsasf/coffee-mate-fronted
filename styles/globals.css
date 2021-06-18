@@ -16,25 +16,26 @@ a {
 
 /* Overide bootstrap btn style */
 .btn {
-  border-radius: 20px;
-  font-weight: 700;
+  border-radius: 20px !important;
+  font-weight: 700 !important;
 }
 
 .btn-primary {
-  background-color: #ffba33;
-  border-color: #ffba33;
-  color: #6a4029;
+  background-color: #ffba33 !important;
+  border-color: #ffba33 !important;
+  color: #6a4029 !important;
 }
 
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-secondary {
-  background-color: #6a4029;
-  border-color: #6a4029;
+  color: #ffffff !important;
+  background-color: #6a4029 !important;
+  border-color: #6a4029 !important;
 }
 
 .btn-secondary:hover,
 .btn-secondary:focus {
-  background-color: #412719;
-  border-color: #412719;
+  background-color: #412719 !important;
+  border-color: #412719 !important;
 }

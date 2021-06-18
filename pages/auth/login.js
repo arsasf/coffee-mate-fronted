@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Cookie from "js-cookie";
 import Link from "next/link";
+// import Cookie from "js-cookie";
 import Layout from "components/Layout";
 import styles from "styles/Login.module.css";
 import { Button, Col, Form, Row } from "react-bootstrap";
@@ -27,9 +27,13 @@ export default function Login() {
           <Col>
             <div className={`p-5 ${styles.rightSide}`}>
               <div className="d-flex align-items-center justify-content-between">
-                <a href="/">
+                <a href="/" style={{ textDecoration: "none" }}>
                   <div className={styles.brand}>
-                    <img src="/coffee-icon.png" className={styles.brandLogo} />
+                    <img
+                      src="/coffee-icon.png"
+                      className={styles.brandLogo}
+                      alt="logo"
+                    />
                     <span>Coffee Mate</span>
                   </div>
                 </a>
@@ -44,17 +48,17 @@ export default function Login() {
               </div>
               <Form className={`${styles.loginForm}`}>
                 <h1>Login</h1>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group controlId="email">
                   <Form.Label>Email address :</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder="Enter yout email address"
+                    placeholder="Enter your email address"
                     className="shadow-none"
                     name="userEmail"
                     onChange={(e) => changeText(e)}
                   />
                 </Form.Group>
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group controlId="password">
                   <Form.Label>Password :</Form.Label>
                   <Form.Control
                     type="password"
@@ -77,14 +81,20 @@ export default function Login() {
                   type="button"
                   className={styles.googleBtn}
                 >
-                  <img src="/google-icon.png" className={styles.googleIcon} />
+                  <img
+                    src="/google-icon.png"
+                    className={styles.googleIcon}
+                    alt="google-icon"
+                  />
                   Login with Google
                 </Button>
               </Form>
               <div className={styles.overflowCard}>
                 <div>
                   <h2>Get your member card now!</h2>
-                  <span>Let's join with our member and enjoy the deals.</span>
+                  <span>
+                    {"Let's join with our member and enjoy the deals."}
+                  </span>
                 </div>
                 <Button
                   variant="primary"

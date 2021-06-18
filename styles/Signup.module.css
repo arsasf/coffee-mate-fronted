@@ -12,7 +12,7 @@
     height: 100%;
   }
   .rightSide {
-    padding: 5em 10em !important;
+    padding: 5em 10em 30em !important;
   }
   .signupForm h1,
   .overflowCard h2 {
@@ -26,6 +26,7 @@
   }
   .brand span,
   .overflowCard button,
+  .overflowCard span,
   .loginBtn {
     font-size: 1.1em !important;
   }
@@ -48,13 +49,10 @@
   .overflowCard div {
     width: 40%;
   }
-  .rightSide {
-    padding-bottom: 30em !important;
-  }
 }
 
-/* For screen 1280px above */
-@media (min-width: 1280px) {
+/* For screen 1300px above */
+@media (min-width: 1300px) {
   .brand .brandLogo {
     width: 3em !important;
   }
@@ -117,6 +115,9 @@
 .signupForm input {
   border: 1px solid #4f5665;
   font-weight: 600;
+}
+.signupForm input:focus {
+  border: 1px solid #6a4029;
 }
 .signupForm input,
 .signupForm .googleBtn,

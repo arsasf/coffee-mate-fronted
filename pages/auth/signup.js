@@ -27,9 +27,13 @@ export default function Signup() {
           <Col>
             <div className={`p-5 ${styles.rightSide}`}>
               <div className="d-flex align-items-center justify-content-between">
-                <a href="/">
+                <a href="/" style={{ textDecoration: "none" }}>
                   <div className={styles.brand}>
-                    <img src="/coffee-icon.png" className={styles.brandLogo} />
+                    <img
+                      src="/coffee-icon.png"
+                      className={styles.brandLogo}
+                      alt="logo"
+                    />
                     <span>Coffee Mate</span>
                   </div>
                 </a>
@@ -48,7 +52,7 @@ export default function Signup() {
                   <Form.Label>Email address :</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder="Enter yout email address"
+                    placeholder="Enter your email address"
                     className="shadow-none"
                     name="userEmail"
                     onChange={(e) => changeText(e)}
@@ -86,14 +90,20 @@ export default function Signup() {
                   type="button"
                   className={styles.googleBtn}
                 >
-                  <img src="/google-icon.png" className={styles.googleIcon} />
+                  <img
+                    src="/google-icon.png"
+                    className={styles.googleIcon}
+                    alt="google-icon"
+                  />
                   Sign up with Google
                 </Button>
               </Form>
               <div className={styles.overflowCard}>
                 <div>
                   <h2>Get your member card now!</h2>
-                  <span>Let's join with our member and enjoy the deals.</span>
+                  <span>
+                    {"Let's join with our member and enjoy the deals."}
+                  </span>
                 </div>
                 <Button
                   variant="primary"
