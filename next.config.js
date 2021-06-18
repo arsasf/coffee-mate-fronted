@@ -16,14 +16,6 @@ module.exports = {
         destination: "/auth/signup",
       },
       {
-        source: "/create-pin",
-        destination: "/auth/create-pin",
-      },
-      {
-        source: "/create-pin/success",
-        destination: "/auth/create-pin/success",
-      },
-      {
         source: "/reset-password",
         destination: "/auth/reset-password",
       },
