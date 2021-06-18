@@ -1,0 +1,178 @@
+/* For screen 768px above */
+@media (min-width: 768px) {
+  .brand .brandLogo {
+    width: 2em !important;
+  }
+  .leftBanner {
+    display: block !important;
+    background-image: url("/auth-img-background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+  }
+  .loginForm h1,
+  .overflowCard h2 {
+    font-size: 3em !important;
+  }
+  .loginForm a,
+  .loginForm input,
+  .loginForm label,
+  .loginForm .googleBtn,
+  .loginForm .loginBtn {
+    font-size: 1.5em !important;
+  }
+  .brand span,
+  .overflowCard button,
+  .overflowCard span,
+  .signupBtn {
+    font-size: 1.1em !important;
+  }
+  .overflowCard {
+    position: absolute;
+    bottom: -58em;
+    left: 0;
+    right: 0;
+    align-items: center;
+    flex-direction: row !important;
+    justify-content: space-between;
+    margin: 0 18em !important;
+    padding: 5em 8em !important;
+  }
+  .overflowCard button {
+    height: fit-content;
+    margin: 0 !important;
+    padding: 1.2em 5em !important;
+  }
+  .overflowCard div {
+    width: 40%;
+  }
+  .rightSide {
+    padding: 5em 10em 30em !important;
+  }
+}
+
+/* For screen 1280px above */
+@media (min-width: 1300px) {
+  .brand .brandLogo {
+    width: 3em !important;
+  }
+  .loginForm h1,
+  .overflowCard h2 {
+    font-size: 3.5em !important;
+  }
+  .loginForm input,
+  .loginForm .googleBtn,
+  .loginForm .loginBtn {
+    font-size: 2em !important;
+  }
+  .brand span,
+  .overflowCard button,
+  .overflowCard span,
+  .signupBtn {
+    font-size: 1.6em !important;
+  }
+}
+
+/* Small device (768px below) */
+.brand {
+  align-items: center;
+  display: flex;
+}
+.brand span,
+.overflowCard h2 {
+  color: #0b132a;
+}
+.brand .brandLogo {
+  margin-right: 0.5em;
+  width: 1.7em;
+}
+.leftBanner {
+  display: none;
+}
+.brand span,
+.loginForm h1,
+.loginForm label,
+.loginForm a {
+  font-weight: 700;
+}
+.loginForm {
+  margin-top: 6em;
+}
+.loginForm a,
+.loginForm h1 {
+  color: #6a4029;
+}
+.loginForm a {
+  display: inline-block;
+  margin: 1em 0 2.5em 0 !important;
+}
+.loginForm a:hover {
+  color: #412719;
+}
+.loginForm h1,
+.overflowCard h2 {
+  font-size: 2.5em;
+}
+.loginForm h1 {
+  text-align: center;
+}
+.loginForm h1 + div {
+  margin-top: 4em;
+  margin-bottom: 2.2em !important;
+}
+.loginForm input {
+  border: 1px solid #4f5665;
+  font-weight: 600;
+}
+.loginForm input:focus {
+  border: 1px solid #6a4029;
+}
+.loginForm input,
+.loginForm .googleBtn,
+.loginForm .loginBtn,
+.overflowCard button {
+  border-radius: 1em;
+  font-size: 1em;
+  padding: 1.5em 2em;
+}
+.loginForm .googleBtn {
+  box-shadow: 0px 6px 20px 0px #c4c4c4ab;
+  margin-top: 1.6em;
+}
+.loginForm .loginBtn {
+  box-shadow: 0px 6px 20px 0px #ffba3366;
+}
+.loginForm .googleIcon {
+  width: 1.5em;
+  margin-right: 0.4em;
+}
+.loginForm .loginBtn,
+.loginForm .googleBtn {
+  width: 100%;
+}
+.outerContainer {
+  display: relative;
+  font-size: 62.5%;
+}
+.overflowCard {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 6px 20px 0px #c4c4c4ab;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5em;
+  padding: 2em;
+}
+.overflowCard button {
+  margin-top: 1.5em;
+}
+.loginForm label,
+.overflowCard span {
+  color: #4f5665;
+}
+.signupBtn {
+  font-size: 1em;
+  padding-left: 2.5em;
+  padding-right: 2.5em;
+}

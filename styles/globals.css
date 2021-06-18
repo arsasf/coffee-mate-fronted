@@ -2,8 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 a {
@@ -13,4 +12,30 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+/* Overide bootstrap btn style */
+.btn {
+  border-radius: 20px !important;
+  font-weight: 700 !important;
+}
+
+.btn-primary {
+  background-color: #ffba33 !important;
+  border-color: #ffba33 !important;
+  color: #6a4029 !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-secondary {
+  color: #ffffff !important;
+  background-color: #6a4029 !important;
+  border-color: #6a4029 !important;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: #412719 !important;
+  border-color: #412719 !important;
 }
