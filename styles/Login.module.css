@@ -3,6 +3,9 @@
   .brand .brandLogo {
     width: 2em !important;
   }
+  .errorAlert {
+    font-size: 1.3em !important;
+  }
   .leftBanner {
     display: block !important;
     background-image: url("/auth-img-background.jpg");
@@ -97,6 +100,16 @@
 .brand .brandLogo {
   margin-right: 0.5em;
   width: 1.7em;
+}
+.errorAlert {
+  display: block;
+  color: #ff2339;
+  font-size: 1em;
+  font-weight: 700;
+  margin-top: 0.5em;
+}
+.errorBorder {
+  border: 1.4px solid #ff2339 !important;
 }
 .leftBanner {
   display: none;

@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "components/Layout";
@@ -6,7 +7,13 @@ import Footer from "components/module/Footer";
 import styles from "styles/Signup.module.css";
 import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import { CircleWavyCheck } from "phosphor-react";
+import { unauthPage } from "middleware/authPage";
 import axios from "utils/axios";
+
+export const getServerSideProps = async (context) => {
+  await unauthPage(context);
+  return { props: {} };
+};
 
 export default function Signup() {
   const router = useRouter();
