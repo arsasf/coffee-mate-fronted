@@ -1,21 +1,30 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Cookie from "js-cookie";
-import Link from "next/link";
 import Layout from "components/Layout";
 import styles from "styles/Signup.module.css";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
+import axios from "utils/axios";
 
 export default function Signup() {
   const router = useRouter();
   const [form, setForm] = useState({});
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const changeText = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  console.log(form);
+  const createAccount = (e, data) => {
+    e.preventDefault();
+    axios.axiosApiInstances
+      .post("auth/register", data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
 
   return (
     <Layout title="Signup">
@@ -46,7 +55,10 @@ export default function Signup() {
                   Login
                 </Button>
               </div>
-              <Form className={`${styles.signupForm}`}>
+              <Form
+                className={`${styles.signupForm}`}
+                onSubmit={(e) => createAccount(e, form)}
+              >
                 <h1>Sign Up</h1>
                 <Form.Group controlId="email">
                   <Form.Label>Email address :</Form.Label>
@@ -78,13 +90,31 @@ export default function Signup() {
                     onChange={(e) => changeText(e)}
                   />
                 </Form.Group>
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className={styles.signupBtn}
-                >
-                  Sign Up
-                </Button>
+                {loading ? (
+                  <Button
+                    variant="primary"
+                    className={styles.signupBtn}
+                    disabled
+                  >
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      className="me-2"
+                    />
+                    <span className="sr-only">Creating your account...</span>
+                  </Button>
+                ) : (
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className={styles.signupBtn}
+                  >
+                    Sign Up
+                  </Button>
+                )}
                 <Button
                   variant="light"
                   type="button"
