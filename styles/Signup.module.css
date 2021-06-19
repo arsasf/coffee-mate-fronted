@@ -10,6 +10,17 @@
     background-repeat: no-repeat;
     background-size: cover;
     height: 100%;
+    position: relative;
+  }
+  .leftBanner::after {
+    background-color: rgba(0, 0, 0, 0.5);
+    content: "";
+    display: inline-block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
   }
   .rightSide {
     padding: 5em 10em 30em !important;
@@ -106,8 +117,11 @@
 .signupForm h1 {
   text-align: center;
 }
-.signupForm div {
+.signupForm h1 + div {
   margin-top: 4em;
+}
+.signupForm div {
+  margin-top: 2.2em;
 }
 .signupForm div:nth-child(4) {
   margin-bottom: 6em;
@@ -141,6 +155,11 @@
 .signupForm .signupBtn,
 .signupForm .googleBtn {
   width: 100%;
+}
+.signupBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .outerContainer {
   display: relative;

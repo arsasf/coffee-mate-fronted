@@ -10,6 +10,17 @@
     background-repeat: no-repeat;
     background-size: cover;
     height: 100%;
+    position: relative;
+  }
+  .leftBanner::after {
+    background-color: rgba(0, 0, 0, 0.5);
+    content: "";
+    display: inline-block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
   }
   .loginForm h1,
   .overflowCard h2 {
