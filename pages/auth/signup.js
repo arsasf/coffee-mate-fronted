@@ -39,7 +39,7 @@ export default function Signup() {
         .catch(() => {
           setError(true);
           setLoading(false);
-          setMessage("Woops... Someone has already used this email.");
+          setMessage("Whoops... Someone has already used this email.");
         });
     }
   };
