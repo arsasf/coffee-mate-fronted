@@ -5,9 +5,14 @@ export function unauthPage(context) {
   return new Promise((resolve) => {
     const allCookies = cookies(context);
     if (allCookies.token) {
+      let location = "";
+      allCookies.userRole === "user"
+        ? (location = "/customers/product")
+        : (location = "/admin/product");
+
       return context.res
         .writeHead(302, {
-          Location: "/",
+          Location: location,
         })
         .end();
     }
@@ -30,6 +35,7 @@ export function authPage(context) {
     return resolve({
       token: allCookies.token,
       userId: allCookies.userId,
+      userRole: allCookies.userRole,
     });
   });
 }

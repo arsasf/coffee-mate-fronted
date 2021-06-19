@@ -1,23 +1,85 @@
 /* eslint-disable @next/next/no-img-element */
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Cookie from "js-cookie";
 import Link from "next/link";
-// import Cookie from "js-cookie";
 import Layout from "components/Layout";
 import Footer from "components/module/Footer";
 import styles from "styles/Login.module.css";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
+import { unauthPage } from "middleware/authPage";
+import axios from "utils/axios";
+
+export const getServerSideProps = async (context) => {
+  await unauthPage(context);
+  return { props: {} };
+};
 
 export default function Login() {
   const router = useRouter();
   const [form, setForm] = useState({});
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [emptyEmail, setEmptyEmail] = useState(false);
+  const [wrongEmail, setWrongEmail] = useState(false);
+  const [emptyPassword, setEmptyPassword] = useState(false);
+  const [wrongPassword, setWrongPassword] = useState(false);
 
   const changeText = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  console.log(form);
+  const handleLogin = (e, data) => {
+    e.preventDefault();
+    setLoading(true);
+    setEmptyEmail(false);
+    setWrongEmail(false);
+    setEmptyPassword(false);
+    setWrongPassword(false);
+
+    if (!form.userEmail && !form.userPassword) {
+      setLoading(false);
+      setEmptyEmail(true);
+      setEmptyPassword(true);
+    } else if (!form.userEmail) {
+      setLoading(false);
+      setEmptyEmail(true);
+    } else if (!form.userPassword) {
+      setLoading(false);
+      setEmptyPassword(true);
+    } else {
+      // Will execute API login
+      axios.axiosApiInstances
+        .post("auth/login", data)
+        .then((res) => {
+          const { token, user_id, user_role } = res.data.data;
+          Cookie.set("token", token, {
+            expires: 1,
+            secure: true,
+          });
+          Cookie.set("userId", user_id, {
+            expires: 1,
+            secure: true,
+          });
+          Cookie.set("userRole", user_role, {
+            expires: 1,
+            secure: true,
+          });
+          user_role === "user"
+            ? router.push("/customers/product")
+            : router.push("/admin/product");
+        })
+        .catch((err) => {
+          setLoading(false);
+          const msg = err.response.data.msg.toLowerCase();
+          msg.includes("email")
+            ? setWrongEmail(true)
+            : msg.includes("password")
+            ? setWrongPassword(true)
+            : new Error(err);
+        });
+    }
+  };
 
   return (
     <Layout title="Login">
@@ -49,36 +111,81 @@ export default function Login() {
                   Sign Up
                 </Button>
               </div>
-              <Form className={`${styles.loginForm}`}>
+              <Form
+                className={`${styles.loginForm}`}
+                onSubmit={(e) => handleLogin(e, form)}
+              >
                 <h1>Login</h1>
                 <Form.Group controlId="email" className={styles.email}>
                   <Form.Label>Email address :</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Enter your email address"
-                    className="shadow-none"
+                    className={`shadow-none ${
+                      emptyEmail || wrongEmail ? styles.errorBorder : ""
+                    }`}
                     name="userEmail"
                     onChange={(e) => changeText(e)}
                   />
+                  {emptyEmail && (
+                    <span className={styles.errorAlert}>
+                      {"Please input your email, mate!"}
+                    </span>
+                  )}
+                  {wrongEmail && (
+                    <span className={styles.errorAlert}>
+                      {"You put the wrong email..."}
+                    </span>
+                  )}
                 </Form.Group>
                 <Form.Group controlId="password">
                   <Form.Label>Password :</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="Enter your password"
-                    className="shadow-none"
+                    className={`shadow-none ${
+                      emptyPassword || wrongPassword ? styles.errorBorder : ""
+                    }`}
                     name="userPassword"
                     onChange={(e) => changeText(e)}
                   />
+                  {emptyPassword && (
+                    <span className={styles.errorAlert}>
+                      {"Please input your password, mate!"}
+                    </span>
+                  )}
+                  {wrongPassword && (
+                    <span className={styles.errorAlert}>
+                      {"You put the wrong password..."}
+                    </span>
+                  )}
                 </Form.Group>
-                <Link href="/reset-password">Forgot password?</Link>
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className={styles.loginBtn}
-                >
-                  Login
-                </Button>
+                <Link href="/forgot-password">Forgot password?</Link>
+                {loading ? (
+                  <Button
+                    variant="primary"
+                    className={styles.loginBtn}
+                    disabled
+                  >
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      className="me-2"
+                    />
+                    <span className="sr-only">Login...</span>
+                  </Button>
+                ) : (
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className={styles.loginBtn}
+                  >
+                    Login
+                  </Button>
+                )}
                 <Button
                   variant="light"
                   type="button"
