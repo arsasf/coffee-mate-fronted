@@ -127,9 +127,9 @@
 }
 .loginForm h1 {
   text-align: center;
+  margin-bottom: 1.5em;
 }
-.loginForm h1 + div {
-  margin-top: 4em;
+.loginForm .email {
   margin-bottom: 2.2em !important;
 }
 .loginForm input {

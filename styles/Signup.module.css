@@ -3,6 +3,9 @@
   .brand .brandLogo {
     width: 2em !important;
   }
+  .errorAlert {
+    font-size: 1.3em !important;
+  }
   .leftBanner {
     display: block !important;
     background-image: url("/auth-img-background.jpg");
@@ -40,6 +43,9 @@
   .overflowCard span,
   .loginBtn {
     font-size: 1.1em !important;
+  }
+  .successAlert p {
+    font-size: 1.3em;
   }
   .overflowCard {
     position: absolute;
@@ -104,11 +110,22 @@
 .signupForm label {
   font-weight: 700;
 }
+.errorAlert {
+  display: block;
+  color: #ff2339;
+  font-size: 1em;
+  font-weight: 700;
+  margin-top: 0.5em;
+}
+.errorBorder {
+  border: 1.4px solid #ff2339 !important;
+}
 .signupForm {
   margin-top: 6em;
 }
 .signupForm h1 {
   color: #6a4029;
+  margin-bottom: 1.5em;
 }
 .signupForm h1,
 .overflowCard h2 {
@@ -117,13 +134,13 @@
 .signupForm h1 {
   text-align: center;
 }
-.signupForm h1 + div {
+/* .signupForm .email {
   margin-top: 4em;
-}
+} */
 .signupForm div {
   margin-top: 2.2em;
 }
-.signupForm div:nth-child(4) {
+.signupForm .phone {
   margin-bottom: 6em;
 }
 .signupForm input {
@@ -160,6 +177,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.successAlert {
+  transition: all 0.5s ease-in-out;
+  align-items: center;
+  background-color: rgb(233, 255, 213);
+  border-radius: 5px;
+  display: flex;
+  padding: 2em;
+}
+.successAlert p {
+  font-weight: 700;
+  margin-bottom: 0;
+}
+.successAlert svg {
+  color: rgb(107, 221, 0);
+  font-size: 4em;
+  margin-right: 0.2em;
 }
 .outerContainer {
   display: relative;
