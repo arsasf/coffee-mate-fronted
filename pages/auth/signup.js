@@ -3,11 +3,15 @@ import { useRouter } from "next/router";
 import Layout from "components/Layout";
 import styles from "styles/Signup.module.css";
 import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
+import { CircleWavyCheck } from "phosphor-react";
 import axios from "utils/axios";
 
 export default function Signup() {
   const router = useRouter();
   const [form, setForm] = useState({});
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const changeText = (e) => {
@@ -16,14 +20,26 @@ export default function Signup() {
 
   const createAccount = (e, data) => {
     e.preventDefault();
-    axios.axiosApiInstances
-      .post("auth/register", data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
+    setError(false);
+
+    if (form.userEmail && form.userPassword && form.userPhone) {
+      setLoading(true);
+
+      axios.axiosApiInstances
+        .post("auth/register", data)
+        .then(() => {
+          setLoading(false);
+          setSuccess(true);
+          window.setTimeout(() => {
+            router.push("/login");
+          }, 5000);
+        })
+        .catch(() => {
+          setError(true);
+          setLoading(false);
+          setMessage("Woops... Someone has already used this email.");
+        });
+    }
   };
 
   return (
@@ -60,15 +76,32 @@ export default function Signup() {
                 onSubmit={(e) => createAccount(e, form)}
               >
                 <h1>Sign Up</h1>
-                <Form.Group controlId="email">
+                {success && (
+                  <div className={styles.successAlert}>
+                    <CircleWavyCheck weight="fill" />
+                    <p>
+                      Cool! Your account is setup. You will be directed to Log
+                      In page in 3 seconds.
+                    </p>
+                  </div>
+                )}
+                <Form.Group controlId="email" className={styles.email}>
                   <Form.Label>Email address :</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="Enter your email address"
-                    className="shadow-none"
+                    className={`shadow-none ${error && styles.errorBorder}`}
                     name="userEmail"
                     onChange={(e) => changeText(e)}
                   />
+                  {error && (
+                    <span className={styles.errorAlert}>{message}</span>
+                  )}
+                  {!form.userEmail && (
+                    <span className={styles.errorAlert}>
+                      {"You can't leave this field empty"}
+                    </span>
+                  )}
                 </Form.Group>
                 <Form.Group controlId="password">
                   <Form.Label>Password :</Form.Label>
@@ -79,8 +112,13 @@ export default function Signup() {
                     name="userPassword"
                     onChange={(e) => changeText(e)}
                   />
+                  {!form.userPassword && (
+                    <span className={styles.errorAlert}>
+                      {"You can't leave this field empty"}
+                    </span>
+                  )}
                 </Form.Group>
-                <Form.Group controlId="phoneNumber">
+                <Form.Group controlId="phoneNumber" className={styles.phone}>
                   <Form.Label>Phone Number :</Form.Label>
                   <Form.Control
                     type="text"
@@ -89,6 +127,11 @@ export default function Signup() {
                     name="userPhone"
                     onChange={(e) => changeText(e)}
                   />
+                  {!form.userPhone && (
+                    <span className={styles.errorAlert}>
+                      {"You can't leave this field empty"}
+                    </span>
+                  )}
                 </Form.Group>
                 {loading ? (
                   <Button
