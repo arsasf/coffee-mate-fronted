@@ -1,6 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import Layout from "components/Layout";
+import Navbar from "components/module/Navbar";
+import Footer from "components/module/Footer";
 import styles from "styles/Profile.module.css";
 // import Image from "next/image";
 
@@ -15,6 +18,7 @@ export default function Profile() {
 
   return (
     <Layout title="Profile">
+      <Navbar profile={true} login={true} />
       <div className={styles.container}>
         <h1>User Profile</h1>
         <Row xs={1} lg={2} className="mb-3 mb-mb-0 gy-3">
@@ -189,6 +193,7 @@ export default function Profile() {
           </Col>
         </Row>
       </div>
+      <Footer home={true} />
     </Layout>
   );
 }

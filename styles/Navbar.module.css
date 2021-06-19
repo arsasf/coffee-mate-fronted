@@ -1,0 +1,267 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+
+.fullArea {
+  background-color: #f8f8f8;
+  font-family: "Rubik", sans-serif;
+  position: fixed;
+  display: flex;
+  z-index: 10;
+  padding: 0;
+}
+
+.container {
+  padding: 0;
+  margin-left: 50px;
+  margin-right: 50px;
+  width: 100%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modalTitle {
+  width: 100%;
+}
+.placeholder {
+  padding-left: 0;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 2px solid #ffba33;
+  border-radius: 0;
+  margin-right: 40px;
+  background-color: transparent;
+}
+.placeholder::placeholder {
+  color: #6a4029;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.placeholder:focus,
+.placeholder:active,
+.placeholder:hover {
+  border-bottom: 2px solid #6a4029;
+  box-shadow: none !important;
+  outline: none !important;
+  background-color: transparent;
+}
+.modalFooter {
+  display: flex;
+  justify-content: flex-start;
+}
+.form {
+  width: 100%;
+}
+
+.boxLogo {
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  width: max-content;
+  align-items: center;
+}
+
+.profile {
+  margin-left: 10px;
+  background-color: transparent;
+  border: 0;
+}
+
+.profile:hover,
+.profile:focus,
+.profile:active {
+  background-color: #ffba33;
+}
+
+.profile1 {
+  margin-left: 10px;
+  background-color: #ffba33;
+  border: 0;
+}
+
+.profile1:hover,
+.profile1:focus,
+.profile1:active {
+  background-color: #ffba33;
+}
+
+.imgLogo {
+  width: 30px;
+  height: 33px;
+}
+
+.imgMenuProfile {
+  width: 30px;
+  height: 30px;
+}
+
+.imgProfile {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+}
+
+.textLogo {
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 0;
+  color: #0b132a;
+}
+
+.listMenu {
+  /* background-color: brown; */
+  display: flex;
+}
+
+.boxMenu {
+  margin-left: 40px;
+  height: 100%;
+  display: flex;
+  width: max-content;
+  align-items: center;
+  cursor: pointer;
+}
+
+.boxImgMenu {
+  display: none;
+}
+
+.imgMenu {
+  width: 30px;
+  height: 30px;
+  display: none;
+}
+
+.textMenu {
+  /* display: none; */
+  font-size: 16px;
+  font-weight: 700;
+  color: #4f5665;
+  margin-bottom: 0;
+}
+
+.textMenu2 {
+  /* display: none; */
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.textMenuActive {
+  font-size: 16px;
+  font-weight: 700;
+  color: #6a4029;
+  margin-bottom: 0;
+}
+
+.login {
+  width: 150px;
+  background-color: transparent;
+  color: #4f5665;
+  border: 0;
+  height: 45px;
+}
+
+.login:hover,
+.login:active,
+.login:focus,
+.signUp:focus,
+.signUp:active,
+.signUp:hover {
+  background-color: #6a4029;
+  color: white;
+  font-weight: lighter;
+}
+
+.textMenu:hover {
+  color: #6a4029;
+}
+
+.signUp {
+  margin-left: 10px;
+  width: 150px;
+  background-color: #ffba33;
+  color: #6a4029;
+  height: 45px;
+}
+
+@media (max-width: 990px) {
+  .container {
+    padding: 0;
+  }
+  .boxLogo {
+    display: none;
+  }
+  .listMenu {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .textMenu {
+    display: none;
+  }
+  .textMenu1 {
+    display: none;
+  }
+  .boxMenu1 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .profile {
+    margin-left: 0;
+  }
+  .login,
+  .signUp {
+    width: max-content;
+    background-color: transparent;
+    border: 0;
+  }
+  .login:hover,
+  .login:active,
+  .login:focus,
+  .signUp:focus,
+  .signUp:active,
+  .signUp:hover {
+    background-color: #ffba33;
+  }
+  .textMenuActive {
+    display: none;
+  }
+  .textMenu2 {
+    display: none;
+  }
+  .imgLogo {
+    width: 30px;
+    height: 30px;
+  }
+  .boxLogo {
+    width: min-content;
+  }
+  .textLogo {
+    display: none;
+  }
+  .boxMenu {
+    margin: 0;
+    width: 100%;
+  }
+  .boxMenu1 {
+    margin: 0;
+  }
+  .imgMenu {
+    display: block;
+  }
+  .boxImgMenu {
+    width: max-content;
+    display: block;
+    background-color: transparent;
+    border: 0;
+  }
+
+  .boxImgMenu:hover,
+  .boxImgMenu:active,
+  .boxImgMenu:focus {
+    background-color: #ffba33;
+    border: 0;
+  }
+}
