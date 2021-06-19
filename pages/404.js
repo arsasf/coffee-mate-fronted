@@ -1,3 +1,4 @@
+import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 
 export default function Page404() {
@@ -35,7 +36,13 @@ export default function Page404() {
       <button
         style={button}
         className="btn btn-primary"
-        onClick={() => router.push("/costumers/product")}
+        onClick={() =>
+          router.push(
+            `${
+              Cookie.get("userRole") ? "/customers/product" : "/admin/product"
+            }`
+          )
+        }
       >
         Back to home...
       </button>
