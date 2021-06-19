@@ -19,6 +19,10 @@ module.exports = {
         source: "/forgot-password",
         destination: "/auth/forgot-password",
       },
+      {
+        source: "/admin/new-product",
+        destination: "/admin/product/new-product",
+      },
     ];
   },
 };

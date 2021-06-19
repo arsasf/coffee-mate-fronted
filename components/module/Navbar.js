@@ -6,9 +6,9 @@ import styles from "styles/Navbar.module.css";
 
 export default function NavbarComponent(props) {
   const [login] = useState(false || props.login);
-  const [admin] = useState(false);
+  const [admin] = useState(false || props.admin);
   const [home] = useState(false);
-  const [product] = useState(false);
+  const [product] = useState(false || props.product);
   const [cart] = useState(false);
   const [history] = useState(false);
   const [dashboard] = useState(false);
