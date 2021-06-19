@@ -2,6 +2,8 @@ import Layout from "components/Layout";
 import { useState } from "react";
 import styles from "styles/ForgotPass.module.css";
 import { Button, Form } from "react-bootstrap";
+import Footer from "components/module/Footer";
+
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
 
@@ -33,6 +35,7 @@ export default function ForgotPassword() {
           Resend Link
         </Button>
       </div>
+      <Footer home={true} />
     </Layout>
   );
 }
