@@ -1,8 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 // import Cookie from "js-cookie";
 import Layout from "components/Layout";
+import Footer from "components/module/Footer";
 import styles from "styles/Login.module.css";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
@@ -27,6 +29,7 @@ export default function Login() {
           <Col>
             <div className={`p-5 ${styles.rightSide}`}>
               <div className="d-flex align-items-center justify-content-between">
+                {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
                 <a href="/" style={{ textDecoration: "none" }}>
                   <div className={styles.brand}>
                     <img
@@ -108,6 +111,7 @@ export default function Login() {
           </Col>
         </Row>
       </div>
+      <Footer home={false} />
     </Layout>
   );
 }
