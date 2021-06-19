@@ -48,7 +48,7 @@ export default function Login() {
               </div>
               <Form className={`${styles.loginForm}`}>
                 <h1>Login</h1>
-                <Form.Group controlId="email">
+                <Form.Group controlId="email" className={styles.email}>
                   <Form.Label>Email address :</Form.Label>
                   <Form.Control
                     type="email"
