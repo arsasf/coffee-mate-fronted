@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+
+.fullArea {
+  padding-top: 200px;
+  padding-bottom: 20px;
+  background-color: #f8f8f8;
+  font-family: "Rubik", sans-serif;
+}
+
+.fullArea1 {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-color: #f8f8f8;
+  font-family: "Rubik", sans-serif;
+}
+
+.container {
+  width: 100%;
+  padding: 0 50px 0 50px;
+}
+
+.left {
+  padding: 0;
+}
+
+.boxLogo {
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  width: max-content;
+  align-items: center;
+}
+
+.textLogo {
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 0;
+  color: #0b132a;
+}
+
+.imgLogo {
+  width: 30px;
+  height: 33px;
+}
+
+.imgSosmed {
+  width: auto;
+  height: auto;
+  padding: 20px 20px 20px 0px;
+}
+
+.textFooter {
+  width: 45%;
+  font-size: 16px;
+  font-weight: 500;
+  color: #4f5665;
+  margin-bottom: 0;
+  text-align: left;
+}
+.boxFooter {
+  padding: 20px 20px 20px 0px;
+  display: flex;
+  align-items: center;
+}
+.textFooter1 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #afb5c0;
+  padding-left: 0;
+}
+
+.right {
+  /* width: max-content; */
+  display: flex;
+  justify-content: space-between;
+}
+
+.textFooter2 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #0b132a;
+  padding-left: 0;
+}
+.boxFooter1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+}
+.textFooter3 {
+  color: #4f5665;
+  font-size: 16px;
+  font-weight: 400;
+  padding-left: 0;
+}
+
+@media (max-width: 990px) {
+  .textFooter {
+    width: 100%;
+  }
+  .textFooter2 {
+    margin-top: 20px;
+  }
+  .textFooter1 {
+    margin-top: 20px;
+  }
+  .right {
+    flex-direction: column;
+  }
+  .boxFooter1 {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 768px) {
+  .fullArea {
+    padding-top: 0px;
+  }
+  .textFooter {
+    width: 100%;
+  }
+  .textFooter1 {
+    margin-top: 20px;
+    width: 100%;
+  }
+  .textFooter2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .right {
+    height: max-content;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+  }
+  .boxFooter1 {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .textFooter3 {
+    margin-bottom: 10px;
+  }
+}
