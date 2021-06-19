@@ -74,10 +74,7 @@ export default function NewProduct() {
               <Dropdown.Item
                 className={styles.listSort}
                 onClick={() =>
-                  handleClick(
-                    "/admin/product/update-product/new-product/1",
-                    "Update Product"
-                  )
+                  handleClick("/admin/update-product/:id", "Update Product")
                 }
               >
                 Update Product

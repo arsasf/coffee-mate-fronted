@@ -23,6 +23,10 @@ module.exports = {
         source: "/admin/new-product",
         destination: "/admin/product/new-product",
       },
+      {
+        source: "/admin/update-product/:id",
+        destination: "/admin/product/update-product/:id",
+      },
     ];
   },
 };

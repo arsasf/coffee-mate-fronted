@@ -17,7 +17,7 @@ import Image from "next/image";
 
 export default function UpdateProduct() {
   const router = useRouter();
-  const [title, setTitle] = useState("Add Product");
+  const [title, setTitle] = useState("Update Product");
   const [category, setCategory] = useState("Select category");
   const [active, setActive] = useState(false);
 
@@ -74,10 +74,7 @@ export default function UpdateProduct() {
               <Dropdown.Item
                 className={styles.listSort}
                 onClick={() =>
-                  handleClick(
-                    "/admin/product/update-product/new-product/1",
-                    "Update Product"
-                  )
+                  handleClick("/admin/update-product/:id", "Update Product")
                 }
               >
                 Update Product
