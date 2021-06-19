@@ -1,0 +1,104 @@
+/* For screen 576px below */
+@media (max-width: 576px) {
+  .container {
+    padding: 7em !important;
+  }
+}
+
+/* For screen 576px above */
+@media (min-width: 576px) {
+  .container {
+    padding: 15em !important;
+  }
+  .container input,
+  .resend,
+  .send {
+    font-size: 1.5em !important;
+  }
+  .send {
+    margin-left: 1em;
+    width: 30% !important;
+  }
+}
+
+/* For screen 992px above */
+@media (min-width: 992px) {
+  .container {
+    padding: 28em !important;
+  }
+}
+
+/* For screen 1200px above */
+@media (min-width: 1200px) {
+  .send {
+    padding-left: 2em;
+    padding-right: 2em;
+    width: 20% !important;
+  }
+  .container span {
+    font-size: 1.5em;
+  }
+  .container p {
+    font-size: 1.2em;
+  }
+  .container input,
+  .resend,
+  .send {
+    font-size: 2em !important;
+  }
+}
+.container {
+  background-image: url("/reset-pass-img-background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  font-size: 62.5%;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 10em;
+  position: relative;
+  z-index: 0;
+}
+.container::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.603);
+  z-index: -1;
+}
+
+.container h1,
+.container p,
+.container span {
+  color: #ffffff;
+  font-weight: 700;
+}
+.container h1,
+.container p {
+  text-align: center;
+}
+.container input {
+  font-weight: 700;
+  padding: 1em 2em;
+  border-radius: 20px;
+  margin-bottom: 0.5em;
+}
+.resend {
+  padding: 1em 5em;
+}
+.send {
+  padding-bottom: 1em;
+  padding-top: 1em;
+  width: 100%;
+}
+.container input,
+.resend,
+.send {
+  font-size: 1.2em;
+}

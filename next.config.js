@@ -16,8 +16,8 @@ module.exports = {
         destination: "/auth/signup",
       },
       {
-        source: "/reset-password",
-        destination: "/auth/reset-password",
+        source: "/forgot-password",
+        destination: "/auth/forgot-password",
       },
     ];
   },
