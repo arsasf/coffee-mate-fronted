@@ -55,7 +55,7 @@ export default function Profile() {
                 <div className="d-flex flex-column flex-md-row justify-content-md-between">
                   <Form.Group controlId="email">
                     <Form.Label>Email address :</Form.Label>
-                    {editContact ? (
+                    {!editContact ? (
                       <h5>hasna.medika@mail.com</h5>
                     ) : (
                       <Form.Control
@@ -70,7 +70,7 @@ export default function Profile() {
                   </Form.Group>
                   <Form.Group controlId="phone" style={{ width: "50%" }}>
                     <Form.Label>Mobile number :</Form.Label>
-                    {editContact ? (
+                    {!editContact ? (
                       <h5>(+62)813456782</h5>
                     ) : (
                       <Form.Control
@@ -86,7 +86,7 @@ export default function Profile() {
                 </div>
                 <Form.Group controlId="exampleForm.ControlTextarea1">
                   <Form.Label>Delivery address</Form.Label>
-                  {editContact ? (
+                  {!editContact ? (
                     <h5>Iskandar Street no. 67 Block A Near Bus Stop</h5>
                   ) : (
                     <Form.Control
@@ -116,7 +116,7 @@ export default function Profile() {
                 <div className={styles.nameInput}>
                   <Form.Group controlId="email">
                     <Form.Label>Display name :</Form.Label>
-                    {editDetail ? (
+                    {!editDetail ? (
                       <h5>Hasnaaa ^_^</h5>
                     ) : (
                       <Form.Control
@@ -131,7 +131,7 @@ export default function Profile() {
                   </Form.Group>
                   <Form.Group controlId="userName">
                     <Form.Label>Full name :</Form.Label>
-                    {editDetail ? (
+                    {!editDetail ? (
                       <h5>Hasna Medika</h5>
                     ) : (
                       <Form.Control
@@ -148,7 +148,7 @@ export default function Profile() {
                 <div className={styles.additionalDetail}>
                   <Form.Group controlId="userName">
                     <Form.Label>Birth date :</Form.Label>
-                    {editDetail ? (
+                    {!editDetail ? (
                       <h5>May 26th, 1995</h5>
                     ) : (
                       <Form.Control
