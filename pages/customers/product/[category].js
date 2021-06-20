@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import styles from "styles/CustProducts.module.css";
 import Image from "next/image";
+import Navbar from "components/module/Navbar";
+import Footer from "components/module/Footer";
 
 export default function Product() {
   const [selectedCoupon, setSelectedCoupon] = useState({});
@@ -18,6 +20,7 @@ export default function Product() {
 
   return (
     <Layout title="Products">
+      <Navbar product={true} login={true} />
       <div className={styles.container}>
         <section className={styles.promoSection}>
           <div className={styles.head}>
@@ -261,6 +264,7 @@ export default function Product() {
           </main>
         </section>
       </div>
+      <Footer />
     </Layout>
   );
 }

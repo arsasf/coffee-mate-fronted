@@ -1,6 +1,7 @@
 /* For screen 992px above */
 @media (min-width: 992px) {
   .container {
+    padding-top: 7em;
     flex-direction: row !important;
     font-size: 0.6em !important;
   }
@@ -75,6 +76,7 @@
   width: 100%;
 }
 .container {
+  padding-top: 7em;
   display: flex;
   flex-direction: column;
   font-size: 62.5%;

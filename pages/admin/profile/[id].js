@@ -18,7 +18,7 @@ export default function Profile() {
 
   return (
     <Layout title="Profile">
-      <Navbar profile={true} login={true} />
+      <Navbar profile={true} login={true} admin={true} />
       <div className={styles.container}>
         <h1>User Profile</h1>
         <Row xs={1} lg={2} className="mb-3 mb-mb-0 gy-3">

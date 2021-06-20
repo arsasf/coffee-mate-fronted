@@ -5,9 +5,13 @@ import { Button, Col, Row } from "react-bootstrap";
 import styles from "styles/AdminProducts.module.css";
 import Image from "next/image";
 import { X, PencilSimple } from "phosphor-react";
+import Navbar from "components/module/Navbar";
+import Footer from "components/module/Footer";
+import { useRouter } from "next/router";
 
 export default function Product() {
   const [selectedCategory, setSelectedCategory] = useState({ favourite: true });
+  const router = useRouter();
 
   const handleSelectCategory = (e) => {
     setSelectedCategory({ [e.target.id]: true });
@@ -15,6 +19,7 @@ export default function Product() {
 
   return (
     <Layout title="Products">
+      <Navbar product={true} login={true} admin={true} />
       <div className={styles.container}>
         <section className={styles.promoSection}>
           <div className={styles.head}>
@@ -59,7 +64,12 @@ export default function Product() {
               </div>
             </div>
           </div>
-          <Button variant="secondary">Add New Promo</Button>
+          <Button
+            variant="secondary"
+            onClick={() => router.push("/admin/new-promo")}
+          >
+            Add New Promo
+          </Button>
           <section className={styles.termsCondition}>
             <h2>Terms and Condition</h2>
             <ol>
@@ -403,11 +413,16 @@ export default function Product() {
               </Col>
             </Row>
           </main>
-          <Button variant="secondary" className={styles.addNewProduct}>
+          <Button
+            variant="secondary"
+            className={styles.addNewProduct}
+            onClick={() => router.push("/admin/new-product")}
+          >
             Add New Product
           </Button>
         </section>
       </div>
+      <Footer />
     </Layout>
   );
 }

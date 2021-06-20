@@ -17,7 +17,7 @@ import Image from "next/image";
 
 export default function NewPromo() {
   const router = useRouter();
-  const [title, setTitle] = useState("Update Promo");
+  const [title, setTitle] = useState("Add Promo");
   const [label, setLabel] = useState("0%");
   const [discount] = useState([
     5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
@@ -51,7 +51,7 @@ export default function NewPromo() {
     setLabel(`${param}%`);
   };
   return (
-    <Layout title="Update Promo">
+    <Layout title="New Promo">
       <div>
         <Navbar product={true} login={true} admin={true} />
         <Container fluid className={styles.container}>
@@ -211,7 +211,7 @@ export default function NewPromo() {
                   />
                 </Form.Group>
                 <Button className={`${styles.btnSave1} btn-secondary`}>
-                  Update Promo
+                  Save Promo
                 </Button>
                 <Button variant="fff" className={styles.btnCancel1}>
                   Cancel
@@ -220,7 +220,7 @@ export default function NewPromo() {
             </Col>
           </Row>
         </Container>
-        <Footer home={true} />
+        <Footer />
       </div>
     </Layout>
   );

@@ -29,11 +29,11 @@ module.exports = {
       },
       {
         source: "/admin/new-promo",
-        destination: "/admin/promo/new-promo",
+        destination: "/admin/product/new-promo",
       },
       {
         source: "/admin/update-promo/:id",
-        destination: "/admin/promo/update-promo/:id",
+        destination: "/admin/product/update-promo/:id",
       },
     ];
   },

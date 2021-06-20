@@ -5,16 +5,16 @@ import { Container, Button, Modal, Form, FormControl } from "react-bootstrap";
 import styles from "styles/Navbar.module.css";
 
 export default function NavbarComponent(props) {
-  const [login] = useState(false || props.login);
-  const [admin] = useState(false || props.admin);
-  const [home] = useState(false);
-  const [product] = useState(false || props.product);
-  const [cart] = useState(false);
-  const [history] = useState(false);
-  const [dashboard] = useState(false);
-  const [order] = useState(false);
-  const [pageProfile] = useState(false || props.profile);
-  const [chat] = useState(false);
+  const [login] = useState(props.login ? props.login : false);
+  const [admin] = useState(props.admin ? props.admin : false);
+  const [home] = useState(props.home ? props.home : false);
+  const [product] = useState(props.product ? props.product : false);
+  const [cart] = useState(props.cart ? props.cart : false);
+  const [history] = useState(props.history ? props.history : false);
+  const [dashboard] = useState(props.dashboard ? props.dashboard : false);
+  const [order] = useState(props.order ? props.order : false);
+  const [pageProfile] = useState(props.profile ? props.profile : false);
+  const [chat] = useState(props.chat ? props.chat : false);
   const [modalShow, setModalShow] = useState(false);
 
   const router = useRouter();
@@ -23,8 +23,15 @@ export default function NavbarComponent(props) {
     setModalShow(false);
   };
   const handleSearch = () => {
-    console.log("run");
     setModalShow(true);
+  };
+
+  const handleMenu = (param) => {
+    if (admin === true) {
+      router.push(`/admin/${param}`);
+    } else if (admin === false) {
+      router.push(`/customers/${param}`);
+    }
   };
 
   return (
@@ -86,7 +93,10 @@ export default function NavbarComponent(props) {
                 Home
               </h1>
             </div>
-            <div className={styles.boxMenu}>
+            <div
+              className={styles.boxMenu}
+              onClick={() => handleMenu("product")}
+            >
               <Button variant="light" className={styles.boxImgMenu}>
                 <img
                   src={
@@ -222,7 +232,7 @@ export default function NavbarComponent(props) {
                   className={
                     pageProfile === true ? styles.profile1 : styles.profile
                   }
-                  onClick={() => router.push("/profile/1")}
+                  onClick={() => handleMenu("profile/1")}
                 >
                   <img
                     src="/navbar/img-not-found.png"
