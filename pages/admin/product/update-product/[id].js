@@ -52,9 +52,9 @@ export default function NewProduct() {
     { category: "coffee", size: "XL" },
   ]);
   const [sizeFood] = useState([
-    { category: "coffee", size: 250 },
-    { category: "coffee", size: 300 },
-    { category: "coffee", size: 500 },
+    { category: "food", size: 250 },
+    { category: "food", size: 300 },
+    { category: "food", size: 500 },
   ]);
 
   const handleClick = (params1, params2) => {
@@ -69,7 +69,7 @@ export default function NewProduct() {
   const handleClickSize = (param) => {
     if (param === "R" || param === "L" || param === "XL") {
       setActive("coffee");
-    } else if (param === "250gr" || param === "300gr" || param === "500gr") {
+    } else if (param === 250 || param === 300 || param === 500) {
       setActive("food");
     } else {
       setActive(false);
