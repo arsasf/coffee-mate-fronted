@@ -134,7 +134,7 @@ export default function Login() {
                   )}
                   {wrongEmail && (
                     <span className={styles.errorAlert}>
-                      {"You put the wrong email..."}
+                      {"Email is not registered..."}
                     </span>
                   )}
                 </Form.Group>
@@ -156,7 +156,7 @@ export default function Login() {
                   )}
                   {wrongPassword && (
                     <span className={styles.errorAlert}>
-                      {"You put the wrong password..."}
+                      {"Mate, your password is incorrect..."}
                     </span>
                   )}
                 </Form.Group>
