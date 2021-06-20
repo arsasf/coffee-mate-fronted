@@ -6,27 +6,14 @@ import styles from "styles/CustProducts.module.css";
 import Image from "next/image";
 
 export default function Product() {
-  const [active, setActive] = useState({
-    favourite: false,
-    coffee: false,
-    nonCoffee: false,
-    foods: false,
-    addOn: false,
-  });
-  // const [favourite, setFavourite] = useState(false)
-  console.log(active);
+  const [selectedCoupon, setSelectedCoupon] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState({ favourite: true });
 
-  const changeCategory = (e) => {
-    if (e.target.id === "favourite") {
-      setActive({
-        favourite: false,
-        coffee: false,
-        nonCoffee: false,
-        foods: false,
-        addOn: false,
-      });
-    }
-    setActive();
+  const handleSelectCoupon = (e) => {
+    setSelectedCoupon({ [e.target.id]: true });
+  };
+  const handleSelectCategory = (e) => {
+    setSelectedCategory({ [e.target.id]: true });
   };
 
   return (
@@ -38,38 +25,61 @@ export default function Product() {
             <p>Coupons will be updated every weeks. Check them out!</p>
           </div>
           <div className={styles.coupons}>
-            <div className={styles.coupon}>
-              <img src="/sketch1.png" alt="coupon-sketch" />
-              <div>
-                <h6>{"HAPPY MOTHER'S DAY"}</h6>
-                <span>Get one of our favourite menu for free!</span>
+            {/* LOOPING HERE */}
+            <div
+              id="c1"
+              className={`${styles.coupon} ${
+                selectedCoupon.c1 && styles.selectedCoupon
+              }`}
+              onClick={(e) => handleSelectCoupon(e)}
+            >
+              <img id="c1" src="/sketch1.png" alt="coupon-sketch" />
+              <div id="c1">
+                <h6 id="c1">{"HAPPY MOTHER'S DAY"}</h6>
+                <span id="c1">Get one of our favourite menu for free!</span>
               </div>
             </div>
             <div
-              className={styles.coupon}
+              id="c2"
               style={{ backgroundColor: "#F5C361" }}
+              className={`${styles.coupon} ${
+                selectedCoupon.c2 && styles.selectedCoupon
+              }`}
+              onClick={(e) => handleSelectCoupon(e)}
             >
-              <img src="/sketch2.png" alt="coupon-sketch" />
-              <div>
-                <h6>{"Get a cup of coffee for free on sunday morning"}</h6>
-                <span>Only at 7 to 9 AM</span>
-              </div>
-            </div>
-            <div className={styles.coupon}>
-              <img src="/sketch1.png" alt="coupon-sketch" />
-              <div>
-                <h6>{"HAPPY MOTHER'S DAY"}</h6>
-                <span>Get one of our favourite menu for free!</span>
+              <img id="c2" src="/sketch2.png" alt="coupon-sketch" />
+              <div id="c2">
+                <h6 id="c2">
+                  {"Get a cup of coffee for free on sunday morning"}
+                </h6>
+                <span id="c2">Only at 7 to 9 AM</span>
               </div>
             </div>
             <div
-              className={styles.coupon}
-              style={{ backgroundColor: "#C59378" }}
+              id="c3"
+              className={`${styles.coupon} ${
+                selectedCoupon.c3 && styles.selectedCoupon
+              }`}
+              onClick={(e) => handleSelectCoupon(e)}
             >
-              <img src="/sketch3.png" alt="coupon-sketch" />
-              <div>
-                <h6>{"HAPPY HALLOWEEN"}</h6>
-                <span>
+              <img id="c3" src="/sketch1.png" alt="coupon-sketch" />
+              <div id="c3">
+                <h6 id="c3">{"HAPPY MOTHER'S DAY"}</h6>
+                <span id="c3">Get one of our favourite menu for free!</span>
+              </div>
+            </div>
+            <div
+              id="c4"
+              style={{ backgroundColor: "#C59378" }}
+              className={`${styles.coupon} ${
+                selectedCoupon.c4 && styles.selectedCoupon
+              }`}
+              onClick={(e) => handleSelectCoupon(e)}
+            >
+              <img id="c4" src="/sketch3.png" alt="coupon-sketch" />
+              <div id="c4">
+                <h6 id="c4">{"HAPPY HALLOWEEN"}</h6>
+                <span id="c4">
                   Do you like chicken wings? Get 1 free only if you buy pinky
                   promise
                 </span>
@@ -91,15 +101,39 @@ export default function Product() {
           <div className={styles.category}>
             <h4
               id="favourite"
-              className={styles.activeCategory}
-              onClick={(e) => changeCategory(e)}
+              className={selectedCategory.favourite && styles.activeCategory}
+              onClick={(e) => handleSelectCategory(e)}
             >
-              Favorite Product
+              Favourite Product
             </h4>
-            <h4>Coffee</h4>
-            <h4>Non Coffee</h4>
-            <h4>Foods</h4>
-            <h4>Add-On</h4>
+            <h4
+              id="coffee"
+              className={selectedCategory.coffee && styles.activeCategory}
+              onClick={(e) => handleSelectCategory(e)}
+            >
+              Coffee
+            </h4>
+            <h4
+              id="nonCoffee"
+              className={selectedCategory.nonCoffee && styles.activeCategory}
+              onClick={(e) => handleSelectCategory(e)}
+            >
+              Non Coffee
+            </h4>
+            <h4
+              id="foods"
+              className={selectedCategory.foods && styles.activeCategory}
+              onClick={(e) => handleSelectCategory(e)}
+            >
+              Foods
+            </h4>
+            <h4
+              id="addOn"
+              className={selectedCategory.addOn && styles.activeCategory}
+              onClick={(e) => handleSelectCategory(e)}
+            >
+              Add-On
+            </h4>
           </div>
           <main className={styles.productList}>
             <Row xs={2} md={4} className={`gx-3 ${styles.row}`}>

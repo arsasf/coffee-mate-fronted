@@ -6,18 +6,12 @@
   }
   .coupons {
     flex-direction: column;
-    gap: 1em !important;
+    gap: 2em !important;
     height: fit-content !important;
   }
   .coupon {
-    cursor: pointer;
     padding: 1em !important;
     width: 100% !important;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
-  }
-  .coupon:hover {
-    box-shadow: -4px 4px 5px 0px rgba(57, 57, 57, 0.25);
-    transform: translateX(0.5em);
   }
   .coupon img {
     height: 6em !important;
@@ -37,7 +31,7 @@
     width: 65% !important;
   }
   .productList {
-    padding: 12em 0 !important;
+    padding: 12em 0 5em !important;
   }
   .promoSection {
     width: 35% !important;
@@ -55,10 +49,6 @@
   }
   .termsCondition {
     margin-top: 7em !important;
-  }
-  .selectedCoupon {
-    box-shadow: -4px 4px 5px 0px rgba(57, 57, 57, 0.25);
-    transform: translateX(0.5em);
   }
 }
 
@@ -80,6 +70,10 @@
 }
 
 /* For small device 992px below */
+.addNewProduct {
+  padding: 1.2em;
+  width: 100%;
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -87,10 +81,10 @@
 }
 .coupons {
   display: flex;
-  gap: 2em;
+  gap: 1em;
   height: 100px;
   overflow: auto;
-  padding: 0.5em;
+  padding: 0 0 2em;
   /*For disabling scroll bar in mozilla*/
   scrollbar-width: none;
   /*===*/
@@ -107,14 +101,9 @@
   align-items: center;
   background-color: #88b788;
   border-radius: 20px;
-  cursor: pointer;
   display: flex;
   padding: 1em 2em;
   width: 36em;
-  transition: box-shadow 0.2s ease-in-out;
-}
-.coupon:hover {
-  box-shadow: 0 0px 30px 0px rgba(57, 57, 57, 0.25);
 }
 .coupon img {
   height: 100%;
@@ -127,10 +116,60 @@
 .promoSection .head p {
   font-weight: 600;
 }
-
 .coupon span {
   display: inline-block;
   font-size: 1.2em;
+}
+.coupon,
+.cardProduct {
+  position: relative;
+}
+.cardProduct .actionBtn {
+  bottom: -1em;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+}
+.cardProduct .delete {
+  background-color: #ff2339;
+  border-radius: 50%;
+  bottom: -0.8em;
+  cursor: pointer;
+  display: grid;
+  padding: 0.5em;
+  place-items: center;
+}
+.cardProduct .edit {
+  background-color: #6a4029;
+  border-radius: 50%;
+  bottom: -0.8em;
+  cursor: pointer;
+  display: grid;
+  padding: 0.5em;
+  place-items: center;
+}
+.coupon .delete {
+  background-color: #ff2339;
+  border-radius: 50%;
+  bottom: -0.8em;
+  cursor: pointer;
+  display: grid;
+  padding: 0.5em;
+  place-items: center;
+  position: absolute;
+  right: 2.5em;
+}
+.coupon .edit {
+  background-color: #6a4029;
+  border-radius: 50%;
+  bottom: -0.8em;
+  cursor: pointer;
+  display: grid;
+  padding: 0.5em;
+  place-items: center;
+  position: absolute;
+  right: 0;
 }
 .coupon h6,
 .promoSection .head h1,
@@ -150,12 +189,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: 3em 1.5em;
-  transition: transform 0.2s ease-in;
-}
-.cardProduct:hover {
-  transform: translateY(-0.5em);
 }
 .cardProduct h5 {
   font-size: 1.5em;
@@ -222,7 +257,7 @@
   position: absolute;
 }
 .productList {
-  padding: 10em 0;
+  padding: 10em 0 5em;
 }
 .productList .row {
   row-gap: 8em;
@@ -266,8 +301,4 @@
 }
 .termsCondition ol {
   padding-left: 1.2em; /* it must have the same size with <li> font size*/
-}
-.selectedCoupon {
-  border: 1.5px solid #6a4029;
-  box-shadow: 0 0px 30px 0px rgba(57, 57, 57, 0.25);
 }
