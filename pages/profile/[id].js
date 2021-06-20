@@ -53,7 +53,7 @@ export default function Profile() {
               <h4>Contact</h4>
               <div>
                 <div className="d-flex flex-column flex-md-row justify-content-md-between">
-                  <Form.Group controlId="email">
+                  <Form.Group controlId="email" className="w-100 me-md-5">
                     <Form.Label>Email address :</Form.Label>
                     {!editContact ? (
                       <h5>hasna.medika@mail.com</h5>
@@ -68,7 +68,7 @@ export default function Profile() {
                       />
                     )}
                   </Form.Group>
-                  <Form.Group controlId="phone" style={{ width: "50%" }}>
+                  <Form.Group controlId="phone" className="w-100">
                     <Form.Label>Mobile number :</Form.Label>
                     {!editContact ? (
                       <h5>(+62)813456782</h5>
