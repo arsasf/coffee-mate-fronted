@@ -15,19 +15,14 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
-export default function NewProduct() {
+export default function NewPromo() {
   const router = useRouter();
-  const [title, setTitle] = useState("Add Product");
-  const [label, setLabel] = useState("Select Category");
-  const [category, setCategory] = useState([
-    "Select Category",
-    "Coffe",
-    "Non Coffee",
-    "Food",
-    "Add On",
+  const [title, setTitle] = useState("Update Promo");
+  const [label, setLabel] = useState("0%");
+  const [discount] = useState([
+    5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
+    100,
   ]);
-
-  const [active, setActive] = useState(false);
   const [menuProduct] = useState([
     {
       link: "/admin/new-product",
@@ -46,37 +41,17 @@ export default function NewProduct() {
       category: "Update Promo",
     },
   ]);
-  const [sizeDrink] = useState([
-    { category: "coffee", size: "R" },
-    { category: "coffee", size: "L" },
-    { category: "coffee", size: "XL" },
-  ]);
-  const [sizeFood] = useState([
-    { category: "coffee", size: 250 },
-    { category: "coffee", size: 300 },
-    { category: "coffee", size: 500 },
-  ]);
 
   const handleClick = (params1, params2) => {
     router.push(params1);
     setTitle(params2);
   };
 
-  const handleClickCategory = (param) => {
-    setLabel(param);
-  };
-
-  const handleClickSize = (param) => {
-    if (param === "R" || param === "L" || param === "XL") {
-      setActive("coffee");
-    } else if (param === "250gr" || param === "300gr" || param === "500gr") {
-      setActive("food");
-    } else {
-      setActive(false);
-    }
+  const handleClickDiscount = (param) => {
+    setLabel(`${param}%`);
   };
   return (
-    <Layout title="Update Product">
+    <Layout title="Update Promo">
       <div>
         <Navbar product={true} login={true} admin={true} />
         <Container fluid className={styles.container}>
@@ -108,7 +83,7 @@ export default function NewProduct() {
           </Dropdown>
           <Row xs={1} lg={2} className="mb-3 mb-mb-0 gy-3">
             <Col xs={12} md={4} lg={5} className={styles.left}>
-              <div className={styles.boxLeft}>
+              <div className={styles.boxLeftPromo}>
                 <div className={styles.boxImage}>
                   <Image
                     src="/product/camera.png"
@@ -132,16 +107,56 @@ export default function NewProduct() {
                     Choose from gallery
                   </Button>
                 </Form.Group>
-                <Button className={`${styles.btnSave} btn-secondary`}>
-                  Update Product
-                </Button>
-                <Button variant="fff" className={styles.btnCancel}>
-                  Cancel
-                </Button>
+                <Form.Group className={styles.formRow1}>
+                  <Form.Label className={styles.textLabel}>
+                    Enter the discount :
+                  </Form.Label>
+                  <Dropdown className={styles.placeholder2}>
+                    <div className={styles.dropdownSort1}>
+                      <Dropdown.Toggle
+                        variant="#fff"
+                        title="product"
+                        id="dropdown-basic"
+                        className={styles.titleSort2}
+                      >
+                        <h1 className={styles.textFormDropdown}>{label}</h1>
+                      </Dropdown.Toggle>
+                    </div>
+                    <Dropdown.Menu className={styles.menuDropdown1}>
+                      {discount.map((item, index) => {
+                        return (
+                          <Dropdown.Item
+                            title="coffe"
+                            key={index}
+                            className={styles.listDiscount}
+                            onClick={() => handleClickDiscount(item)}
+                          >
+                            {item}%
+                          </Dropdown.Item>
+                        );
+                      })}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Form.Group>
+                <Form.Group className={styles.formRow1}>
+                  <Form.Label className={styles.textLabel}>
+                    Expire date :
+                  </Form.Label>
+                  <FormControl
+                    type="date"
+                    placeholder="DD/MM/YY"
+                    className={styles.placeholder3}
+                  />
+                  <FormControl
+                    type="date"
+                    placeholder="DD/MM/YY"
+                    className={styles.placeholder3}
+                  />
+                </Form.Group>
               </div>
             </Col>
             <Col xs={12} md={8} lg={7} className={styles.right}>
-              <Form className={`${styles.form} d-flex`}>
+              <Form className={`${styles.formPromo} d-flex`}>
                 <Form.Group className={styles.formGroup}>
                   <Form.Label className={styles.textLabel}>Name :</Form.Label>
                   <FormControl
@@ -154,46 +169,37 @@ export default function NewProduct() {
                 <div className={styles.boxFormRow}>
                   <Form.Group className={styles.formRow}>
                     <Form.Label className={styles.textLabel}>
-                      Price :
+                      Min Total Price :
                     </Form.Label>
                     <FormControl
                       type="number"
                       step="1"
-                      placeholder="Type the price"
+                      placeholder="Type the min total price"
                       className={styles.placeholder}
                     />
                   </Form.Group>
                   <Form.Group className={styles.formRow}>
                     <Form.Label className={styles.textLabel}>
-                      Category :
+                      Max Discount :
                     </Form.Label>
-                    <Dropdown className={styles.placeholder}>
-                      <div className={styles.dropdownSort1}>
-                        <Dropdown.Toggle
-                          variant="#fff"
-                          title="product"
-                          id="dropdown-basic"
-                          className={styles.titleSort1}
-                        >
-                          {label}
-                        </Dropdown.Toggle>
-                      </div>
-                      <Dropdown.Menu className={styles.menuDropdown1}>
-                        {category.map((item, index) => {
-                          return (
-                            <Dropdown.Item
-                              key={index}
-                              className={styles.listDiscount}
-                              onClick={() => handleClickCategory(item)}
-                            >
-                              {item}
-                            </Dropdown.Item>
-                          );
-                        })}
-                      </Dropdown.Menu>
-                    </Dropdown>
+                    <FormControl
+                      type="number"
+                      step="1"
+                      placeholder="Type the max discount"
+                      className={styles.placeholder}
+                    />
                   </Form.Group>
                 </div>
+                <Form.Group className={styles.formGroup}>
+                  <Form.Label className={styles.textLabel}>
+                    Input promo code :
+                  </Form.Label>
+                  <FormControl
+                    type="text"
+                    placeholder="Type the promo code"
+                    className={styles.placeholder}
+                  />
+                </Form.Group>
                 <Form.Group className={styles.formGroup}>
                   <Form.Label className={styles.textLabel}>
                     Description :
@@ -204,51 +210,12 @@ export default function NewProduct() {
                     className={styles.placeholder}
                   />
                 </Form.Group>
-                <Form.Group className={styles.formGroup}>
-                  <Form.Label className={styles.textLabel}>
-                    Input product size :
-                  </Form.Label>
-                  <FormControl
-                    type="text"
-                    placeholder="Click size you want to use for this product"
-                    className={styles.placeholder1}
-                    disabled
-                  />
-                  <div className={styles.boxSize}>
-                    {sizeDrink.map((item, index) => {
-                      return (
-                        <Button
-                          key={index}
-                          className={`${styles.buttonCoffee} ${
-                            active === item.category
-                              ? "btn-secondary"
-                              : "btn-primary"
-                          }`}
-                          onClick={() => handleClickSize(item.size)}
-                        >
-                          {item.size}
-                        </Button>
-                      );
-                    })}
-
-                    {sizeFood.map((item, index) => {
-                      return (
-                        <Button
-                          key={index}
-                          variant="fff"
-                          className={`${styles.buttonFood} ${
-                            active === "food"
-                              ? "btn-secondary"
-                              : `${styles.buttonFood}`
-                          }`}
-                          onClick={() => handleClickSize(item.size)}
-                        >
-                          {item.size} gr
-                        </Button>
-                      );
-                    })}
-                  </div>
-                </Form.Group>
+                <Button className={`${styles.btnSave1} btn-secondary`}>
+                  Update Promo
+                </Button>
+                <Button variant="fff" className={styles.btnCancel1}>
+                  Cancel
+                </Button>
               </Form>
             </Col>
           </Row>

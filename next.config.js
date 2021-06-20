@@ -27,6 +27,14 @@ module.exports = {
         source: "/admin/update-product/:id",
         destination: "/admin/product/update-product/:id",
       },
+      {
+        source: "/admin/new-promo",
+        destination: "/admin/promo/new-promo",
+      },
+      {
+        source: "/admin/update-promo/:id",
+        destination: "/admin/promo/update-promo/:id",
+      },
     ];
   },
 };

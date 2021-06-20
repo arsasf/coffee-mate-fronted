@@ -18,8 +18,44 @@ import Image from "next/image";
 export default function NewProduct() {
   const router = useRouter();
   const [title, setTitle] = useState("Add Product");
-  const [category, setCategory] = useState("Select category");
+  const [label, setLabel] = useState("Select Category");
+  const [category] = useState([
+    "Select Category",
+    "Coffe",
+    "Non Coffee",
+    "Food",
+    "Add On",
+  ]);
   const [active, setActive] = useState(false);
+  const [menuProduct] = useState([
+    {
+      link: "/admin/new-product",
+      category: "Add Product",
+    },
+    {
+      link: "/admin/new-promo",
+      category: "Add Promo",
+    },
+    {
+      link: "/admin/update-product/1",
+      category: "Update Product",
+    },
+    {
+      link: "/admin/update-promo/1",
+      category: "Update Promo",
+    },
+  ]);
+
+  const [sizeDrink] = useState([
+    { category: "coffee", size: "R" },
+    { category: "coffee", size: "L" },
+    { category: "coffee", size: "XL" },
+  ]);
+  const [sizeFood] = useState([
+    { category: "coffee", size: 250 },
+    { category: "coffee", size: 300 },
+    { category: "coffee", size: 500 },
+  ]);
 
   const handleClick = (params1, params2) => {
     router.push(params1);
@@ -27,15 +63,7 @@ export default function NewProduct() {
   };
 
   const handleClickCategory = (param) => {
-    if (param === "coffee") {
-      setCategory("Coffee");
-    } else if (param === "noncoffee") {
-      setCategory("Non Coffee");
-    } else if (param === "food") {
-      setCategory("Food");
-    } else {
-      setCategory("Add On");
-    }
+    setLabel(param);
   };
 
   const handleClickSize = (param) => {
@@ -65,20 +93,17 @@ export default function NewProduct() {
               <h1 className={styles.titleProduct}>{title}</h1>
             </div>
             <Dropdown.Menu className={styles.menuDropdown}>
-              <Dropdown.Item
-                className={styles.listSort}
-                onClick={() => handleClick("/admin/new-product", "Add Product")}
-              >
-                Add Product
-              </Dropdown.Item>
-              <Dropdown.Item
-                className={styles.listSort}
-                onClick={() =>
-                  handleClick("/admin/update-product/:id", "Update Product")
-                }
-              >
-                Update Product
-              </Dropdown.Item>
+              {menuProduct.map((item, index) => {
+                return (
+                  <Dropdown.Item
+                    key={index}
+                    className={styles.listSort}
+                    onClick={() => handleClick(item.link, item.category)}
+                  >
+                    {item.category}
+                  </Dropdown.Item>
+                );
+              })}
             </Dropdown.Menu>
           </Dropdown>
           <Row xs={1} lg={2} className="mb-3 mb-mb-0 gy-3">
@@ -132,7 +157,8 @@ export default function NewProduct() {
                       Price :
                     </Form.Label>
                     <FormControl
-                      type="text"
+                      type="number"
+                      step="1"
                       placeholder="Type the price"
                       className={styles.placeholder}
                     />
@@ -149,34 +175,21 @@ export default function NewProduct() {
                           id="dropdown-basic"
                           className={styles.titleSort1}
                         >
-                          {category}
+                          {label}
                         </Dropdown.Toggle>
                       </div>
                       <Dropdown.Menu className={styles.menuDropdown1}>
-                        <Dropdown.Item
-                          className={styles.listSort}
-                          onClick={() => handleClickCategory("coffee")}
-                        >
-                          Coffee
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className={styles.listSort}
-                          onClick={() => handleClickCategory("noncoffee")}
-                        >
-                          Non Coffee
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className={styles.listSort}
-                          onClick={() => handleClickCategory("food")}
-                        >
-                          Food
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className={styles.listSort}
-                          onClick={() => handleClickCategory("addon")}
-                        >
-                          Add On
-                        </Dropdown.Item>
+                        {category.map((item, index) => {
+                          return (
+                            <Dropdown.Item
+                              key={index}
+                              className={styles.listDiscount}
+                              onClick={() => handleClickCategory(item)}
+                            >
+                              {item}
+                            </Dropdown.Item>
+                          );
+                        })}
                       </Dropdown.Menu>
                     </Dropdown>
                   </Form.Group>
@@ -202,66 +215,38 @@ export default function NewProduct() {
                     disabled
                   />
                   <div className={styles.boxSize}>
-                    <Button
-                      className={`${styles.buttonCoffee} ${
-                        active === "coffee" ? "btn-secondary" : "btn-primary"
-                      }`}
-                      onClick={() => handleClickSize("R")}
-                    >
-                      R
-                    </Button>
-                    <Button
-                      className={`${styles.buttonCoffee} ${
-                        active === "coffee" ? "btn-secondary" : "btn-primary"
-                      }`}
-                      onClick={() => handleClickSize("L")}
-                    >
-                      L
-                    </Button>
-                    <Button
-                      className={`${styles.buttonCoffee} ${
-                        active === "coffee" ? "btn-secondary" : "btn-primary"
-                      }`}
-                      onClick={() => handleClickSize("XL")}
-                    >
-                      XL
-                    </Button>
-                    <Button
-                      variant="fff"
-                      className={`${styles.buttonFood} ${
-                        active === "food"
-                          ? "btn-secondary"
-                          : `${styles.buttonFood}`
-                      }
-                      `}
-                      onClick={() => handleClickSize("250gr")}
-                    >
-                      250 gr
-                    </Button>
-                    <Button
-                      variant="fff"
-                      className={`${styles.buttonFood} ${
-                        active === "food"
-                          ? "btn-secondary"
-                          : `${styles.buttonFood}`
-                      }
-                      `}
-                      onClick={() => handleClickSize("300gr")}
-                    >
-                      300 gr
-                    </Button>
-                    <Button
-                      variant="fff"
-                      className={`${styles.buttonFood} ${
-                        active === "food"
-                          ? "btn-secondary"
-                          : `${styles.buttonFood}`
-                      }
-                      `}
-                      onClick={() => handleClickSize("500gr")}
-                    >
-                      500 gr
-                    </Button>
+                    {sizeDrink.map((item, index) => {
+                      return (
+                        <Button
+                          key={index}
+                          className={`${styles.buttonCoffee} ${
+                            active === item.category
+                              ? "btn-secondary"
+                              : "btn-primary"
+                          }`}
+                          onClick={() => handleClickSize(item.size)}
+                        >
+                          {item.size}
+                        </Button>
+                      );
+                    })}
+
+                    {sizeFood.map((item, index) => {
+                      return (
+                        <Button
+                          key={index}
+                          variant="fff"
+                          className={`${styles.buttonFood} ${
+                            active === "food"
+                              ? "btn-secondary"
+                              : `${styles.buttonFood}`
+                          }`}
+                          onClick={() => handleClickSize(item.size)}
+                        >
+                          {item.size} gr
+                        </Button>
+                      );
+                    })}
                   </div>
                 </Form.Group>
               </Form>

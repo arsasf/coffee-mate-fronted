@@ -80,25 +80,44 @@
 }
 .btnChoose {
   position: absolute;
-  width: 250px;
+  width: 300px;
   height: 60px;
   border-radius: 20px;
 }
 .btnSave {
-  width: 250px;
+  width: 300px;
+  height: 60px;
+  border-radius: 20px;
+}
+.btnSave1 {
+  width: 100%;
   height: 60px;
   border-radius: 20px;
 }
 .btnCancel {
   margin-top: 20px;
   background-color: rgba(186, 186, 186, 0.35);
-  width: 250px;
+  width: 300px;
+  height: 60px;
+  border-radius: 20px;
+  color: #4f5665;
+}
+.btnCancel1 {
+  margin-top: 20px;
+  background-color: rgba(186, 186, 186, 0.35);
+  width: 100%;
   height: 60px;
   border-radius: 20px;
   color: #4f5665;
 }
 .btnCancel:hover,
 .btnCancel:focus {
+  background-color: #412719 !important;
+  border-color: #412719 !important;
+  color: white;
+}
+.btnCancel1:hover,
+.btnCancel1:focus {
   background-color: #412719 !important;
   border-color: #412719 !important;
   color: white;
@@ -118,7 +137,7 @@
   position: absolute;
   background-color: transparent;
   color: transparent;
-  width: 250px;
+  width: 300px;
   height: 60px;
   border-radius: 20px;
   text-align: center;
@@ -138,7 +157,7 @@
   border-color: #6a4029 !important;
 }
 .updateImage {
-  width: 250px;
+  width: 300px;
   color: transparent;
   height: 60px;
   border-radius: 20px;
@@ -247,11 +266,31 @@
 }
 .menuDropdown1 {
   width: 100%;
-  background-color: #ffba33;
+  height: 200px;
+  overflow-y: scroll;
+  background-color: #6a4029;
   padding-left: 10px;
   padding-right: 10px;
   border-radius: 10px;
-  border: 2px solid #6a4029;
+  border: 0;
+}
+.menuDropdown1::-webkit-scrollbar-track {
+  border: 1px solid #6a4029;
+  padding: 2px 0;
+  background-color: #9f9f9f;
+  bottom: 0;
+  border-radius: 5px;
+}
+
+.menuDropdown1::-webkit-scrollbar {
+  width: 10px;
+}
+
+.menuDropdown1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px #6a4029;
+  background-color: #ffba33;
+  border: 1px solid #6a4029;
 }
 .titleSort1 {
   width: 100%;
@@ -262,6 +301,7 @@
   border: 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .titleSort1::after {
   color: #4f5665;
@@ -280,6 +320,122 @@
   justify-content: flex-start;
   padding: 0;
   align-items: center;
+}
+
+.formRow1 {
+  width: 300px;
+  margin-bottom: 30px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.placeholder2 {
+  padding-left: 0;
+  /* border: 2px solid #9f9f9f; */
+  border-radius: 0;
+  width: 100%;
+  border-radius: 20px;
+  height: 60px;
+  margin-right: 40px;
+  background-color: white;
+}
+.placeholder2::placeholder {
+  color: #9f9f9f;
+}
+.placeholder2:disabled {
+  background-color: transparent !important;
+}
+.placeholder2:focus,
+.placeholder2:active,
+.placeholder2:hover {
+  border: 0;
+  box-shadow: none !important;
+  outline: none !important;
+  background-color: transparent;
+}
+.textFormDropdown {
+  margin-left: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #4f5665;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.titleSort2 {
+  width: 100%;
+  font-size: 15px;
+  font-weight: 400 !important;
+  color: #4f5665;
+  padding-left: 0;
+  border: 2px solid #9f9f9f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  height: 60px;
+}
+.titleSort2::after {
+  color: #4f5665;
+  width: 10px;
+}
+.titleSort2:hover,
+.titleSort2:active,
+.titleSort2:focus {
+  color: #9f9f9f;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.formPromo {
+  width: 100%;
+  height: 100%;
+  padding-top: 50px !important;
+  padding-bottom: 100px !important;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.listDiscount {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.listDiscount:hover,
+.listDiscount:focus {
+  border: 0;
+  font-weight: 600;
+  border-radius: 10px;
+  background-color: #ffba33;
+  color: #4f5665;
+}
+
+.placeholder3 {
+  border: 2px solid #9f9f9f;
+  width: 100%;
+  border-radius: 20px;
+  height: 60px;
+  padding-left: 20px;
+  background-color: white;
+  margin-bottom: 20px;
+}
+
+.placeholder3:focus,
+.placeholder3:active,
+.placeholder3:hover {
+  border: 2px solid #9f9f9f;
+  box-shadow: none !important;
+  outline: none !important;
+  background-color: transparent;
+}
+.boxLeftPromo {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 @media (max-width: 900px) {
   .menuDropdown {
