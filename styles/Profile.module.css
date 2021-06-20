@@ -20,6 +20,10 @@
   font-size: 1.4em;
   margin-bottom: 1em;
   padding: 1em 0;
+  transition: transform 0.2s ease-in;
+}
+.actionBtnSection button:hover {
+  transform: translateY(-0.1em);
 }
 .actionBtnSection h6 {
   color: #ffffff;
@@ -71,6 +75,12 @@
   justify-content: center;
   position: absolute;
   width: 3em;
+  transition: transform 0.2s ease-in-out;
+}
+.avaContainer .edit:hover,
+.contactSection .edit:hover,
+.detailSection .edit:hover {
+  transform: scale(1.2);
 }
 .avaContainer .edit img {
   width: 0.7em;
