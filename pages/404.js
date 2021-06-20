@@ -1,5 +1,6 @@
 import Cookie from "js-cookie";
 import { useRouter } from "next/router";
+import Layout from "components/Layout";
 
 export default function Page404() {
   const router = useRouter();
@@ -23,29 +24,33 @@ export default function Page404() {
   };
 
   return (
-    <div
-      style={containerStyle}
-      className="d-flex flex-column align-items-center justify-content-center"
-    >
-      <h1 style={h1}>404</h1>
-      <p style={paragraph}>
-        {
-          "Ooops... The page that you are looking for is doesn't exist. You can go back to your home now."
-        }
-      </p>
-      <button
-        style={button}
-        className="btn btn-primary"
-        onClick={() =>
-          router.push(
-            `${
-              Cookie.get("userRole") ? "/customers/product" : "/admin/product"
-            }`
-          )
-        }
+    <Layout title="404 Page Not Found">
+      <div
+        style={containerStyle}
+        className="d-flex flex-column align-items-center justify-content-center"
       >
-        Back to home...
-      </button>
-    </div>
+        <h1 style={h1}>404</h1>
+        <p style={paragraph}>
+          {
+            "Ooops... The page that you are looking for is doesn't exist. You can go back to your home now."
+          }
+        </p>
+        <button
+          style={button}
+          className="btn btn-primary"
+          onClick={() =>
+            router.push(
+              `${
+                Cookie.get("userRole") === "user"
+                  ? "/customers/product/all"
+                  : "/admin/product"
+              }`
+            )
+          }
+        >
+          Back to home...
+        </button>
+      </div>
+    </Layout>
   );
 }
