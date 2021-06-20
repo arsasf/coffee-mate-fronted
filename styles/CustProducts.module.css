@@ -28,6 +28,9 @@
   .promoSection {
     padding: 4em !important;
   }
+  .products {
+    width: 65% !important;
+  }
   .promoSection {
     width: 35% !important;
     border-bottom: none !important;
@@ -121,6 +124,49 @@
 .promoSection {
   padding: 3em;
 }
+
+.cardProduct {
+  align-items: center;
+  border-radius: 30px;
+  box-shadow: 0px 10px 25px 0px #3939391a;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+  padding: 3em 1.5em;
+  transition: transform 0.2s ease-in;
+}
+.cardProduct:hover {
+  transform: translateY(-0.5em);
+}
+.cardProduct h5 {
+  font-size: 1.5em;
+  font-weight: 800;
+  text-align: center;
+  width: 70%;
+}
+.cardProduct span {
+  color: #6a4029;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+.cardProduct .imgContainer {
+  border-radius: 50%;
+  box-shadow: 0px 30px 60px 0px #3939391a;
+  height: 10em;
+  margin-top: -6em;
+  margin-bottom: 1.5em;
+  width: 10em;
+  position: relative;
+}
+.cardProduct .imgContainer img {
+  border-radius: 50%;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
 .category {
   display: flex;
   gap: 3em !important;
@@ -157,6 +203,12 @@
   left: 0;
   position: absolute;
 }
+.productList {
+  padding: 7em 0;
+}
+.productList .row {
+  row-gap: 8em;
+}
 .promoSection {
   display: flex;
   flex-direction: column;
@@ -179,6 +231,7 @@
 .promoSection .head h1 {
   color: #6a4029;
   font-size: 2.5em;
+  text-align: center;
 }
 .promoSection .head p {
   font-size: 1.2em;
