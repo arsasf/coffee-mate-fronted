@@ -1,0 +1,34 @@
+.left_column_text_1 {
+  color: #6a4029;
+}
+
+.left_column_image {
+  width: 250px;
+  height: 250px;
+}
+
+.right_column_1 {
+  border-radius: 10px;
+}
+
+.right_column_2 {
+  border-radius: 10px;
+}
+
+.right_circle_button {
+  width: 50px;
+  height: 50px;
+}
+
+.right_circle_image {
+  width: 100px;
+  height: 100px;
+}
+
+/* Responsive Website */
+
+@media only screen and (max-width: 500px) {
+  .right_column_1 {
+    margin-top: 50px;
+  }
+}
