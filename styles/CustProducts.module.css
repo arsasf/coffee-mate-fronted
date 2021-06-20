@@ -1,0 +1,197 @@
+/* For screen 992px above */
+@media (min-width: 992px) {
+  .container {
+    flex-direction: row !important;
+    font-size: 0.6em !important;
+  }
+  .coupons {
+    flex-direction: column;
+    gap: 1em !important;
+    height: 100% !important;
+  }
+  .coupon {
+    cursor: pointer;
+    padding: 1em !important;
+    width: 100% !important;
+  }
+  .coupon img {
+    height: 6em !important;
+  }
+  .coupon h6 {
+    font-size: 1em !important;
+    margin: 0;
+  }
+  .coupon span {
+    font-size: 0.9em !important;
+  }
+  .products,
+  .promoSection {
+    padding: 4em !important;
+  }
+  .promoSection {
+    width: 35% !important;
+  }
+  .promoSection button {
+    margin-top: 3em !important;
+  }
+  .promoSection .head {
+    margin-bottom: 5em !important;
+  }
+  .promoSection .head p {
+    width: 80% !important;
+  }
+  .termsCondition {
+    margin-top: 7em !important;
+  }
+}
+
+/* For screen 1200px above */
+@media (min-width: 1200px) {
+  .container {
+    font-size: 0.7em !important;
+  }
+  .products,
+  .promoSection {
+    padding: 5em !important;
+  }
+  .promoSection {
+    width: 30% !important;
+  }
+  .promoSection .head p {
+    width: 90% !important;
+  }
+}
+
+/* For small device 992px below */
+.container {
+  display: flex;
+  flex-direction: column;
+  font-size: 62.5%;
+  background-color: azure;
+}
+.coupons {
+  display: flex;
+  gap: 1em;
+  height: 100px;
+  overflow: auto;
+  /*For disabling scroll bar in mozilla*/
+  scrollbar-width: none;
+  /*===*/
+  width: 100%;
+}
+
+/* Disabling scroll bar in chrome, opera, edge, safari, etc */
+.coupons::-webkit-scrollbar {
+  display: none;
+}
+/* === */
+
+.coupon {
+  align-items: center;
+  background-color: #88b788;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  padding: 1em 2em;
+  width: 36em;
+}
+.coupon img {
+  height: 100%;
+  margin-right: 0.5em;
+}
+.coupon h6 {
+  font-size: 1.5em;
+}
+.coupon span,
+.promoSection .head p {
+  font-weight: 600;
+}
+
+.coupon span {
+  display: inline-block;
+  font-size: 1.2em;
+}
+.coupon h6,
+.promoSection .head h1,
+.termsCondition h2 {
+  font-weight: 700;
+}
+.products,
+.promoSection {
+  padding: 3em;
+}
+.category {
+  display: flex;
+  gap: 3em !important;
+  height: fit-content;
+  overflow: auto;
+  scrollbar-width: none;
+  width: 100%;
+}
+.category::-webkit-scrollbar {
+  display: none;
+}
+.category h4 {
+  color: #797979;
+  cursor: pointer;
+  font-size: 1.5em;
+  margin: 0;
+  padding: 0 1em;
+  height: 100%;
+  white-space: nowrap;
+}
+.activeCategory {
+  color: #6a4029 !important;
+  font-weight: 700;
+  padding-bottom: 0.5em !important;
+  position: relative;
+}
+.activeCategory::after {
+  background-color: #6a4029;
+  border-radius: 50px;
+  bottom: 0;
+  content: "";
+  width: 100%;
+  height: 0.15em;
+  left: 0;
+  position: absolute;
+}
+.promoSection {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 0.5px solid #9f9f9f;
+}
+.promoSection button {
+  border-radius: 10px !important;
+  font-size: 1em;
+  margin-top: 1.5em;
+  padding: 1em;
+  width: 100%;
+}
+.promoSection .head {
+  /* text-align: center; */
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2.5em;
+}
+.promoSection .head h1 {
+  color: #6a4029;
+  font-size: 2.5em;
+}
+.promoSection .head p {
+  font-size: 1.2em;
+  margin: 0;
+  text-align: center;
+  width: 70%;
+}
+.termsCondition {
+  margin-top: 2.5em;
+}
+.termsCondition h2,
+.termsCondition ol li {
+  font-size: 1.2em;
+}
+.termsCondition ol {
+  padding-left: 1.2em; /* it must have the same size with <li> font size*/
+}
