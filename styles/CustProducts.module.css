@@ -30,6 +30,8 @@
   }
   .promoSection {
     width: 35% !important;
+    border-bottom: none !important;
+    border-right: 0.5px solid #9f9f9f;
   }
   .promoSection button {
     margin-top: 3em !important;
@@ -67,7 +69,6 @@
   display: flex;
   flex-direction: column;
   font-size: 62.5%;
-  background-color: azure;
 }
 .coupons {
   display: flex;
