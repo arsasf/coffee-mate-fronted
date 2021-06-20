@@ -49,13 +49,20 @@
 }
 .avaContainer,
 .userAvatar {
-  align-items: center;
   border-radius: 50%;
+}
+.avaContainer {
+  align-items: center;
   display: flex;
   height: 8em;
   justify-content: center;
   position: relative;
   width: 8em;
+}
+.userAvatar {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 .avaContainer .edit {
   bottom: 0;

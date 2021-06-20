@@ -146,7 +146,7 @@ export default function Signup() {
                 {loading ? (
                   <Button
                     variant="primary"
-                    className={styles.signupBtn}
+                    className={`d-flex align-items-center justify-content-center ${styles.signupBtn}`}
                     disabled
                   >
                     <Spinner
