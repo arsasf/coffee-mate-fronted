@@ -1,14 +1,14 @@
 /* For screen 992px above */
 @media (min-width: 992px) {
   .container {
-    padding-top: 7em;
+    /* padding-top: 7em !important; */
     flex-direction: row !important;
     font-size: 0.6em !important;
   }
   .coupons {
     flex-direction: column;
     gap: 2em !important;
-    height: fit-content !important;
+    height: 60vh !important;
   }
   .coupon {
     padding: 1em !important;
@@ -26,7 +26,7 @@
   }
   .products,
   .promoSection {
-    padding: 4em !important;
+    padding: inherit 4em !important;
   }
   .products {
     width: 65% !important;
@@ -60,7 +60,7 @@
   }
   .products,
   .promoSection {
-    padding: 5em !important;
+    padding: inherit 5em !important;
   }
   .promoSection {
     width: 30% !important;
@@ -180,9 +180,8 @@
 }
 .products,
 .promoSection {
-  padding: 3em;
+  padding: 5em 3em !important;
 }
-
 .cardProduct {
   align-items: center;
   border-radius: 30px;

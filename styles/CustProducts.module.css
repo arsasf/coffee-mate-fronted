@@ -7,7 +7,7 @@
   .coupons {
     flex-direction: column;
     gap: 1em !important;
-    height: fit-content !important;
+    height: 60vh !important;
   }
   .coupon {
     cursor: pointer;
@@ -31,7 +31,7 @@
   }
   .products,
   .promoSection {
-    padding: 4em !important;
+    padding: inherit 4em !important;
   }
   .products {
     width: 65% !important;
@@ -69,7 +69,7 @@
   }
   .products,
   .promoSection {
-    padding: 5em !important;
+    padding: inherit 5em !important;
   }
   .promoSection {
     width: 30% !important;
@@ -139,7 +139,7 @@
 }
 .products,
 .promoSection {
-  padding: 3em;
+  padding: 12em 3em !important;
 }
 
 .cardProduct {
