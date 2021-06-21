@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Cookie from "js-cookie";
 import Image from "next/image";
-import axios from "utils/axios";
+import axiosApiIntances from "utils/axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
@@ -31,7 +31,7 @@ import {
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
   await customerPage(context);
-  const res = await axios.axiosApiInstances
+  const res = await axiosApiIntances
     .get(`user/by-id/${data.userId}`)
     .then((res) => {
       return res.data.data[0];
@@ -107,7 +107,7 @@ export default function Profile(props) {
     for (const field in data) {
       formData.append(field, data[field]);
     }
-    axios.axiosApiInstances
+    axiosApiIntances
       .patch(`user/img/${id}`, formData)
       .then((res) => {
         setImageUser(null);
@@ -123,14 +123,14 @@ export default function Profile(props) {
   };
 
   const handleDeleteImage = (id) => {
-    axios.axiosApiInstances.patch(`user/delete-img/${id}`).then(() => {
+    axiosApiIntances.patch(`user/delete-img/${id}`).then(() => {
       router.push(`/profile/${id}`);
     });
   };
 
   const handleUpdateData = (id, data) => {
     setLoading(true);
-    axios.axiosApiInstances
+    axiosApiIntances
       .patch(`user/update-profile/${id}`, data)
       .then((res) => {
         setLoading(false);
@@ -150,7 +150,7 @@ export default function Profile(props) {
     setMessage("");
     setPasswordError(false);
     setPasswordSuccess(false);
-    axios.axiosApiInstances
+    axiosApiIntances
       .patch(`user/update-password/${id}`, data)
       .then((res) => {
         setPasswordSuccess(true);

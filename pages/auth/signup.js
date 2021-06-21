@@ -8,7 +8,7 @@ import styles from "styles/Signup.module.css";
 import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import { CircleWavyCheck } from "phosphor-react";
 import { unauthPage } from "middleware/authPage";
-import axios from "utils/axios";
+import axiosApiIntances from "utils/axios";
 
 export const getServerSideProps = async (context) => {
   await unauthPage(context);
@@ -34,7 +34,7 @@ export default function Signup() {
     if (form.userEmail && form.userPassword && form.userPhone) {
       setLoading(true);
 
-      axios.axiosApiInstances
+      axiosApiIntances
         .post("auth/register", data)
         .then(() => {
           setLoading(false);
