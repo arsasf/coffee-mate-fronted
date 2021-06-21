@@ -31,7 +31,6 @@ import {
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
   await customerPage(context);
-
   const res = await axios.axiosApiInstances
     .get(`user/by-id/${data.userId}`)
     .then((res) => {
@@ -58,8 +57,8 @@ export default function Profile(props) {
     user_name,
     user_phone,
   } = props.user;
-  const [imageUser, setImageUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageUser, setImageUser] = useState(null);
   const [editDetail, setEditDetail] = useState(false);
   const [editContact, setEditContact] = useState(false);
   const [updateDataError, setUpdateDataError] = useState(false);
@@ -73,12 +72,13 @@ export default function Profile(props) {
     userName: user_name,
     userPhone: user_phone,
   });
-  const [uploading, setUploading] = useState(false);
-  const [formPassword, setFormPassword] = useState({});
+
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
+  const [uploading, setUploading] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [imageSuccess, setImageSuccess] = useState(false);
+  const [formPassword, setFormPassword] = useState({});
   const [passwordError, setPasswordError] = useState(false);
   const [passwordSuccess, setPasswordSuccess] = useState(false);
 
@@ -92,6 +92,7 @@ export default function Profile(props) {
   const changeText = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
   const changeTextPassword = (e) => {
     setFormPassword({ ...formPassword, [e.target.name]: e.target.value });
   };
@@ -121,6 +122,12 @@ export default function Profile(props) {
       .finally(() => setUploading(false));
   };
 
+  const handleDeleteImage = (id) => {
+    axios.axiosApiInstances.patch(`user/delete-img/${id}`).then(() => {
+      router.push(`/profile/${id}`);
+    });
+  };
+
   const handleUpdateData = (id, data) => {
     setLoading(true);
     axios.axiosApiInstances
@@ -134,8 +141,24 @@ export default function Profile(props) {
       })
       .catch((err) => {
         setLoading(true);
-        setUpdateDataError(false);
-        return err.response;
+        setUpdateDataError(true);
+        setMessage(err.response.data.msg);
+      });
+  };
+
+  const handleUpdatePassword = (id, data) => {
+    setMessage("");
+    setPasswordError(false);
+    setPasswordSuccess(false);
+    axios.axiosApiInstances
+      .patch(`user/update-password/${id}`, data)
+      .then((res) => {
+        setPasswordSuccess(true);
+        setMessage(res.data.msg);
+      })
+      .catch((err) => {
+        setPasswordError(true);
+        setMessage(err.response.data.msg);
       });
   };
 
@@ -143,20 +166,6 @@ export default function Profile(props) {
     setShow(true);
     setPasswordSuccess(false);
     setPasswordError(false);
-  };
-
-  const handleUpdatePassword = (id, data) => {
-    setMessage("");
-    axios.axiosApiInstances
-      .patch(`user/update/password/${id}`, data)
-      .then((res) => {
-        setPasswordSuccess(true);
-        setMessage(res.data.data.msg);
-      })
-      .catch(() => {
-        setPasswordError(true);
-        setMessage(res.data.data.msg);
-      });
   };
 
   const handleLogout = () => {
@@ -246,10 +255,10 @@ export default function Profile(props) {
           {passwordError && (
             <Alert
               variant="danger"
-              className={`d-flex align-items-center text-bold ${styles.errorAlert}`}
+              className={`d-flex flex-column justify-content-center text-bold ${styles.errorAlert}`}
               style={{ fontWeight: "600" }}
             >
-              <WarningCircle weight="bold" size={24} className="me-2" />
+              <WarningCircle weight="bold" size={28} className="mb-2" />
               {message}
             </Alert>
           )}
@@ -259,7 +268,7 @@ export default function Profile(props) {
               className={`d-flex align-items-center text-bold ${styles.successAlert}`}
               style={{ fontWeight: "600" }}
             >
-              <CheckCircle weight="bold" size={24} className="me-2" />
+              <CheckCircle weight="bold" size={28} className="me-2" />
               {message}
             </Alert>
           )}
@@ -267,7 +276,7 @@ export default function Profile(props) {
             <Form.Label>New Password</Form.Label>
             <Form.Control
               type="password"
-              name="newPassword"
+              name="userNewPassword"
               placeholder="Password"
               className="shadow-none"
               onChange={(e) => changeTextPassword(e)}
@@ -278,7 +287,7 @@ export default function Profile(props) {
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
               type="password"
-              name="confirmPassword"
+              name="userConfirmPassword"
               placeholder="Confirm password"
               className="shadow-none"
               onChange={(e) => changeTextPassword(e)}
@@ -338,7 +347,14 @@ export default function Profile(props) {
                 {user_display_name ? user_display_name : "User"}
               </h3>
               <span>{user_email ? user_email : "Set your email"}</span>
-              <Button variant="secondary">Remove photo</Button>
+
+              <Button
+                variant="secondary"
+                className={styles.remove}
+                onClick={() => handleDeleteImage(user_id)}
+              >
+                Remove photo
+              </Button>
             </div>
           </Col>
           <Col xs={12} md={8} lg={8}>

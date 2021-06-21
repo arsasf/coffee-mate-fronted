@@ -221,7 +221,7 @@
   position: absolute;
   width: 100%;
 }
-.imageSection button {
+.imageSection .remove {
   font-size: 1.2em;
   padding: 1em 3em;
 }
@@ -264,6 +264,10 @@
 }
 .toast {
   margin-bottom: 0.5em;
+}
+.errorAlert,
+.successAlert {
+  font-size: 0.8em;
 }
 .errorAlert {
   background-color: #ff9aa4;
