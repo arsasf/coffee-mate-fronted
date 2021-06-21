@@ -39,3 +39,31 @@ export function authPage(context) {
     });
   });
 }
+
+export function customerPage(context) {
+  return new Promise((resolve) => {
+    const allCookies = cookies(context);
+    if (allCookies.userRole != "user") {
+      return context.res
+        .writeHead(302, {
+          Location: "/admin/product",
+        })
+        .end();
+    }
+    return resolve("Authorized As Customer");
+  });
+}
+
+export function adminPage(context) {
+  return new Promise((resolve) => {
+    const allCookies = cookies(context);
+    if (allCookies.userRole != "admin") {
+      return context.res
+        .writeHead(302, {
+          Location: "/customers/product",
+        })
+        .end();
+    }
+    return resolve("Authorized As Admin");
+  });
+}

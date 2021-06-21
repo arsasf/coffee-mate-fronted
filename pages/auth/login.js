@@ -9,7 +9,7 @@ import Footer from "components/module/Footer";
 import styles from "styles/Login.module.css";
 import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import { unauthPage } from "middleware/authPage";
-import axios from "utils/axios";
+import axiosApiIntances from "utils/axios";
 import { connect } from "react-redux";
 import { login } from "redux/actions/auth";
 
@@ -166,7 +166,7 @@ function Login(props) {
                 {loading ? (
                   <Button
                     variant="primary"
-                    className={styles.loginBtn}
+                    className={`d-flex align-items-center justify-content-center ${styles.loginBtn}`}
                     disabled
                   >
                     <Spinner
