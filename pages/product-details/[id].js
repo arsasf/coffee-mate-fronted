@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Layout from "components/Layout";
 import styles from "../../styles/ProductDetails.module.css";
 import { AiOutlineArrowRight } from "react-icons/ai";
