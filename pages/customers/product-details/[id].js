@@ -1,15 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 import Layout from "components/Layout";
-import styles from "../../styles/ProductDetails.module.css";
+import styles from "styles/ProductDetails.module.css";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import Navbar from "components/module/Navbar";
+import Footer from "components/module/Footer";
+import { Row, Col } from "react-bootstrap";
 
 export default function ProductDetails() {
   return (
     <div>
       <Layout title="Product Details">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-3 mt-5">
+        <Navbar product={true} login={true} />
+        <div className={`${styles.container} container`}>
+          <Row xs={1} lg={2} className="mb-3 mb-mb-0 gy-3">
+            <Col xs={12} md={4} lg={5}>
               <p>
                 Favorite &amp; Promo
                 <span className={styles.left_column_text_1}>
@@ -36,8 +40,8 @@ export default function ProductDetails() {
                   <button className="btn btn-secondary">Add to Cart</button>
                 </div>
               </div>
-            </div>
-            <div className="col-7 mt-5 ms-4">
+            </Col>
+            <Col xs={12} md={8} lg={7}>
               <div className="row">
                 <div className={`${styles.right_column_1} col bg-light`}>
                   <p className="ms-3 mt-3">
@@ -121,9 +125,10 @@ export default function ProductDetails() {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
         </div>
+        <Footer />
       </Layout>
     </div>
   );
