@@ -5,6 +5,9 @@ module.exports = {
     API_BASE_URL: "http://localhost:3005/backend5/api/v1/",
     API_IMG_URL: "http://localhost:3005/backend5/api/",
   },
+  images: {
+    domains: ["localhost"],
+  },
   async rewrites() {
     return [
       {

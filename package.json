@@ -12,6 +12,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "js-cookie": "^2.2.1",
+    "moment": "^2.29.1",
     "next": "11.0.0",
     "next-cookies": "^2.0.3",
     "phosphor-react": "^1.2.1",

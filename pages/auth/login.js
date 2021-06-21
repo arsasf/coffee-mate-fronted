@@ -166,7 +166,7 @@ function Login(props) {
                 {loading ? (
                   <Button
                     variant="primary"
-                    className={styles.loginBtn}
+                    className={`d-flex align-items-center justify-content-center ${styles.loginBtn}`}
                     disabled
                   >
                     <Spinner

@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import Layout from "components/Layout";
+import Image from "next/image";
 import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import styles from "styles/AdminProducts.module.css";
-import Image from "next/image";
+import Layout from "components/Layout";
 import { X, PencilSimple } from "phosphor-react";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
@@ -42,6 +42,12 @@ export default function Product(props) {
   const handleSelectCategory = (e) => {
     setSelectedCategory({ [e.target.id]: true });
   };
+
+  const handleDeleteCoupon = () => {};
+  const handleDeleteProduct = () => {};
+
+  const handleEditCoupon = () => {};
+  const handleEditProduct = () => {};
 
   return (
     <Layout title="Products">
