@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import Layout from "components/Layout";
+import Image from "next/image";
 import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import styles from "styles/AdminProducts.module.css";
-import Image from "next/image";
+import Layout from "components/Layout";
 import { X, PencilSimple } from "phosphor-react";
 
 export default function Product() {
@@ -12,6 +12,12 @@ export default function Product() {
   const handleSelectCategory = (e) => {
     setSelectedCategory({ [e.target.id]: true });
   };
+
+  const handleDeleteCoupon = () => {};
+  const handleDeleteProduct = () => {};
+
+  const handleEditCoupon = () => {};
+  const handleEditProduct = () => {};
 
   return (
     <Layout title="Products">

@@ -125,7 +125,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   font-size: 62.5%;
-  padding: 5em;
+  padding: 15em 5em 5em;
   position: relative;
   z-index: 0;
 }
@@ -235,4 +235,25 @@
 .imageSection span {
   font-size: 1.2em;
   margin-bottom: 2em;
+}
+.passwordModal button {
+  font-size: 0.8em !important;
+  padding: 1em 3em;
+}
+.modalBody {
+  padding: 2em 1em;
+}
+.toast {
+  position: fixed;
+  left: 20px;
+  top: 100px;
+  z-index: 100;
+}
+.errorAlert {
+  background-color: #ff9aa4;
+  color: #b91929;
+}
+.successAlert {
+  background-color: #e9ffd5;
+  color: #64b618;
 }
