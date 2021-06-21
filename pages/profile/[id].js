@@ -20,7 +20,13 @@ import Footer from "components/module/Footer";
 import styles from "styles/Profile.module.css";
 import { authPage, customerPage } from "middleware/authPage";
 import moment from "moment";
-import { Info, CheckCircle, WarningCircle } from "phosphor-react";
+import {
+  Info,
+  CheckCircle,
+  UploadSimple,
+  WarningCircle,
+  XCircle,
+} from "phosphor-react";
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
@@ -52,6 +58,7 @@ export default function Profile(props) {
     user_name,
     user_phone,
   } = props.user;
+  const [imageUser, setImageUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [editDetail, setEditDetail] = useState(false);
   const [editContact, setEditContact] = useState(false);
@@ -66,10 +73,12 @@ export default function Profile(props) {
     userName: user_name,
     userPhone: user_phone,
   });
-
+  const [uploading, setUploading] = useState(false);
+  const [formPassword, setFormPassword] = useState({});
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
-  const [formPassword, setFormPassword] = useState({});
+  const [imageError, setImageError] = useState(false);
+  const [imageSuccess, setImageSuccess] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [passwordSuccess, setPasswordSuccess] = useState(false);
 
@@ -87,7 +96,30 @@ export default function Profile(props) {
     setFormPassword({ ...formPassword, [e.target.name]: e.target.value });
   };
 
-  const handleUpload = (id, data) => {};
+  const handleImage = (e) => {
+    setImageUser(e.target.files[0]);
+  };
+
+  const handleUpload = (id, data) => {
+    setUploading(true);
+    const formData = new FormData();
+    for (const field in data) {
+      formData.append(field, data[field]);
+    }
+    axios.axiosApiInstances
+      .patch(`user/img/${id}`, formData)
+      .then((res) => {
+        setImageUser(null);
+        setImageSuccess(true);
+        router.push(`/profile/${id}`);
+      })
+      .catch((err) => {
+        setImageUser(null);
+        setImageError(true);
+        setMessage(err.response.data.msg);
+      })
+      .finally(() => setUploading(false));
+  };
 
   const handleUpdateData = (id, data) => {
     setLoading(true);
@@ -137,69 +169,70 @@ export default function Profile(props) {
   return (
     <Layout title="Profile">
       <Navbar profile={true} login={true} />
-      <Toast
-        onClose={() => setUpdateDataSuccess(false)}
-        show={updateDataSuccess}
-        delay={20000}
-        className={styles.toast}
-        autohide
-      >
-        <Toast.Header closeButton={false} className="d-flex align-items-center">
-          <Info
-            color="rgb(107, 221, 0)"
-            size={24}
-            weight="fill"
-            className="me-2"
-          />
-          <strong className="mr-auto">Personal Info Update</strong>
-        </Toast.Header>
-        <Toast.Body>
-          Wohooo! Your personal detail has just updated successfully...
-        </Toast.Body>
-      </Toast>
-      {/* <Modal
-        size="sm"
-        show={smShow}
-        onHide={() => {
-          setSmShow(false);
-          setImage(null);
-          setImageError(false);
-        }}
-        aria-labelledby="example-modal-sizes-title-sm"
-      >
-        <Modal.Header>
-          <Modal.Title id="example-modal-sizes-title-sm">
-            Change Picture
-          </Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          Sure want to change your profile picture?
-          {imageError && (
-            <Alert variant="danger" className="mt-4">
-              {props.user.message}
-            </Alert>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setSmShow(false);
-              setImage(null);
-              setImageError(false);
-            }}
+      <div className={styles.toastGroup}>
+        <Toast
+          onClose={() => setUpdateDataSuccess(false)}
+          show={updateDataSuccess}
+          delay={10000}
+          className={styles.toast}
+          autohide
+        >
+          <Toast.Header
+            closeButton={false}
+            className="d-flex align-items-center"
           >
-            Close
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => handleUploadImage(user_id, { image })}
+            <Info
+              color="rgb(107, 221, 0)"
+              size={24}
+              weight="fill"
+              className="me-2"
+            />
+            <strong className="mr-auto">Personal Info Update</strong>
+          </Toast.Header>
+          <Toast.Body>
+            Wohooo! Your personal detail has just updated successfully...
+          </Toast.Body>
+        </Toast>
+        <Toast
+          onClose={() => setImageSuccess(false)}
+          show={imageSuccess}
+          delay={10000}
+          className={styles.toast}
+          autohide
+        >
+          <Toast.Header
+            closeButton={false}
+            className="d-flex align-items-center"
           >
-            Change
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
+            <CheckCircle
+              color="rgb(107, 221, 0)"
+              size={24}
+              weight="fill"
+              className="me-2"
+            />
+            <strong className="mr-auto">Profile Picture Update</strong>
+          </Toast.Header>
+          <Toast.Body>
+            Cool pose! Your profile picture has changed...
+          </Toast.Body>
+        </Toast>
+        <Toast
+          onClose={() => setImageError(false)}
+          show={imageError}
+          delay={10000}
+          className={styles.toast}
+          autohide
+        >
+          <Toast.Header
+            closeButton={false}
+            className="d-flex align-items-center"
+          >
+            <XCircle color="#b91929" size={24} weight="fill" className="me-2" />
+            <strong className="mr-auto">Failed To Update</strong>
+          </Toast.Header>
+          <Toast.Body>{message}</Toast.Body>
+        </Toast>
+      </div>
       <Modal
         show={show}
         onHide={() => setShow(false)}
@@ -280,11 +313,27 @@ export default function Profile(props) {
                   layout="fill"
                   className={styles.userAvatar}
                 />
-                <label htmlFor="upload" className={styles.edit}>
-                  <img src="/pencil.svg" alt="pencil-icon" />
-                </label>
+                {!imageUser ? (
+                  <label htmlFor="upload" className={styles.edit}>
+                    <img src="/pencil.svg" alt="pencil-icon" />
+                  </label>
+                ) : (
+                  <div
+                    title="Click to start upload your image"
+                    htmlFor="upload"
+                    className={styles.upload}
+                    onClick={() => handleUpload(user_id, { imageUser })}
+                  >
+                    <UploadSimple color="#ffffff" size={14} weight="bold" />
+                  </div>
+                )}
+                {uploading && (
+                  <div htmlFor="upload" className={styles.uploading}>
+                    <Spinner animation="border" variant="light" size="sm" />
+                  </div>
+                )}
               </div>
-              <input type="file" id="upload" />
+              <input type="file" id="upload" onChange={(e) => handleImage(e)} />
               <h3 title={user_display_name ? user_display_name : "User"}>
                 {user_display_name ? user_display_name : "User"}
               </h3>

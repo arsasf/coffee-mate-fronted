@@ -70,6 +70,18 @@
   height: 2em !important;
   width: 2em !important;
 }
+.avaContainer .upload,
+.avaContainer .uploading {
+  bottom: 0;
+  right: -5px;
+  height: 3.2em !important;
+  width: 3.2em !important;
+}
+.avaContainer .uploading {
+  cursor: progress !important;
+}
+.avaContainer .upload,
+.avaContainer .uploading,
 .avaContainer .edit,
 .contactSection .edit,
 .detailSection .edit {
@@ -84,10 +96,11 @@
   width: 3em;
   transition: transform 0.2s ease-in-out;
 }
+.avaContainer .upload:hover,
 .avaContainer .edit:hover,
 .contactSection .edit:hover,
 .detailSection .edit:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 .avaContainer .edit img {
   width: 0.7em;
@@ -243,11 +256,14 @@
 .modalBody {
   padding: 2em 1em;
 }
-.toast {
+.toastGroup {
   position: fixed;
   left: 20px;
   top: 100px;
   z-index: 100;
+}
+.toast {
+  margin-bottom: 0.5em;
 }
 .errorAlert {
   background-color: #ff9aa4;
