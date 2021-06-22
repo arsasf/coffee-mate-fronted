@@ -1,15 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 import Layout from "components/Layout";
-import styles from "../../styles/PaymentDetails.module.css";
+import styles from "styles/PaymentDetails.module.css";
 import { BiCreditCardFront } from "react-icons/bi";
 import { AiOutlineBank } from "react-icons/ai";
 import { FaTruck } from "react-icons/fa";
+import Navbar from "components/module/Navbar";
+import Footer from "components/module/Footer";
 
 export default function PaymentDetails() {
   return (
     <div>
       <Layout title="Payment Details">
-        <div className={`${styles.payment_details_background} container`}>
+        <Navbar login={true} cart={true} />
+        <div className={`${styles.payment_details_background} container-fluid`}>
           <div className="row ms-5">
             <div className="col mt-5 ms-5 mb-5">
               <h3 className="text-light shadow">Checkout Your Item Now!</h3>
@@ -168,6 +171,7 @@ export default function PaymentDetails() {
             </div>
           </div>
         </div>
+        <Footer />
       </Layout>
     </div>
   );

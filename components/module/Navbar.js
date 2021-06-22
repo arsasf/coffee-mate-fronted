@@ -69,7 +69,9 @@ export default function NavbarComponent(props, context) {
             </Modal.Header>
             <Modal.Body>Ini hasil Search</Modal.Body>
             <Modal.Footer className={styles.modalFooter}>
-              <Button onClick={handleClose}>Close</Button>
+              <Button className="btn-secondary" onClick={handleClose}>
+                Close
+              </Button>
             </Modal.Footer>
           </Modal>
           <div className={styles.boxLogo}>
@@ -147,7 +149,7 @@ export default function NavbarComponent(props, context) {
             ) : (
               <div
                 className={styles.boxMenu}
-                onClick={() => handleMenu("payment-detail")}
+                onClick={() => handleMenu("payment-details")}
               >
                 <Button variant="light" className={styles.boxImgMenu}>
                   <img
