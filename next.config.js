@@ -35,6 +35,10 @@ module.exports = {
         source: "/admin/update-promo/:id",
         destination: "/admin/product/update-promo/:id",
       },
+      {
+        source: "/historycust",
+        destination: "/historycustomer",
+      },
     ];
   },
 };

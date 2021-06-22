@@ -1,3 +1,9 @@
-{
-  "extends": ["next", "next/core-web-vitals"]
+// {
+//   "extends": ["next", "next/core-web-vitals"]
+// }
+{ 
+  "extends": [ "eslint:recommended", "plugin:react/recommended" ], 
+  "rules": { "react/react-in-jsx-scope": "off" }, 
+  "globals": { "React": "writable" },
+  "parser": "babel-eslint"
 }
