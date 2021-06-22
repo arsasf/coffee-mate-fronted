@@ -2,7 +2,7 @@ import Layout from "components/Layout";
 import NavBar from "components/module/NavBar";
 import Footer from "components/module/footer";
 import { Container, Row, Col, Card, Modal, Button } from "react-bootstrap";
-import styles from "../../styles/HistoryCustomer.module.css";
+import styles from "../../../styles/HistoryCustomer.module.css";
 import { useState, useEffect } from "react";
 import { authPage, customerPage } from "middleware/authPage";
 import axiosApiIntances from "utils/axios";
@@ -19,85 +19,87 @@ import axiosApiIntances from "utils/axios";
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
   await customerPage(context);
+  // console.log(data.userId)
+
   const res = await axiosApiIntances
-    .get(`invoice/history/${data.userId}`)
+    .get(`user/by-id/${data.userId}`, {
+      headers: {
+        Authorization: `Bearer ${data.token || ""}`,
+      },
+    })
     .then((res) => {
-      return res.data.data[0];
+      return res.data.data[0]
     })
     .catch((err) => {
-      return new Error(err);
+      return [];
     });
-  return {
-    props: { user: res },
-  };
 
+  const resres = await axiosApiIntances
+    .get(`invoice/history/${data.userId}`,)
+    .then((resres) => {
+      // Console.log(data)
+      return resres.data.data
+    })
+    .catch((err) => {
+      return [];
+    });
+
+  return {
+    props: { resres, res },
+  };
 };
+
+
 export default function historyCust(props) {
-  console.log(props);
-  const [dataHistory, setDataHistory] = useState([
-    {
-      name: "CS-1234567",
-      price: "IDR 34.000",
-      status: "Done",
-    },
-    {
-      name: "CS-1234567",
-      price: "IDR 34.000",
-      status: "Done",
-    },
-    {
-      name: "CS-1234567",
-      price: "IDR 34.000",
-      status: "Done",
-    },
-    {
-      name: "CS-1234567",
-      price: "IDR 34.000",
-      status: "Done",
-    },
-    {
-      name: "CS-1234567",
-      price: "IDR 34.000",
-      status: "Done",
-    },
-    {
-      name: "CS-1234567",
-      price: "IDR 34.000",
-      status: "Done",
-    },
-    {
-      name: "CS-1234567",
-      price: "IDR 34.000",
-      status: "Done",
-    },
-    {
-      name: "CS-1234567",
-      price: "IDR 34.000",
-      status: "Done",
-    },
-    {
-      name: "CS-1234567",
-      price: "IDR 34.000",
-      status: "Done",
-    },
-  ]);
+
+
+
+
+  // console.log(props);
   const [isClick, setIsClick] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [orderId, setOrderId] = useState(0);
+
   const handleClick = () => {
     setIsClick(true);
   };
   const handleCloseClick = () => {
     setIsClick(false);
   };
-  const handleDelete = () => {
+  const handleDelete = (id) => {
+    setOrderId(id);
     setIsDelete(true);
+    setIsClick(false);
   };
   const handleCloseDelete = () => {
     setIsDelete(false);
   };
-
+  const handleDeleteItem = () => {
+    console.log("asdasdsad", orderId);
+    axiosApiIntances
+      .delete(`invoice/${orderId}`)
+      .then((res) => {
+        // console.log(res.data.data);
+        setShowAlert([true, res.data.msg]);
+        setTimeout(() => {
+          setShowAlert([false, ""]);
+        }, 3000);
+        // setUser(res.data.data);
+      })
+      .catch((err) => {
+        //   console.log(err.response);
+        //   setShowAlert([true, err.response.data.msg]);
+        //   setTimeout(() => {
+        //     setUserImage(`http://localhost:3004/backend3/api/${props.data.user_image}`);
+        //     setShowAlert([false, ""]);
+        //   }, 3000);
+        return [];
+      });
+  };
   return (
     <Layout title="History Customer">
+
+
       <Modal
         show={isDelete}
         size="lg"
@@ -105,17 +107,17 @@ export default function historyCust(props) {
         className={styles.modal}
         onHide={handleCloseDelete}
       >
-        <Modal.Body className={styles.modalBody}>
+        <Modal.Body className={styles.bodyModal}>
           <div>
-            <p className={styles.textDelete}>
+            <p className={styles.textDel}>
               Are you sure want to delete <br />the selected items?
             </p>
             <Button onClick={handleCloseDelete} className={styles.btnClose}>
               Cancel
             </Button>
-            <Button onClick={handleCloseDelete} className={styles.btnDelete}>
+            <Button onClick={handleDeleteItem} className={styles.btnDelete}>
               Delete
-              {console.log("wdijwdi")}
+              {/* {console.log("wdijwdi")} */}
             </Button>
           </div>
         </Modal.Body>
@@ -128,7 +130,7 @@ export default function historyCust(props) {
           <p className={styles.text2}>Long press to delete item</p>
 
           <Row>
-            {dataHistory.map((item, index) => {
+            {props.resres.map((item, index) => {
               return (
                 <Col key={index} sm={4}>
                   {isClick ? (
@@ -137,7 +139,7 @@ export default function historyCust(props) {
                         alt=""
                         src="/Ellipse 15.png"
                         className={styles.forDelete}
-                        onClick={handleDelete}
+                        onClick={() => { handleDelete(item.orders_id); }}
                       />
                       <img
                         alt=""
@@ -149,7 +151,7 @@ export default function historyCust(props) {
                         alt=""
                         src="/Vector.png"
                         className={styles.imgDelete}
-                        onClick={handleDelete}
+                        onClick={() => { handleDelete(item.orders_id); }}
                       />
                       <img
                         alt=""
@@ -161,14 +163,18 @@ export default function historyCust(props) {
                         <Col xs={4}>
                           <img
                             alt=""
-                            src="/image 2.png"
+                            src={
+                              item.product_image.length > 0
+                                ? `${process.env.API_IMG_URL}/${item.product_image}`
+                                : "/image 2.png"
+                            }
                             className={styles.imgHistory}
                           />
                         </Col>
                         <Col xs={8}>
-                          <h1 className={styles.nameHistory}>{item.name}</h1>
-                          <p className={styles.priceHistory}>{item.price}</p>
-                          <p className={styles.statusHistory}>{item.status}</p>
+                          <h1 className={styles.nameHistory}>{item.invoice_code}</h1>
+                          <p className={styles.priceHistory}> Rp {item.invoice_sub_total.toLocaleString()}</p>
+                          <p className={styles.statusHistory}>{item.orders_status}</p>
                         </Col>
                       </Row>
                     </Card>
@@ -178,14 +184,18 @@ export default function historyCust(props) {
                         <Col xs={4}>
                           <img
                             alt=""
-                            src="/image 2.png"
+                            src={
+                              item.product_image.length > 0
+                                ? `${process.env.API_IMG_URL}/${item.product_image}`
+                                : "/image 2.png"
+                            }
                             className={styles.imgHistory}
                           />
                         </Col>
                         <Col xs={8}>
-                          <h1 className={styles.nameHistory}>{item.name}</h1>
-                          <p className={styles.priceHistory}>{item.price}</p>
-                          <p className={styles.statusHistory}>{item.status}</p>
+                          <h1 className={styles.nameHistory}>{item.invoice_code}</h1>
+                          <p className={styles.priceHistory}> Rp {item.invoice_sub_total.toLocaleString()}</p>
+                          <p className={styles.statusHistory}>{item.orders_status}</p>
                         </Col>
                       </Row>
                     </Card>
