@@ -222,7 +222,7 @@
   position: absolute;
 }
 .productList {
-  padding: 10em 0;
+  padding: 5em 0 10em !important;
 }
 .productList .row {
   row-gap: 8em;
@@ -270,4 +270,75 @@
 .selectedCoupon {
   border: 1.5px solid #6a4029;
   box-shadow: 0 0px 30px 0px rgba(57, 57, 57, 0.25);
+}
+.searchBar {
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+  margin: 4em 0;
+}
+/* .searchBar input {
+  width: 50%;
+} */
+.searchBar button {
+  border-radius: 5px !important;
+  font-size: 1.2em;
+  padding: inherit 1em;
+}
+.pagination {
+  font-size: 1.2em;
+  margin: 15px auto;
+  display: flex;
+  list-style: none;
+  outline: none;
+}
+.pagination > .active > a {
+  background-color: #ffba33 !important;
+  box-shadow: 0px 8px 16px rgba(255, 187, 51, 0.24);
+  border-color: none !important ;
+  border-radius: 8px;
+  color: #fff !important;
+}
+
+.pagination ul {
+  padding-left: 0 !important;
+}
+
+.pagination > li > a {
+  background-color: #ffffff;
+  border: 0.5px solid #dedede;
+  padding: 9px 15px;
+  height: 500px;
+  margin: 0 8px;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.pagination > li:last-child > a,
+.pagination > li:first-child > a {
+  border: none !important;
+  background-color: transparent !important;
+  display: none;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background-color: #47ccde;
+  border-color: #ffba33;
+  outline: none;
+}
+.pagination > li > a,
+.pagination > li > span {
+  color: #47ccde;
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span,
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-radius: unset;
 }
