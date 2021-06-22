@@ -121,7 +121,7 @@ export default function Product(props) {
   const handleDeleteCoupon = (id) => {
     axiosApiIntances.delete(`promo/${id}`).then(() => {
       axiosApiIntances.get("promo").then((res) => {
-        setPromo(res.data.data);
+        setPromos(res.data.data);
       });
     });
   };
