@@ -117,7 +117,10 @@ export default function NavbarComponent(props) {
               </h1>
             </div>
             {admin === true ? (
-              <div className={styles.boxMenu}>
+              <div
+                className={styles.boxMenu}
+                onClick={() => handleMenu("manage-order")}
+              >
                 <Button variant="light" className={styles.boxImgMenu}>
                   <img
                     src={
@@ -138,7 +141,10 @@ export default function NavbarComponent(props) {
                 </h1>
               </div>
             ) : (
-              <div className={styles.boxMenu}>
+              <div
+                className={styles.boxMenu}
+                onClick={() => handleMenu("payment-detail")}
+              >
                 <Button variant="light" className={styles.boxImgMenu}>
                   <img
                     src={

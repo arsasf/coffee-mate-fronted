@@ -1,33 +1,381 @@
-/* #root {
-  height: 100%;
-} */
-/* html,
-body {
+.container {
+  background-image: url("/manage-order/img-background-manage-order.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+  padding: 10em 4em 5em 4em;
   position: relative;
-  height: 100%;
+  z-index: 0;
 }
-
-body {
-  background: #eee;
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  color: #000;
-  margin: 0;
-  padding: 0;
-} */
-
 .swiperContainer {
-  width: 300px;
-  height: 300px;
-  position: relative;
+  margin-left: 0;
+  margin-top: 20px;
+  width: 70%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0;
 }
 
 .swiperSlide {
-  background-position: center;
-  background-size: cover;
+  width: 100% !important;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-position: left;
+  background-size: contain;
 }
 
 .swiperSlide img {
   display: block;
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+}
+
+.textTitle {
   width: 100%;
+  text-align: left;
+  font-size: 30px;
+  font-weight: 700;
+  color: white;
+}
+
+.card {
+  background-color: white;
+  padding: 50px 40px 50px 40px;
+  height: max-content;
+  width: 100%;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cart {
+  overflow-y: hidden;
+}
+
+.textCardTitle {
+  width: 100%;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  color: #362115;
+}
+.textName {
+  width: 100%;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+  color: #362115;
+}
+.boxCart {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.boxDesc {
+  padding: 10px 10px 10px 20px;
+  height: min-content;
+  width: max-content;
+}
+.textDesc {
+  margin-bottom: 0;
+  width: max-content;
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+}
+.textPrice {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+  text-align: right;
+}
+
+.boxTotal {
+  display: flex;
+  justify-content: space-between;
+}
+
+.boxOrder {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.textOrder {
+  font-size: 20px;
+  font-weight: 500;
+}
+.textTotal {
+  margin-top: 20px;
+  color: #362115;
+  font-size: 25px;
+  font-weight: 700;
+}
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: max-content;
+}
+.textEdit {
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+}
+.boxAddress {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: max-content;
+  width: 450px;
+  border-radius: 20px;
+  background-color: white;
+  padding: 40px;
+}
+.textAddress1 {
+  width: max-content;
+  font-size: 20px;
+  font-weight: 500;
+}
+.textAddress2 {
+  font-size: 20px;
+  font-weight: 400;
+}
+.textRight {
+  font-size: 25px;
+  font-weight: 700;
+  color: white;
+}
+.boxIcon {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-right: 20px;
+}
+
+.radioCard[type="radio"],
+.radioBank[type="radio"],
+.radioCod[type="radio"],
+.radio[type="radio"] {
+  width: 30px;
+  height: 30px;
+}
+
+.radioCard[type="radio"]:after,
+.radioBank[type="radio"]:after,
+.radioCod[type="radio"]:after,
+.radio[type="radio"]:after {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  position: relative;
+  background-color: white;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid #9f9f9f;
+}
+
+.radioCard[type="radio"]:checked:after {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  position: relative;
+  background-color: #f47b0a;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  border: 8px solid white;
+}
+.radioBank[type="radio"]:checked:after {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  position: relative;
+  background-color: #895537;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  border: 8px solid white;
+}
+.radioCod[type="radio"]:checked:after {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  position: relative;
+  background-color: #ffba33;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  border: 8px solid white;
+}
+.textRadio {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+.boxTitle {
+  width: 450px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.boxTitle2 {
+  font-size: 25px;
+  font-weight: 700;
+  color: white;
+  width: 450px;
+  text-align: left;
+}
+.payment {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 450px;
+  padding: 40px 80px 40px 80px;
+  border-radius: 20px;
+  width: max-content;
+  height: max-content;
+  background-color: white;
+}
+.textIcon {
+  margin-left: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.icon {
+  background-color: #f47b0a;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+.icon2 {
+  background-color: #895537;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+.icon3 {
+  background-color: #ffba33;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.buttonDone {
+  margin-top: 20px;
+  width: 75%;
+  height: 60px;
+  margin-right: 0;
+}
+
+.buttonSwipe {
+  margin-top: 40px;
+  width: 70%;
+  height: 60px;
+  margin-right: 0;
+}
+
+@media (max-width: 900px) {
+  .left {
+    padding-left: 10px;
+  }
+  .textTitle {
+    width: 100%;
+    padding: 0;
+  }
+  .container {
+    background-size: cover;
+    padding: 100px 50px 4em 50px;
+  }
+
+  .swiperSlide {
+    width: 100% !important;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .swiperContainer {
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .buttonDone,
+  .buttonSwipe {
+    width: 100%;
+  }
+  .textCardTitle {
+    font-size: 20px;
+  }
+  .textName {
+    font-size: 15px;
+  }
+  .cart {
+    width: 100%;
+  }
+
+  .swiperSlide img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+  }
+  .boxDesc {
+    height: min-content;
+  }
+  .textOrder {
+    font-size: 15px;
+  }
+  .textTotal {
+    font-size: 18px;
+  }
+  .textDesc,
+  .textPrice {
+    font-size: 14px;
+  }
+  .boxAddress {
+    width: 100%;
+  }
+  .boxTitle {
+    width: 100%;
+  }
+  .textAddress2 {
+    font-size: 14px;
+  }
+  .textAddress1 {
+    font-size: 14px;
+  }
+  .boxTitle2 {
+    text-align: left;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .payment {
+    width: 100%;
+  }
 }
