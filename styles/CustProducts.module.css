@@ -7,12 +7,11 @@
   .coupons {
     flex-direction: column;
     gap: 1em !important;
-    height: fit-content !important;
+    height: 60vh !important;
   }
   .coupon {
     cursor: pointer;
     padding: 1em !important;
-    width: 100% !important;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
   }
   .coupon:hover {
@@ -25,13 +24,14 @@
   .coupon h6 {
     font-size: 1em !important;
     margin: 0;
+    width: 100% !important;
   }
   .coupon span {
     font-size: 0.9em !important;
   }
   .products,
   .promoSection {
-    padding: 4em !important;
+    padding: inherit 4em !important;
   }
   .products {
     width: 65% !important;
@@ -69,7 +69,7 @@
   }
   .products,
   .promoSection {
-    padding: 5em !important;
+    padding: inherit 5em !important;
   }
   .promoSection {
     width: 30% !important;
@@ -110,7 +110,6 @@
   cursor: pointer;
   display: flex;
   padding: 1em 2em;
-  width: 36em;
   transition: box-shadow 0.2s ease-in-out;
 }
 .coupon:hover {
@@ -122,6 +121,7 @@
 }
 .coupon h6 {
   font-size: 1.5em;
+  width: 45vw;
 }
 .coupon span,
 .promoSection .head p {
@@ -139,7 +139,7 @@
 }
 .products,
 .promoSection {
-  padding: 3em;
+  padding: 12em 3em !important;
 }
 
 .cardProduct {
