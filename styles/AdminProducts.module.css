@@ -1,18 +1,17 @@
 /* For screen 992px above */
 @media (min-width: 992px) {
   .container {
-    padding-top: 7em;
+    /* padding-top: 7em !important; */
     flex-direction: row !important;
     font-size: 0.6em !important;
   }
   .coupons {
     flex-direction: column;
     gap: 2em !important;
-    height: fit-content !important;
+    height: 60vh !important;
   }
   .coupon {
     padding: 1em !important;
-    width: 100% !important;
   }
   .coupon img {
     height: 6em !important;
@@ -20,13 +19,14 @@
   .coupon h6 {
     font-size: 1em !important;
     margin: 0;
+    width: 100% !important;
   }
   .coupon span {
     font-size: 0.9em !important;
   }
   .products,
   .promoSection {
-    padding: 4em !important;
+    padding: inherit 4em !important;
   }
   .products {
     width: 65% !important;
@@ -60,7 +60,7 @@
   }
   .products,
   .promoSection {
-    padding: 5em !important;
+    padding: inherit 5em !important;
   }
   .promoSection {
     width: 30% !important;
@@ -105,7 +105,6 @@
   border-radius: 20px;
   display: flex;
   padding: 1em 2em;
-  width: 36em;
 }
 .coupon img {
   height: 100%;
@@ -113,6 +112,7 @@
 }
 .coupon h6 {
   font-size: 1.5em;
+  width: 45vw;
 }
 .coupon span,
 .promoSection .head p {
@@ -180,9 +180,8 @@
 }
 .products,
 .promoSection {
-  padding: 3em;
+  padding: 5em 3em !important;
 }
-
 .cardProduct {
   align-items: center;
   border-radius: 30px;
@@ -259,7 +258,7 @@
   position: absolute;
 }
 .productList {
-  padding: 10em 0 5em;
+  padding: 5em 0 10em !important;
 }
 .productList .row {
   row-gap: 8em;
@@ -294,6 +293,20 @@
   text-align: center;
   width: 70%;
 }
+.searchBar {
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+  margin: 4em 0;
+}
+/* .searchBar input {
+  width: 50%;
+} */
+.searchBar button {
+  border-radius: 5px !important;
+  font-size: 1.2em;
+  padding: inherit 1em;
+}
 .termsCondition {
   margin-top: 2.5em;
 }
@@ -303,4 +316,62 @@
 }
 .termsCondition ol {
   padding-left: 1.2em; /* it must have the same size with <li> font size*/
+}
+
+.pagination {
+  font-size: 1.2em;
+  margin: 15px auto;
+  display: flex;
+  list-style: none;
+  outline: none;
+}
+.pagination > .active > a {
+  background-color: #ffba33 !important;
+  box-shadow: 0px 8px 16px rgba(255, 187, 51, 0.24);
+  border-color: none !important ;
+  border-radius: 8px;
+  color: #fff !important;
+}
+
+.pagination ul {
+  padding-left: 0 !important;
+}
+
+.pagination > li > a {
+  background-color: #ffffff;
+  border: 0.5px solid #dedede;
+  padding: 9px 15px;
+  height: 500px;
+  margin: 0 8px;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.pagination > li:last-child > a,
+.pagination > li:first-child > a {
+  border: none !important;
+  background-color: transparent !important;
+  display: none;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background-color: #47ccde;
+  border-color: #ffba33;
+  outline: none;
+}
+.pagination > li > a,
+.pagination > li > span {
+  color: #47ccde;
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span,
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-radius: unset;
 }
