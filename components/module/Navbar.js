@@ -244,7 +244,7 @@ export default function NavbarComponent(props, context) {
                   }
                   onClick={() => handleMenu(`profile/${id}`)}
                 >
-                  {console.log(image)}
+                  {/* {console.log(image)} */}
                   <img
                     src={
                       image === ""
