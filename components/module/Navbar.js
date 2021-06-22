@@ -3,8 +3,12 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container, Button, Modal, Form, FormControl } from "react-bootstrap";
 import styles from "styles/Navbar.module.css";
+import cookies from "next-cookies";
 
-export default function NavbarComponent(props) {
+export default function NavbarComponent(props, context) {
+  const allCookies = cookies(context);
+  const [id] = useState(allCookies.userId ? allCookies.userId : "1");
+  const [image] = useState(props.user ? props.user : "");
   const [login] = useState(props.login ? props.login : false);
   const [admin] = useState(props.admin ? props.admin : false);
   const [home] = useState(props.home ? props.home : false);
@@ -238,10 +242,15 @@ export default function NavbarComponent(props) {
                   className={
                     pageProfile === true ? styles.profile1 : styles.profile
                   }
-                  onClick={() => handleMenu("profile/1")}
+                  onClick={() => handleMenu(`profile/${id}`)}
                 >
+                  {console.log(image)}
                   <img
-                    src="/navbar/img-not-found.png"
+                    src={
+                      image === ""
+                        ? "/navbar/img-not-found.png"
+                        : `${process.env.API_IMG_URL}${image.user_image}`
+                    }
                     alt=""
                     className={styles.imgProfile}
                   />
