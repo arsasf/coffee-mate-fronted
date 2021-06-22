@@ -8,13 +8,13 @@ import { X, PencilSimple } from "phosphor-react";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
 import { useRouter } from "next/router";
-import { authPage } from "middleware/authPage";
+import { authPage, adminPage } from "middleware/authPage";
 import axiosApiIntances from "utils/axios";
 
 export async function getServerSideProps(context) {
   const data = await authPage(context);
   // console.log(data);
-
+  await adminPage(context);
   const result = await axiosApiIntances
     .get(`/user/by-id/${data.userId}`, {
       headers: {
