@@ -6,13 +6,40 @@ import styles from "styles/CustProducts.module.css";
 import Image from "next/image";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
+import { authPage, customerPage } from "middleware/authPage";
+import { useRouter } from "next/router";
+import Cookie from "js-cookie";
+import axiosApiIntances from "utils/axios";
 
-export default function Product() {
+export const getServerSideProps = async (context) => {
+  const data = await authPage(context);
+  await customerPage(context);
+
+  const promos = await axiosApiIntances
+    .get("promo", {
+      headers: {
+        Authorization: `Bearer ${data.token || ""}`,
+      },
+    })
+    .then((res) => {
+      return res.data.data;
+    });
+
+  const products = () => {};
+
+  return {
+    props: { promos },
+  };
+};
+
+export default function Product(props) {
   const [selectedCoupon, setSelectedCoupon] = useState({});
   const [selectedCategory, setSelectedCategory] = useState({ favourite: true });
 
   const handleSelectCoupon = (e) => {
-    setSelectedCoupon({ [e.target.id]: true });
+    setSelectedCoupon({
+      [e.target.id]: true,
+    });
   };
   const handleSelectCategory = (e) => {
     setSelectedCategory({ [e.target.id]: true });
@@ -29,20 +56,30 @@ export default function Product() {
           </div>
           <div className={styles.coupons}>
             {/* LOOPING HERE */}
-            <div
-              id="c1"
-              className={`${styles.coupon} ${
-                selectedCoupon.c1 && styles.selectedCoupon
-              }`}
-              onClick={(e) => handleSelectCoupon(e)}
-            >
-              <img id="c1" src="/sketch1.png" alt="coupon-sketch" />
-              <div id="c1">
-                <h6 id="c1">{"HAPPY MOTHER'S DAY"}</h6>
-                <span id="c1">Get one of our favourite menu for free!</span>
+            {props.promos.map((item, index) => (
+              <div
+                id={`c${item.promo_id}`}
+                className={`${styles.coupon} ${
+                  `
+                  ${selectedCoupon.c}${item.promo_id}` && styles.selectedCoupon
+                }`}
+                key={item.promo_id}
+                onClick={(e) => handleSelectCoupon(e)}
+              >
+                {item.promo_image && (
+                  <img
+                    id={`c${item.promo_id}`}
+                    src={`${process.env.API_IMG_URL}${item.promo_image}`}
+                    alt="coupon-image"
+                  />
+                )}
+                <div id={`c${item.promo_id}`}>
+                  <h6 id={`c${item.promo_id}`}>{item.promo_name}</h6>
+                  <span id={`c${item.promo_id}`}>{item.promo_desc}</span>
+                </div>
               </div>
-            </div>
-            <div
+            ))}
+            {/* <div
               id="c2"
               style={{ backgroundColor: "#F5C361" }}
               className={`${styles.coupon} ${
@@ -87,7 +124,7 @@ export default function Product() {
                   promise
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
           <Button variant="secondary">Apply Coupon</Button>
           <section className={styles.termsCondition}>
