@@ -126,7 +126,7 @@ export default function Profile(props) {
 
   const handleDeleteImage = (id) => {
     axiosApiIntances.patch(`user/delete-img/${id}`).then(() => {
-      router.push(`customers/profile/${id}`);
+      router.push(`/customers/profile/${id}`);
     });
   };
 
