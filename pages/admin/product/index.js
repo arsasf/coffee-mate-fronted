@@ -1,21 +1,53 @@
 /* eslint-disable @next/next/no-img-element */
-import Layout from "components/Layout";
+import Image from "next/image";
 import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import styles from "styles/AdminProducts.module.css";
-import Image from "next/image";
+import Layout from "components/Layout";
 import { X, PencilSimple } from "phosphor-react";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
 import { useRouter } from "next/router";
+import { authPage } from "middleware/authPage";
+import axiosApiIntances from "utils/axios";
 
-export default function Product() {
+export async function getServerSideProps(context) {
+  const data = await authPage(context);
+  // console.log(data);
+
+  const result = await axiosApiIntances
+    .get(`/user/by-id/${data.userId}`, {
+      headers: {
+        Authorization: `Bearer ${data.token || ""}`,
+      },
+    })
+    .then((res) => {
+      // console.log(res.config.headers);
+      return res.data.data[0];
+    })
+    .catch((err) => {
+      console.log(err);
+      return [];
+    });
+  return {
+    props: { data: result, userLogin: data },
+  };
+}
+
+export default function Product(props) {
+  // console.log(props);
   const [selectedCategory, setSelectedCategory] = useState({ favourite: true });
   const router = useRouter();
 
   const handleSelectCategory = (e) => {
     setSelectedCategory({ [e.target.id]: true });
   };
+
+  const handleDeleteCoupon = () => {};
+  const handleDeleteProduct = () => {};
+
+  const handleEditCoupon = () => {};
+  const handleEditProduct = () => {};
 
   return (
     <Layout title="Products">

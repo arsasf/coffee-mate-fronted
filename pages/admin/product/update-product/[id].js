@@ -253,7 +253,7 @@ export default function NewProduct() {
             </Col>
           </Row>
         </Container>
-        <Footer home={true} />
+        <Footer />
       </div>
     </Layout>
   );

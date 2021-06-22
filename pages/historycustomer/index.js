@@ -3,9 +3,37 @@ import NavBar from "components/module/NavBar";
 import Footer from "components/module/footer";
 import { Container, Row, Col, Card, Modal, Button } from "react-bootstrap";
 import styles from "../../styles/HistoryCustomer.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { authPage, customerPage } from "middleware/authPage";
+import axiosApiIntances from "utils/axios";
 
-export default function historyCust() {
+
+// export async function getServerSideProps(context) {
+//   const data = await authPage(context);
+
+//   return {
+//     props: {},
+//   };
+// }
+
+export const getServerSideProps = async (context) => {
+  const data = await authPage(context);
+  await customerPage(context);
+  const res = await axiosApiIntances
+    .get(`invoice/history/${data.userId}`)
+    .then((res) => {
+      return res.data.data[0];
+    })
+    .catch((err) => {
+      return new Error(err);
+    });
+  return {
+    props: { user: res },
+  };
+
+};
+export default function historyCust(props) {
+  console.log(props);
   const [dataHistory, setDataHistory] = useState([
     {
       name: "CS-1234567",
@@ -67,6 +95,7 @@ export default function historyCust() {
   const handleCloseDelete = () => {
     setIsDelete(false);
   };
+
   return (
     <Layout title="History Customer">
       <Modal
@@ -86,6 +115,7 @@ export default function historyCust() {
             </Button>
             <Button onClick={handleCloseDelete} className={styles.btnDelete}>
               Delete
+              {console.log("wdijwdi")}
             </Button>
           </div>
         </Modal.Body>
@@ -96,6 +126,7 @@ export default function historyCust() {
         <Container className={styles.container}>
           <h1 className={styles.text1}>Let’s see what you have bought!</h1>
           <p className={styles.text2}>Long press to delete item</p>
+
           <Row>
             {dataHistory.map((item, index) => {
               return (

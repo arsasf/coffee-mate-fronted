@@ -42,6 +42,7 @@ export const getServerSideProps = async (context) => {
   return {
     props: { user: res },
   };
+
 };
 
 export default function Profile(props) {
@@ -114,7 +115,7 @@ export default function Profile(props) {
         // console.log(res);
         setImageUser(null);
         setImageSuccess(true);
-        router.push(`/admin/profile/${id}`);
+        router.push(`/customers/profile/${id}`);
       })
       .catch((err) => {
         setImageUser(null);
@@ -126,7 +127,7 @@ export default function Profile(props) {
 
   const handleDeleteImage = (id) => {
     axiosApiIntances.patch(`user/delete-img/${id}`).then(() => {
-      router.push(`admin/profile/${id}`);
+      router.push(`customers/profile/${id}`);
     });
   };
 
@@ -139,7 +140,7 @@ export default function Profile(props) {
         setEditDetail(false);
         setEditContact(false);
         setUpdateDataSuccess(true);
-        router.push(`/admin/profile/${id}`);
+        router.push(`/customers/profile/${id}`);
       })
       .catch((err) => {
         setLoading(true);
@@ -179,7 +180,7 @@ export default function Profile(props) {
 
   return (
     <Layout title="Profile">
-      <Navbar profile={true} login={true} user={props.user} admin={true} />
+      <Navbar profile={true} login={true} user={props.user} />
       <div className={styles.toastGroup}>
         <Toast
           onClose={() => setUpdateDataSuccess(false)}

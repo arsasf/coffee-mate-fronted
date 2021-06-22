@@ -9,14 +9,16 @@ import Footer from "components/module/Footer";
 import styles from "styles/Login.module.css";
 import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import { unauthPage } from "middleware/authPage";
-import axios from "utils/axios";
+import axiosApiIntances from "utils/axios";
+import { connect } from "react-redux";
+import { login } from "redux/actions/auth";
 
 export const getServerSideProps = async (context) => {
   await unauthPage(context);
   return { props: {} };
 };
 
-export default function Login() {
+function Login(props) {
   const router = useRouter();
   const [form, setForm] = useState({});
   const [loading, setLoading] = useState(false);
@@ -49,10 +51,10 @@ export default function Login() {
       setEmptyPassword(true);
     } else {
       // Will execute API login
-      axios.axiosApiInstances
-        .post("auth/login", data)
+      props
+        .login(data)
         .then((res) => {
-          const { token, user_id, user_role } = res.data.data;
+          const { token, user_id, user_role } = res.value.data.data;
           Cookie.set("token", token, {
             expires: 1,
             secure: true,
@@ -164,7 +166,7 @@ export default function Login() {
                 {loading ? (
                   <Button
                     variant="primary"
-                    className={styles.loginBtn}
+                    className={`d-flex align-items-center justify-content-center ${styles.loginBtn}`}
                     disabled
                   >
                     <Spinner
@@ -222,3 +224,11 @@ export default function Login() {
     </Layout>
   );
 }
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = { login };
+// (null, mapDispatchToProps)
+// (mapStateToProps)
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

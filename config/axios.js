@@ -6,8 +6,8 @@ const setToken = (token) => {
   dataToken = token;
 };
 
-const axiosApiInstances = axios.create({
-  baseURL: "https://jsonplaceholder.typicode.com/",
+const axiosApiIntances = axios.create({
+  baseURL: process.env.API_BASE_URL,
 });
 
 // Add a request interceptor
@@ -46,4 +46,4 @@ axiosApiIntances.interceptors.response.use(
   }
 );
 
-export { axiosApiInstances, setToken };
+export default { axiosApiIntances, setToken };

@@ -4,7 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import styles from "styles/Footer.module.css";
 
 export default function Footer(props) {
-  const [home] = useState(false || props.home);
+  const [home] = useState(props.home ? props.home : true);
   return (
     <>
       <Container
