@@ -102,7 +102,7 @@ export default function Profile(props) {
   };
 
   const handleUpload = (id, data) => {
-    console.log("running");
+    // console.log("running");
     setUploading(true);
     const formData = new FormData();
     for (const field in data) {
@@ -111,7 +111,7 @@ export default function Profile(props) {
     axiosApiIntances
       .patch(`user/img/${id}`, formData)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setImageUser(null);
         setImageSuccess(true);
         router.push(`/customers/profile/${id}`);
