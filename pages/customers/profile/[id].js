@@ -30,7 +30,7 @@ import {
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
-  await customerPage(context);
+  // await customerPage(context);
   const res = await axiosApiIntances
     .get(`user/by-id/${data.userId}`)
     .then((res) => {
@@ -42,7 +42,6 @@ export const getServerSideProps = async (context) => {
   return {
     props: { user: res },
   };
-
 };
 
 export default function Profile(props) {
