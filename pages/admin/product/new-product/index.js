@@ -10,6 +10,7 @@ import {
   Form,
   Button,
   FormControl,
+  Modal,
 } from "react-bootstrap";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -46,7 +47,7 @@ export default function NewProduct(props) {
   const [label, setLabel] = useState("Select Category");
   const [category] = useState([
     "Select Category",
-    "Coffe",
+    "Coffee",
     "Non Coffee",
     "Food",
     "Add On",
@@ -83,7 +84,6 @@ export default function NewProduct(props) {
   ]);
 
   const [image, setImage] = useState(null);
-  const [imageName, setImageName] = useState(null);
   const [cancel, setCancel] = useState(false);
   const [form, setForm] = useState({
     productName: "",
@@ -92,6 +92,10 @@ export default function NewProduct(props) {
     productDesc: "",
     productSize: "",
   });
+
+  const [msg, setMsg] = useState("");
+  const [show, setShow] = useState(false);
+  const [info, setInfo] = useState("");
 
   const handleClick = (params1, params2) => {
     router.push(params1);
@@ -146,6 +150,15 @@ export default function NewProduct(props) {
     setCancel(true);
   };
 
+  const resetForm = () => {
+    setForm({
+      productName: "",
+      productPrice: "",
+      productCategory: "",
+      productDesc: "",
+      productSize: "",
+    });
+  };
   const handleSave = (param) => {
     const formData = new FormData();
     formData.append("productName", form.productName);
@@ -165,9 +178,16 @@ export default function NewProduct(props) {
       })
       .then((res) => {
         console.log(res);
+        setShow(true);
+        setInfo("ADD PRODUCT");
+        setMsg(res.data.msg);
       })
       .catch((err) => {
         console.log(err);
+        setShow(true);
+        setInfo("ERROR : ADD PRODUCT");
+        setMsg(err.response.data.msg);
+        resetForm();
       });
   };
   const changeText = (e) => {
@@ -177,10 +197,29 @@ export default function NewProduct(props) {
     });
   };
 
+  const handleClose = () => {
+    if (info === "ERROR : ADD PRODUCT") {
+      router.push("/admin/new-promo");
+      setShow(false);
+    } else {
+      router.push("/admin/product");
+      setShow(false);
+    }
+  };
+
   return (
     <Layout title="New Product">
       <div>
-        {console.log(image, imageName, cancel, form)}
+        {/* {console.log(image, cancel, form)} */}
+        <Modal show={show} className={styles.modal}>
+          <Modal.Header className={styles.modalHeader}>
+            <Modal.Title className={styles.modalTitle}>INFO {info}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className={styles.modalBody}>{msg}</Modal.Body>
+          <Modal.Footer>
+            <Button onClick={handleClose}>Close</Button>
+          </Modal.Footer>
+        </Modal>
         <Navbar product={true} login={true} admin={true} user={props.data} />
         <Container fluid className={styles.container}>
           <Dropdown>
@@ -220,7 +259,6 @@ export default function NewProduct(props) {
                     alt=""
                     className={styles.img}
                   />
-                  {imageName}
                 </div>
                 <Form.Group className={styles.formUserImage}>
                   <Form.Label htmlFor="files" className={styles.boxUpdateImage}>
