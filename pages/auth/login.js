@@ -69,7 +69,7 @@ function Login(props) {
           });
           user_role === "user"
             ? router.push("/customers/product/all")
-            : router.push("/admin/product/all");
+            : router.push("/admin/product");
         })
         .catch((err) => {
           setLoading(false);
