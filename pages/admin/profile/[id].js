@@ -18,7 +18,7 @@ import Layout from "components/Layout";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
 import styles from "styles/Profile.module.css";
-import { authPage, customerPage } from "middleware/authPage";
+import { authPage, adminPage } from "middleware/authPage";
 import moment from "moment";
 import {
   Info,
@@ -30,7 +30,7 @@ import {
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
-  await customerPage(context);
+  await adminPage(context);
   const res = await axiosApiIntances
     .get(`user/by-id/${data.userId}`)
     .then((res) => {
@@ -314,7 +314,7 @@ export default function Profile(props) {
           <Col xs={12} md={4} lg={4}>
             <div className={`${styles.imageSection}`}>
               <div className={styles.avaContainer}>
-                {console.log(user_image)}
+                {/* {console.log(user_image)} */}
                 <Image
                   src={
                     user_image

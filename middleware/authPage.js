@@ -7,7 +7,7 @@ export function unauthPage(context) {
     if (allCookies.token) {
       let location = "";
       allCookies.userRole === "user"
-        ? (location = "/customers/product")
+        ? (location = "/customers/product/all")
         : (location = "/admin/product");
 
       return context.res

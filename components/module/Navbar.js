@@ -193,7 +193,10 @@ export default function NavbarComponent(props, context) {
                 </h1>
               </div>
             ) : (
-              <div className={styles.boxMenu}>
+              <div
+                className={styles.boxMenu}
+                onClick={() => handleMenu(`history-customer/${id}`)}
+              >
                 <Button variant="light" className={styles.boxImgMenu}>
                   <img
                     src={

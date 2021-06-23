@@ -30,7 +30,7 @@ import {
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
-  await customerPage(context);
+  // await customerPage(context);
   const res = await axiosApiIntances
     .get(`user/by-id/${data.userId}`)
     .then((res) => {
@@ -126,7 +126,7 @@ export default function Profile(props) {
 
   const handleDeleteImage = (id) => {
     axiosApiIntances.patch(`user/delete-img/${id}`).then(() => {
-      router.push(`customers/profile/${id}`);
+      router.push(`/customers/profile/${id}`);
     });
   };
 
