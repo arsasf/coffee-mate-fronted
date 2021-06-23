@@ -7,12 +7,12 @@
   margin: 0 auto;
   /* border-radius: 50px !important; */
 }
-.modalBody {
+.bodyModal {
   /* padding: 40px 80px; */
   border-radius: 50px !important;
   background-color: transparent;
 }
-.textDelete {
+.textDel {
   font-family: Poppins;
   font-style: normal;
   font-weight: normal;
