@@ -108,10 +108,9 @@ export default function Product(props) {
             {props.promos.map((item, index) => (
               <div
                 id={`c${item.promo_id}`}
-                className={`${styles.coupon} ${
-                  `
+                className={`${styles.coupon} ${`
                   ${selectedCoupon.c}${item.promo_id}` && styles.selectedCoupon
-                }`}
+                  }`}
                 key={item.promo_id}
                 onClick={(e) => handleSelectCoupon(e)}
               >

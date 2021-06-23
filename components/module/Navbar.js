@@ -101,7 +101,7 @@ export default function NavbarComponent(props, context) {
             </div>
             <div
               className={styles.boxMenu}
-              onClick={() => handleMenu("product")}
+              onClick={() => handleMenu("product/all")}
             >
               <Button variant="light" className={styles.boxImgMenu}>
                 <img

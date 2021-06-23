@@ -68,8 +68,8 @@ function Login(props) {
             secure: true,
           });
           user_role === "user"
-            ? router.push("/customers/product")
-            : router.push("/admin/product");
+            ? router.push("/customers/product/all")
+            : router.push("/admin/product/all");
         })
         .catch((err) => {
           setLoading(false);
@@ -77,8 +77,8 @@ function Login(props) {
           msg.includes("email")
             ? setWrongEmail(true)
             : msg.includes("password")
-            ? setWrongPassword(true)
-            : new Error(err);
+              ? setWrongPassword(true)
+              : new Error(err);
         });
     }
   };
@@ -123,9 +123,8 @@ function Login(props) {
                   <Form.Control
                     type="email"
                     placeholder="Enter your email address"
-                    className={`shadow-none ${
-                      emptyEmail || wrongEmail ? styles.errorBorder : ""
-                    }`}
+                    className={`shadow-none ${emptyEmail || wrongEmail ? styles.errorBorder : ""
+                      }`}
                     name="userEmail"
                     onChange={(e) => changeText(e)}
                   />
@@ -145,9 +144,8 @@ function Login(props) {
                   <Form.Control
                     type="password"
                     placeholder="Enter your password"
-                    className={`shadow-none ${
-                      emptyPassword || wrongPassword ? styles.errorBorder : ""
-                    }`}
+                    className={`shadow-none ${emptyPassword || wrongPassword ? styles.errorBorder : ""
+                      }`}
                     name="userPassword"
                     onChange={(e) => changeText(e)}
                   />
