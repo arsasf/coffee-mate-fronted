@@ -180,6 +180,8 @@ export default function Product(props) {
 
   return (
     <Layout title="Products">
+      {console.log(products)}
+
       <Navbar product={true} login={true} admin={true} />
       <div className={styles.container}>
         <section className={styles.promoSection}>

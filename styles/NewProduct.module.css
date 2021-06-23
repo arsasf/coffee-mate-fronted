@@ -437,6 +437,47 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.img1 {
+  border-radius: 100%;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(238, 238, 238, 0.288);
+  padding-top: 10%;
+}
+
+.modalTitle {
+  color: #ffba33;
+  font-weight: 600;
+}
+
+.modalFooter {
+  background-color: #4d4b57;
+  color: #412719;
+  width: 100px;
+}
+
+.modalFooter:hover {
+  background-color: #ffbb33;
+  color: white;
+  border: 0;
+}
+
+.modalHeader {
+  padding: 9px 15px;
+  border-bottom: 1px solid #eee;
+  background-color: #6a4029;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
 @media (max-width: 900px) {
   .menuDropdown {
     width: max-content;
