@@ -182,7 +182,7 @@ export default function Product(props) {
     <Layout title="Products">
       {console.log(products)}
 
-      <Navbar product={true} login={true} admin={true} />
+      <Navbar product={true} login={true} admin={true} user={props.data} />
       <div className={styles.container}>
         <section className={styles.promoSection}>
           <div className={styles.head}>
