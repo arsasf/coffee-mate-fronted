@@ -59,7 +59,7 @@ export const getServerSideProps = async (context) => {
       return res.data;
     })
     .catch(() => {
-      return { data: [], pagination: [] };
+      return { data: [], pagination: { totalPage: "0" } };
     });
   return {
     props: { pagination: products.pagination, products: products.data, promos },
@@ -167,9 +167,9 @@ export default function Product(props) {
               Coffee
             </h4>
             <h4
-              id="nonCoffee"
+              id="noncoffee"
               className={
-                selectedCategory === "nonCoffee" ? styles.activeCategory : ""
+                selectedCategory === "noncoffee" ? styles.activeCategory : ""
               }
               onClick={(e) => {
                 setSelectedCategory(e.target.id),
@@ -191,9 +191,9 @@ export default function Product(props) {
               Foods
             </h4>
             <h4
-              id="addOn"
+              id="addon"
               className={
-                selectedCategory === "addOn" ? styles.activeCategory : ""
+                selectedCategory === "addon" ? styles.activeCategory : ""
               }
               onClick={(e) => {
                 setSelectedCategory(e.target.id),
