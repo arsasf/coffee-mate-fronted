@@ -6,8 +6,17 @@ import { AiOutlineBank } from "react-icons/ai";
 import { FaTruck } from "react-icons/fa";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
+import { authPage, customerPage } from "middleware/authPage";
+import axiosApiIntances from "utils/axios";
+import { useRouter } from "next/router";
 
-export default function PaymentDetails() {
+// export const getServerSideProps = async (context) => {
+//   //
+// }
+
+export default function PaymentDetails(props) {
+  // const router = useRouter()
+
   return (
     <div>
       <Layout title="Payment Details">
