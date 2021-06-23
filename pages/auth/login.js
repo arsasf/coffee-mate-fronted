@@ -68,7 +68,7 @@ function Login(props) {
             secure: true,
           });
           user_role === "user"
-            ? router.push("/customers/product")
+            ? router.push("/customers/product/all")
             : router.push("/admin/product");
         })
         .catch((err) => {
