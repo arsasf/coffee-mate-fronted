@@ -5,11 +5,49 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
 import { Row, Col } from "react-bootstrap";
+import { authPage, customerPage } from "middleware/authPage";
+import axiosApiIntances from "utils/axios";
+import { useState, useEffect } from "react";
 
-export default function ProductDetails() {
+export async function getServerSideProps(context) {
+  const data = await authPage(context);
+  await customerPage(context);
+  const { id } = context.query;
+  console.log(data);
+
+  const product = await axiosApiIntances
+    .get(`product/by-id/${id}`, {
+      headers: {
+        Authorization: `Bearer ${data.token || ""}`,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      return res.data.data[0];
+    })
+    .catch((err) => {
+      return {};
+    });
+
+  return {
+    props: { product, id },
+  };
+}
+
+export default function ProductDetails(props) {
+  console.log(props);
+
+  const [productSize, setProductSize] = useState("");
+  const data = props.product.product_size.split(",");
+
+  const handleCheckOut = () => {
+    console.log(props.product.product_base_price);
+  };
+
   return (
     <div>
       <Layout title="Product Details">
+        {console.log(data)}
         <Navbar product={true} login={true} />
         <div className={`${styles.container} container-fluid`}>
           <Row xs={1} lg={2} className="mb-3 mb-mb-0 gy-3">
@@ -17,7 +55,7 @@ export default function ProductDetails() {
               <p className={styles.textPromo}>
                 Favorite &amp; Promo
                 <span className={styles.left_column_text_1}>
-                  &gt; Cold Brew
+                  &gt; {props.product.product_name}
                 </span>
               </p>
               <div className={`${styles.row} row`}>
@@ -30,8 +68,12 @@ export default function ProductDetails() {
                 </div>
               </div>
               <div className={`${styles.row} row`}>
-                <h1 className={styles.textDrink}>COLD BREW</h1>
-                <p className={styles.textPrice}>IDR 30.000</p>
+                <h1 className={styles.textDrink}>
+                  {props.product.product_name}
+                </h1>
+                <p className={styles.textPrice}>
+                  {props.product.product_base_price}
+                </p>
               </div>
               <div className={`${styles.row} row`}>
                 <button className={`${styles.buttonCart} btn btn-secondary`}>
@@ -42,28 +84,20 @@ export default function ProductDetails() {
             <Col xs={12} md={8} lg={7} className={styles.right}>
               <div className={styles.boxRight1}>
                 <p className={styles.textRight1}>
-                  Cold brewing is a method of brewing that combines ground
-                  coffee and cool water and uses time instead of heat to extract
-                  the flavor. it is brewed in small batches and steeped for as
-                  long as 48 hours
+                  {props.product.product_desc}
                 </p>
                 <h5 className={styles.textRight2}>Choose a size</h5>
                 <div className={styles.boxSize}>
-                  <button
-                    className={`${styles.right_circle_button} btn-primary rounded-circle`}
-                  >
-                    R
-                  </button>
-                  <button
-                    className={`${styles.right_circle_button} btn-primary rounded-circle`}
-                  >
-                    L
-                  </button>
-                  <button
-                    className={`${styles.right_circle_button} btn-primary rounded-circle`}
-                  >
-                    XL
-                  </button>
+                  {data.map((item, index) => {
+                    return (
+                      <button
+                        key={index}
+                        className={`${styles.right_circle_button} btn-primary rounded-circle`}
+                      >
+                        {item}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
               <div className={`${styles.boxRight2}`}>
@@ -75,7 +109,9 @@ export default function ProductDetails() {
                   />
                 </div>
                 <div className={styles.boxCounter}>
-                  <h4 className={styles.textRight4}>COLD BREW</h4>
+                  <h4 className={styles.textRight4}>
+                    {props.product.product_name}
+                  </h4>
                   <div className={styles.buttonCounter}>
                     <button className={`${styles.buttonMinus} btn btn-primary`}>
                       -
@@ -88,7 +124,12 @@ export default function ProductDetails() {
                 </div>
                 <div className={styles.boxCheckout}>
                   <h4 className={styles.textRight3}>Checkout</h4>
-                  <button className={`${styles.buttonPlus} btn btn-primary`}>
+                  <button
+                    className={`${styles.buttonPlus} btn btn-primary`}
+                    onClick={() =>
+                      handleCheckOut(props.product.product_base_price)
+                    }
+                  >
                     <AiOutlineArrowRight className={styles.arrow} />
                   </button>
                 </div>
