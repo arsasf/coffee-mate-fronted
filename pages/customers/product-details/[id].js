@@ -15,6 +15,15 @@ export async function getServerSideProps(context) {
   const { id } = context.query;
   console.log(data);
 
+  const user = await axiosApiIntances
+    .get(`user/by-id/${data.userId}`)
+    .then((res) => {
+      return res.data.data[0];
+    })
+    .catch((err) => {
+      return [];
+    });
+
   const product = await axiosApiIntances
     .get(`product/by-id/${id}`, {
       headers: {
@@ -30,24 +39,71 @@ export async function getServerSideProps(context) {
     });
 
   return {
-    props: { product, id },
+    props: { product, id, user },
   };
 }
 
 export default function ProductDetails(props) {
   console.log(props);
 
-  const [productSize, setProductSize] = useState("");
-  const data = props.product.product_size.split(",");
+  const [size, setSize] = useState("");
+  const [price, setPrice] = useState(props.product.product_base_price);
+  const [count, setCount] = useState(1);
+  const data = props.product.product_size.split(", ");
+  // const [formProductData, setFormProductData] = useState({
+  //   userId: "",
+  //   productId: "",
+  //   productPrice: "",
+  //   productQty: "",
+  //   productSize: "",
+  // });
 
   const handleCheckOut = () => {
-    console.log(props.product.product_base_price);
+    const data = {
+      userId: props.user.user_id,
+      productId: props.product.product_id,
+      productPrice: price,
+      productQty: count,
+      productSize: size,
+    };
+    console.log(data);
+    axiosApiIntances.post("cart/", data).then((res) => {
+      console.log(res);
+    });
   };
+
+  const handleProductSize = (event) => {
+    console.log(event);
+    setCount(1);
+    if (event === "R") {
+      setPrice(props.product.product_base_price);
+      setSize("R");
+    } else if (event === "L") {
+      setPrice(props.product.product_base_price + 3000);
+      setSize("L");
+    } else {
+      setPrice(props.product.product_base_price + 5000);
+      setSize("XL");
+    }
+  };
+
+  const handleQuantityIncrease = () => {
+    setCount(count + 1);
+    setPrice(price * (count + 1));
+  };
+
+  const handleQuantityDecrease = () => {
+    if (count > 1) {
+      setCount(count - 1);
+      setPrice(price * (count - 1));
+    }
+  };
+
+  console.log(price);
 
   return (
     <div>
       <Layout title="Product Details">
-        {console.log(data)}
         <Navbar product={true} login={true} />
         <div className={`${styles.container} container-fluid`}>
           <Row xs={1} lg={2} className="mb-3 mb-mb-0 gy-3">
@@ -72,7 +128,7 @@ export default function ProductDetails(props) {
                   {props.product.product_name}
                 </h1>
                 <p className={styles.textPrice}>
-                  {props.product.product_base_price}
+                  IDR {price.toLocaleString("id-ID")}
                 </p>
               </div>
               <div className={`${styles.row} row`}>
@@ -93,6 +149,7 @@ export default function ProductDetails(props) {
                       <button
                         key={index}
                         className={`${styles.right_circle_button} btn-primary rounded-circle`}
+                        onClick={() => handleProductSize(item)}
                       >
                         {item}
                       </button>
@@ -113,11 +170,17 @@ export default function ProductDetails(props) {
                     {props.product.product_name}
                   </h4>
                   <div className={styles.buttonCounter}>
-                    <button className={`${styles.buttonMinus} btn btn-primary`}>
+                    <button
+                      className={`${styles.buttonMinus} btn btn-primary`}
+                      onClick={handleQuantityDecrease}
+                    >
                       -
                     </button>
-                    <p className={styles.size}>0</p>
-                    <button className={`${styles.buttonPlus} btn btn-primary`}>
+                    <p className={styles.size}>{count}</p>
+                    <button
+                      className={`${styles.buttonPlus} btn btn-primary`}
+                      onClick={handleQuantityIncrease}
+                    >
                       +
                     </button>
                   </div>
@@ -126,9 +189,7 @@ export default function ProductDetails(props) {
                   <h4 className={styles.textRight3}>Checkout</h4>
                   <button
                     className={`${styles.buttonPlus} btn btn-primary`}
-                    onClick={() =>
-                      handleCheckOut(props.product.product_base_price)
-                    }
+                    onClick={handleCheckOut}
                   >
                     <AiOutlineArrowRight className={styles.arrow} />
                   </button>
