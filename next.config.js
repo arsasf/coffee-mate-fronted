@@ -23,8 +23,8 @@ module.exports = {
         destination: "/auth/forgot-password",
       },
       {
-        source: "/admin/new-product",
-        destination: "/admin/product/new-product",
+        source: "/admin/new-product/:id",
+        destination: "/admin/product/new-product/:id",
       },
       {
         source: "/admin/update-product/:id",
