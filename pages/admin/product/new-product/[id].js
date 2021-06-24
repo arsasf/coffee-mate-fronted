@@ -17,13 +17,13 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { authPage, adminPage } from "middleware/authPage";
 import axiosApiIntances from "utils/axios";
-import { AiOutlinePropertySafety } from "react-icons/ai";
 
 export async function getServerSideProps(context) {
   const data = await authPage(context);
   // console.log(data);
   await adminPage(context);
   const id = context.query.id;
+  //*======================== REQ API USER LOGIN ======================
   const result = await axiosApiIntances
     .get(`/user/by-id/${data.userId}`, {
       headers: {
@@ -38,6 +38,9 @@ export async function getServerSideProps(context) {
       console.log(err);
       return [];
     });
+  //*==================== END REQ API USER LOGIN ======================
+
+  //*===================== REQ API PRODUCT BY ID ======================
   const resultProduct =
     id === "0"
       ? {}
@@ -55,15 +58,30 @@ export async function getServerSideProps(context) {
             console.log(err);
             return {};
           });
+  //*================= END REQ API PRODUCT BY ID ======================
+
   return {
     props: { data: result, userLogin: data, product: resultProduct },
   };
 }
 
 export default function NewProduct(props) {
+  // console.log(props)
+  //*=========================== UseState =============================
   const router = useRouter();
   const [title, setTitle] = useState("Add Product");
   const [label, setLabel] = useState("Select Category");
+  const [active, setActive] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [add, setAdd] = useState(false);
+  const [show, setShow] = useState(false);
+  const [info, setInfo] = useState("");
+  const [idProduct, setIdProduct] = useState(
+    !props.product.product_id ? "" : props.product.product_id
+  );
+  const [image, setImage] = useState(
+    !props.product.product_id ? null : props.product.product_image
+  );
   const [category] = useState([
     "Select Category",
     "Coffee",
@@ -71,10 +89,9 @@ export default function NewProduct(props) {
     "Food",
     "Add On",
   ]);
-  const [active, setActive] = useState(false);
   const [menuProduct] = useState([
     {
-      link: "/admin/new-product",
+      link: "/admin/new-product/0",
       category: "Add Product",
     },
     {
@@ -82,7 +99,7 @@ export default function NewProduct(props) {
       category: "Add Promo",
     },
     {
-      link: "/admin/update-product/1",
+      link: `/admin/update-product/${idProduct}`,
       category: "Update Product",
     },
     {
@@ -90,7 +107,6 @@ export default function NewProduct(props) {
       category: "Update Promo",
     },
   ]);
-
   const [sizeDrink] = useState([
     { category: "coffee", size: "R" },
     { category: "coffee", size: "L" },
@@ -101,10 +117,6 @@ export default function NewProduct(props) {
     { category: "food", size: 300 },
     { category: "food", size: 500 },
   ]);
-  const [image, setImage] = useState(
-    !props.product.product_id ? null : props.product.product_image
-  );
-
   const [form, setForm] = useState({
     productName: "",
     productPrice: 0,
@@ -112,23 +124,23 @@ export default function NewProduct(props) {
     productDesc: "",
     productSize: "",
   });
-  const [uplod, setUpload] = useState({
-    productImage: `${process.env.API_IMG_URL}${image}`,
-    imageUser: image,
-  });
-  const [msg, setMsg] = useState("");
-  const [add, setAdd] = useState(false);
-  const [show, setShow] = useState(false);
-  const [info, setInfo] = useState("");
-  const [idProduct, setIdProduct] = useState(
-    !props.product.product_id ? "" : props.product.product_id
-  );
+  //*======================= End UseState =============================
 
+  const resetData = () => {
+    setForm({
+      productName: "",
+      productPrice: 0,
+      productCategory: "",
+      productDesc: "",
+      productSize: "",
+    });
+  };
+
+  //*========================== Handle Form Input =====================
   const handleClick = (params1, params2) => {
     router.push(params1);
     setTitle(params2);
   };
-
   const handleClickCategory = (param) => {
     setLabel(param);
     if (param === "Food") {
@@ -153,7 +165,6 @@ export default function NewProduct(props) {
       });
     }
   };
-
   const handleClickSize = (param) => {
     if (param === "R" || param === "L" || param === "XL") {
       setActive("coffee");
@@ -171,13 +182,17 @@ export default function NewProduct(props) {
       setActive(false);
     }
   };
-
-  const handleImage = (event) => {
-    console.log("upload");
-    setUpload({
-      productImage: URL.createObjectURL(event.target.files[0]),
-      imageUser: event.target.files[0],
+  const changeText = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
     });
+  };
+  //*====================== End Handle Form Input =====================
+
+  //*========================== Handle REQ API  =======================
+  const handleImage = (event) => {
+    // console.log("upload");
     const formData = new FormData();
     formData.append("productName", form.productName);
     formData.append("productPrice", form.productPrice);
@@ -185,9 +200,11 @@ export default function NewProduct(props) {
     formData.append("productSize", form.productSize);
     formData.append("productDesc", form.productDesc);
     formData.append("imageUser", event.target.files[0]);
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+    //*=========== Cek Form Data
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
+    //*=============== End
     axiosApiIntances
       .post("product/", formData, {
         headers: {
@@ -209,24 +226,17 @@ export default function NewProduct(props) {
         setMsg(err.response.data.msg);
       });
   };
-
   const handleChangeImage = (event) => {
-    console.log("update");
-    setUpload({
-      productImage: URL.createObjectURL(event.target.files[0]),
-      imageUser: event.target.files[0],
-    });
+    // console.log("update");
     const id = idProduct;
     console.log(id);
     const formData = new FormData();
     formData.append("imageUser", event.target.files[0]);
-
     //* ==================== Check Form Data ===================== */
     // for (var pair of formData.entries()) {
     //   console.log(pair[0] + ", " + pair[1]);
     // }
     //* ======================== End ============================== */
-
     axiosApiIntances
       .patch(`product/img/${id}`, formData, {
         headers: {
@@ -247,16 +257,6 @@ export default function NewProduct(props) {
         setInfo("ERROR : UPLOAD IMAGE");
         setMsg(err.response.data.msg);
       });
-  };
-
-  const resetData = () => {
-    setForm({
-      productName: "",
-      productPrice: 0,
-      productCategory: "",
-      productDesc: "",
-      productSize: "",
-    });
   };
   const handleSave = () => {
     console.log(form);
@@ -304,45 +304,6 @@ export default function NewProduct(props) {
         });
     }
   };
-  const changeText = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleClose = () => {
-    if (idProduct === "") {
-      router.push(`/admin/new-product/0`);
-      setShow(false);
-    } else if (
-      info === "ERROR : ADD PRODUCT" ||
-      info === "ERROR : UPLOAD IMAGE" ||
-      info === "UPLOAD IMAGE PRODUCT"
-    ) {
-      router.push(`/admin/new-product/${idProduct}`);
-      setShow(false);
-    } else {
-      router.push("/admin/product");
-      setShow(false);
-    }
-  };
-
-  const handleAdd = () => {
-    setImage(null);
-    setIdProduct("");
-    setActive(false);
-    setAdd(false);
-    router.push(`/admin/new-product/0`);
-    setShow(false);
-    resetData();
-  };
-
-  const handleBack = () => {
-    router.push(`/admin/product`);
-    setShow(false);
-  };
-
   const handleDelete = () => {
     console.log(idProduct);
     axiosApiIntances
@@ -362,6 +323,40 @@ export default function NewProduct(props) {
         resetData();
       });
   };
+  //*======================= End Handle REQ API  =======================
+
+  //*======================= Handle Modal  =============================
+  const handleClose = () => {
+    if (idProduct === "") {
+      router.push(`/admin/new-product/0`);
+      setShow(false);
+    } else if (
+      info === "ERROR : ADD PRODUCT" ||
+      info === "ERROR : UPLOAD IMAGE" ||
+      info === "UPLOAD IMAGE PRODUCT"
+    ) {
+      router.push(`/admin/new-product/${idProduct}`);
+      setShow(false);
+    } else {
+      router.push("/admin/product");
+      setShow(false);
+    }
+  };
+  const handleAdd = () => {
+    setImage(null);
+    setIdProduct("");
+    setActive(false);
+    setAdd(false);
+    router.push(`/admin/new-product/0`);
+    setShow(false);
+    resetData();
+  };
+
+  const handleBack = () => {
+    router.push(`/admin/product`);
+    setShow(false);
+  };
+  //*======================= End Handle Modal  ========================
 
   return (
     <Layout title="New Product">
