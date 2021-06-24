@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
-
 .fullArea {
   padding-top: 200px;
   padding-bottom: 20px;
@@ -15,8 +13,9 @@
 }
 
 .container {
+  font-size: 62.5%;
   width: 100%;
-  padding: 0 50px 0 50px;
+  padding: 0 3em;
 }
 
 .left {
@@ -52,7 +51,7 @@
 
 .textFooter {
   width: 45%;
-  font-size: 16px;
+  font-size: 1em;
   font-weight: 500;
   color: #4f5665;
   margin-bottom: 0;
@@ -77,8 +76,7 @@
 }
 
 .textFooter2 {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 1.2em;
   color: #0b132a;
   padding-left: 0;
 }
@@ -90,9 +88,15 @@
 }
 .textFooter3 {
   color: #4f5665;
-  font-size: 16px;
+  font-size: 0.9em;
   font-weight: 400;
   padding-left: 0;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    font-size: 1em !important;
+  }
 }
 
 @media (max-width: 990px) {

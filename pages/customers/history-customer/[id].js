@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 import { authPage, customerPage } from "middleware/authPage";
 import axiosApiIntances from "utils/axios";
 
-
 // export async function getServerSideProps(context) {
 //   const data = await authPage(context);
 
@@ -28,17 +27,17 @@ export const getServerSideProps = async (context) => {
       },
     })
     .then((res) => {
-      return res.data.data[0]
+      return res.data.data[0];
     })
     .catch((err) => {
       return [];
     });
 
   const resres = await axiosApiIntances
-    .get(`invoice/history/${data.userId}`,)
+    .get(`invoice/history/${data.userId}`)
     .then((resres) => {
       // Console.log(data)
-      return resres.data.data
+      return resres.data.data;
     })
     .catch((err) => {
       return [];
@@ -49,12 +48,7 @@ export const getServerSideProps = async (context) => {
   };
 };
 
-
 export default function historyCust(props) {
-
-
-
-
   // console.log(props);
   const [isClick, setIsClick] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -98,8 +92,6 @@ export default function historyCust(props) {
   };
   return (
     <Layout title="History Customer">
-
-
       <Modal
         show={isDelete}
         size="lg"
@@ -110,7 +102,8 @@ export default function historyCust(props) {
         <Modal.Body className={styles.bodyModal}>
           <div>
             <p className={styles.textDel}>
-              Are you sure want to delete <br />the selected items?
+              Are you sure want to delete <br />
+              the selected items?
             </p>
             <Button onClick={handleCloseDelete} className={styles.btnClose}>
               Cancel
@@ -123,7 +116,7 @@ export default function historyCust(props) {
         </Modal.Body>
       </Modal>
 
-      <NavBar profile={true} login={true} />
+      <NavBar history={true} login={true} />
       <Container fluid className={styles.mainContainer}>
         <Container className={styles.container}>
           <h1 className={styles.text1}>Let’s see what you have bought!</h1>
@@ -139,7 +132,9 @@ export default function historyCust(props) {
                         alt=""
                         src="/Ellipse 15.png"
                         className={styles.forDelete}
-                        onClick={() => { handleDelete(item.orders_id); }}
+                        onClick={() => {
+                          handleDelete(item.orders_id);
+                        }}
                       />
                       <img
                         alt=""
@@ -151,7 +146,9 @@ export default function historyCust(props) {
                         alt=""
                         src="/Vector.png"
                         className={styles.imgDelete}
-                        onClick={() => { handleDelete(item.orders_id); }}
+                        onClick={() => {
+                          handleDelete(item.orders_id);
+                        }}
                       />
                       <img
                         alt=""
@@ -172,9 +169,16 @@ export default function historyCust(props) {
                           />
                         </Col>
                         <Col xs={8}>
-                          <h1 className={styles.nameHistory}>{item.invoice_code}</h1>
-                          <p className={styles.priceHistory}> Rp {item.invoice_sub_total.toLocaleString()}</p>
-                          <p className={styles.statusHistory}>{item.orders_status}</p>
+                          <h1 className={styles.nameHistory}>
+                            {item.invoice_code}
+                          </h1>
+                          <p className={styles.priceHistory}>
+                            {" "}
+                            Rp {item.invoice_sub_total.toLocaleString()}
+                          </p>
+                          <p className={styles.statusHistory}>
+                            {item.orders_status}
+                          </p>
                         </Col>
                       </Row>
                     </Card>
@@ -193,9 +197,16 @@ export default function historyCust(props) {
                           />
                         </Col>
                         <Col xs={8}>
-                          <h1 className={styles.nameHistory}>{item.invoice_code}</h1>
-                          <p className={styles.priceHistory}> Rp {item.invoice_sub_total.toLocaleString()}</p>
-                          <p className={styles.statusHistory}>{item.orders_status}</p>
+                          <h1 className={styles.nameHistory}>
+                            {item.invoice_code}
+                          </h1>
+                          <p className={styles.priceHistory}>
+                            {" "}
+                            Rp {item.invoice_sub_total.toLocaleString()}
+                          </p>
+                          <p className={styles.statusHistory}>
+                            {item.orders_status}
+                          </p>
                         </Col>
                       </Row>
                     </Card>

@@ -12,10 +12,9 @@
   .coupon {
     cursor: pointer;
     padding: 1em !important;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+    transition: transform 0.2s ease-in-out !important;
   }
   .coupon:hover {
-    box-shadow: -4px 4px 5px 0px rgba(57, 57, 57, 0.25);
     transform: translateX(0.5em);
   }
   .coupon img {
@@ -110,10 +109,6 @@
   cursor: pointer;
   display: flex;
   padding: 1em 2em;
-  transition: box-shadow 0.2s ease-in-out;
-}
-.coupon:hover {
-  box-shadow: 0 0px 30px 0px rgba(57, 57, 57, 0.25);
 }
 .coupon img {
   height: 100%;

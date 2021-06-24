@@ -220,7 +220,7 @@ export default function NewProduct(props) {
             <Button onClick={handleClose}>Close</Button>
           </Modal.Footer>
         </Modal>
-        <Navbar product={true} login={true} admin={true} user={props.data} />
+        <Navbar login={true} />
         <Container fluid className={styles.container}>
           <Dropdown>
             <div className={styles.dropdownSort}>
