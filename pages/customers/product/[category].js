@@ -17,6 +17,7 @@ import {
   Row,
 } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
+import { MagnifyingGlass } from "phosphor-react";
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
@@ -256,10 +257,18 @@ export default function Product(props) {
               onChange={(e) => setKeyword(e.target.value)}
               onKeyUp={(e) => e.key === "Enter" && handleSearch()}
             />
+            <Button
+              variant="light"
+              className={styles.searchBtn}
+              onClick={handleSearch}
+            >
+              <MagnifyingGlass weight="bold" />
+            </Button>
             <DropdownButton
               id="dropdown-basic-button"
               menuAlign="right"
               title="Sort By"
+              className={styles.sortBtn}
               value={keyword}
             >
               <Dropdown.Item onClick={() => setOrder("product_name ASC")}>
@@ -269,12 +278,12 @@ export default function Product(props) {
                 Name z-a
               </Dropdown.Item>
               <Dropdown.Item onClick={() => setOrder("product_base_price ASC")}>
-                Price lower-higher
+                Price lowest-highest
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => setOrder("product_base_price DESC")}
               >
-                Price higher-lower
+                Price highest-lowest
               </Dropdown.Item>
             </DropdownButton>
           </div>

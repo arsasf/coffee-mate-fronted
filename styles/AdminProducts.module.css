@@ -298,9 +298,22 @@
   justify-content: center;
   margin: 4em 0;
 }
-/* .searchBar input {
-  width: 50%;
-} */
+.searchBar .searchBtn {
+  align-items: center;
+  border: 1px solid #c4c4c4;
+  color: #3a3d42;
+  font-size: 1.8em;
+  display: flex;
+  padding: 0.5em;
+}
+.searchBtn:hover {
+  background-color: #ffba33;
+  border: 1px solid #ffba33;
+  color: #ffffff;
+}
+.searchBar .sortBtn button {
+  height: 100%;
+}
 .searchBar button {
   border-radius: 5px !important;
   font-size: 1.2em;
