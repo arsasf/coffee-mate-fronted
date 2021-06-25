@@ -18,7 +18,7 @@ export default function Home() {
 
   return (
     <Layout title="Home">
-      <Navbar login={token ? true : false} />
+      <Navbar home="true" login={token ? true : false} />
       <div className={styles.container}>
         <h1>Home</h1>
       </div>

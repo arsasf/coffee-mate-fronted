@@ -3,7 +3,7 @@ import Image from "next/image";
 import Cookie from "js-cookie";
 import axiosApiIntances from "utils/axios";
 import { useRouter } from "next/router";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "styles/Navbar.module.css";
 import { ChatsCircle, MagnifyingGlass } from "phosphor-react";
 import { Button } from "react-bootstrap";
@@ -14,10 +14,15 @@ export default function Navbar(props) {
   const userRole = Cookie.get("userRole");
   const [userData, setUserData] = useState({});
 
-  useLayoutEffect(() => {
-    axiosApiIntances.get(`user/by-id/${userId}`).then((res) => {
-      setUserData(res.data.data[0]);
-    });
+  useEffect(() => {
+    axiosApiIntances
+      .get(`user/by-id/${userId}`)
+      .then((res) => {
+        setUserData(res.data.data[0]);
+      })
+      .catch(() => {
+        setUserData({});
+      });
   }, []);
 
   return (
@@ -60,7 +65,7 @@ export default function Navbar(props) {
           ) : (
             <>
               {" "}
-              <Link href="/cart">
+              <Link href="/customers/payment-details">
                 <li className={props.cart ? styles.active : ""}>My Cart</li>
               </Link>
               <Link href={`/customers/history-customer/${userId}`}>
@@ -112,32 +117,7 @@ export default function Navbar(props) {
             </Button>
           </div>
         )}
-        <div className={styles.meatBalls}>
-          <div className={styles.ball} />
-          <div className={styles.ball} />
-          <div className={styles.ball} />
-        </div>
       </div>
-      {/* <div className={styles.collapseMenu}>
-        <ul className={styles.list}>
-          <Link href="/">
-            <li className={props.home ? styles.active : ""}>Home</li>
-          </Link>
-          <Link
-            href={
-              userRole === "admin" ? "/admin/product" : "/customers/product/all"
-            }
-          >
-            <li className={props.product ? styles.active : ""}>Product</li>
-          </Link>
-          <Link href="/cart">
-            <li className={props.cart ? styles.active : ""}>My Cart</li>
-          </Link>
-          <Link href={`/customers/history-customer/${userId}`}>
-            <li className={props.history ? styles.active : ""}>History</li>
-          </Link>
-        </ul>
-      </div> */}
     </>
   );
 }
