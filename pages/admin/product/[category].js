@@ -185,7 +185,7 @@ export default function Product(props) {
 
   return (
     <Layout title="Products">
-      <Navbar login={true} />
+      <Navbar login={true} product={true} />
       <div className={styles.container}>
         <Modal
           size="sm"

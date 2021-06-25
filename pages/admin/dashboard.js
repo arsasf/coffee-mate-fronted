@@ -59,7 +59,7 @@ export default function Dashboard(props) {
 
   return (
     <Layout title="Dashboard">
-      <Navbar login={true} />
+      <Navbar login={true} dashboard={true} />
       <div className={styles.container}>
         <h1>See how your store progress so far</h1>
         <div className={styles.chartContainer}>

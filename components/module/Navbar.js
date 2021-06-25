@@ -49,10 +49,10 @@ export default function Navbar(props) {
           {userRole === "admin" ? (
             <>
               <Link href="/admin/manage-order">
-                <li className={props.cart ? styles.active : ""}>Orders</li>
+                <li className={props.orders ? styles.active : ""}>Orders</li>
               </Link>
               <Link href={`/admin/dashboard`}>
-                <li className={props.history ? styles.active : ""}>
+                <li className={props.dashboard ? styles.active : ""}>
                   Dashboard
                 </li>
               </Link>
