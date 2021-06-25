@@ -60,7 +60,7 @@ export function adminPage(context) {
     if (allCookies.userRole != "admin") {
       return context.res
         .writeHead(302, {
-          Location: "/customers/product",
+          Location: "/customers/product/all",
         })
         .end();
     }
