@@ -92,7 +92,7 @@ export default function NewProduct(props) {
   ]);
   const [form, setForm] = useState({
     productName: "",
-    productPrice: "",
+    productPrice: 0,
     productCategory: "",
     productDesc: "",
     productSize: "",
@@ -103,7 +103,7 @@ export default function NewProduct(props) {
   const resetData = () => {
     setForm({
       productName: "",
-      productPrice: "",
+      productPrice: 0,
       productCategory: "",
       productDesc: "",
       productSize: "",
