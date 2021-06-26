@@ -5,7 +5,7 @@ import Layout from "components/Layout";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
 import styles from "styles/Home.module.css";
-import { Heart, MapPin, User } from "phosphor-react";
+import { ArrowLeft, ArrowRight, Heart, MapPin, User } from "phosphor-react";
 import { Button, Col, Row } from "react-bootstrap";
 import { unauthPage } from "middleware/authPage";
 
@@ -209,12 +209,80 @@ export default function Home() {
                 <Image src="/discord.svg" alt="discord" layout="fill" />
               </div>
             </Col>
-            <Col>
+            <Col xs={12}>
               <div className={styles.sponsorLogo}>
                 <Image src="/spotify.svg" alt="spotify" layout="fill" />
               </div>
             </Col>
           </Row>
+        </div>
+
+        <div className={styles.customersFeedback}>
+          <h2 className="text-center">Here is People's Favourite</h2>
+          <p className="text-center">
+            Let's choose and have a bit taste of people's favourite. It might be
+            yours too!
+          </p>
+          <div className={styles.feedbackContainer}>
+            <div className={styles.feedbackCard}>
+              <div className={styles.head}>
+                <div className={styles.avaContainer}>
+                  <Image src="/cust1.png" alt="customer avatar" layout="fill" />
+                </div>
+                <div>
+                  <h5>Viezh Robert</h5>
+                  <span>Warsaw, Poland</span>
+                </div>
+                <span>4.5</span>
+              </div>
+              <p>
+                “Wow... I am very happy to spend my whole day here. the Wi-fi is
+                good, and the coffee and meals tho. I like it here!! Very
+                recommended!
+              </p>
+            </div>
+            <div className={styles.feedbackCard}>
+              <div className={styles.head}>
+                <div className={styles.avaContainer}>
+                  <Image src="/cust2.png" alt="customer avatar" layout="fill" />
+                </div>
+                <div>
+                  <h5>Yessica Christy</h5>
+                  <span>Shanxi, China</span>
+                </div>
+                <span>4.5</span>
+              </div>
+              <p>
+                “I like it because I like to travel far and still can make my
+                day better just by drinking their Hazelnut Latte
+              </p>
+            </div>
+            <div className={styles.feedbackCard}>
+              <div className={styles.head}>
+                <div className={styles.avaContainer}>
+                  <Image src="/cust3.png" alt="customer avatar" layout="fill" />
+                </div>
+                <div>
+                  <h5>Kim Young Jou</h5>
+                  <span>Seoul, South Korea</span>
+                </div>
+                <span>4.5</span>
+              </div>
+              <p>
+                “This is very unusual for my taste, I haven’t liked coffee
+                before but their coffee is the best! and yup, you have to order
+                the chicken wings, the best in town!
+              </p>
+            </div>
+          </div>
+          <div className={styles.navigation}>
+            <Button variant="light">
+              <ArrowLeft weight="bold" />
+            </Button>
+            <Button variant="secondary">
+              <ArrowRight weight="bold" />
+            </Button>
+          </div>
         </div>
         <div className={styles.overflowCard}>
           <div>

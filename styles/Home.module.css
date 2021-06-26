@@ -41,20 +41,21 @@
   .statistic {
     margin: 0 10em !important;
   }
-  .subHero,
+  .subHero {
+    padding: 20em 13em 5em !important;
+  }
   .favourite,
   .map,
   .sponsors {
     padding: 13em !important;
   }
+  .customersFeedback {
+    padding: 10em !important;
+  }
 }
 
 /* For screen 576px above */
 @media (min-width: 576px) {
-  /* .hero h1,
-  .hero p {
-    width: 50% !important;
-  } */
   .statistic > div {
     flex-direction: row !important;
   }
@@ -63,15 +64,23 @@
   }
 }
 
+@media (max-width: 576px) {
+  .subDescription ul {
+    padding: 0;
+  }
+}
+
 /* For small screen 576px below */
 .container {
   font-size: 62.5%;
+  padding-bottom: 10em;
   position: relative;
 }
 .map,
 .sponsors {
   padding: 10em 3.5em;
 }
+.customersFeedback,
 .favourite {
   padding: 5em 3.5em;
 }
@@ -83,9 +92,12 @@
   justify-content: center;
   text-align: center;
 }
+.card,
+.feedbackCard {
+  border: 2px solid #dddddd;
+}
 .card {
   align-items: center;
-  border: 2px solid #dddddd;
   border-radius: 10px;
   cursor: pointer;
   display: flex;
@@ -96,9 +108,10 @@
   justify-content: space-between;
   transition: all 0.2s ease-in-out;
 }
-.card:hover {
+.card:hover,
+.feedbackCard:hover {
   border-color: #6a4029;
-  box-shadow: 0px 0px 25px 0px rgba(13, 16, 37, 0.205);
+  box-shadow: 0px 10px 25px 0px rgba(13, 16, 37, 0.123);
 }
 .card .price {
   font-size: 2em;
@@ -150,6 +163,7 @@
 .card .productImg img {
   object-fit: cover;
 }
+.customersFeedback h2,
 .favourite h2,
 .map h2,
 .overflowCard h2,
@@ -158,12 +172,87 @@
   font-size: 2.4em;
   font-weight: 700;
 }
+.customersFeedback p,
 .favourite p,
 .map p,
 .overflowCard span,
 .subDescription p,
 .subDescription li {
   font-size: 1.4em;
+}
+.customersFeedback .navigation {
+  column-gap: 2em;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 3em;
+}
+.customersFeedback button {
+  align-items: center;
+  border: 2px solid #6a4029;
+  border-radius: 50% !important;
+  display: flex;
+  height: 3em;
+  justify-content: center;
+  width: 3em;
+}
+.customersFeedback button:first-child:hover {
+  background-color: #6a4029;
+  border: 2px solid #6a4029;
+  color: #ffffff;
+}
+.feedbackContainer {
+  display: flex;
+  margin-top: 5em;
+  overflow: auto;
+  scrollbar-width: none;
+}
+.feedbackContainer::-webkit-scrollbar {
+  display: none;
+}
+.feedbackCard {
+  border-radius: 10px;
+  margin-right: 3em;
+  padding: 2em;
+  transition: all 0.2s ease-in-out;
+}
+.feedbackCard p {
+  font-size: 1.2em;
+  font-weight: 600;
+  line-height: 2em;
+}
+.feedbackCard .head {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2em;
+  position: relative;
+  width: 40em;
+}
+.feedbackCard .head h5 {
+  font-weight: 700;
+  margin: 0;
+}
+.feedbackCard .head > span {
+  align-items: center;
+  display: flex;
+  font-size: 1.2em;
+  font-weight: 600;
+  position: absolute;
+  right: 0;
+}
+.feedbackCard .head > span::after {
+  content: url("/yellow-star.svg");
+  margin-left: 1em;
+  margin-bottom: -0.2em;
+}
+.feedbackCard .avaContainer,
+.feedbackCard .avaContainer img {
+  border-radius: 50%;
+}
+.feedbackCard .avaContainer {
+  height: 3.5em;
+  margin-right: 1em;
+  position: relative;
+  width: 3.5em;
 }
 .favourite h3 {
   font-weight: 700;
@@ -181,7 +270,7 @@
   object-fit: fill;
 }
 .subHero {
-  padding: 10em 3.5em 5em;
+  padding: 15em 3.5em 5em;
 }
 .hero {
   background-image: url("/hero-img-background.jpg");
