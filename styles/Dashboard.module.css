@@ -5,11 +5,18 @@
   }
 }
 
+/* For screen 768px above */
+@media (min-width: 768px) {
+  .container {
+    padding: 15em 10em 0 !important;
+  }
+}
+
 /* For small screen 576px below */
 .container {
   text-align: center;
   font-size: 62.5%;
-  padding: 15em 10em 0;
+  padding: 15em 3em 0;
 }
 .container h1 {
   color: #6a4029;

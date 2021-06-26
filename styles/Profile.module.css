@@ -1,5 +1,8 @@
 /* For screen 768px above */
 @media (min-width: 768px) {
+  .container {
+    padding: 12em 10em !important;
+  }
   .container label {
     font-size: 1.6em !important;
   }
