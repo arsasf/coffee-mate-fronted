@@ -17,7 +17,7 @@ import {
   Row,
 } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
-import { MagnifyingGlass } from "phosphor-react";
+import { MagnifyingGlass, SmileySad } from "phosphor-react";
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
@@ -29,9 +29,7 @@ export const getServerSideProps = async (context) => {
 
   const promos = await axiosApiIntances
     .get("promo", {
-      headers: {
-        Authorization: `Bearer ${data.token || ""}`,
-      },
+      headers: authorization,
     })
     .then((res) => {
       return res.data.data;
@@ -143,31 +141,39 @@ export default function Product(props) {
             <p>Coupons will be updated every weeks. Check them out!</p>
           </div>
           <div className={styles.coupons}>
-            {/* LOOPING HERE */}
-            {props.promos.map((item, index) => (
-              <div
-                id={`c${item.promo_id}`}
-                className={`${styles.coupon}`}
-                // ${
-                //   `
-                //   ${selectedCoupon.c}${item.promo_id}` && styles.selectedCoupon
-                // }
-                key={item.promo_id}
-                onClick={(e) => handleSelectCoupon(e)}
-              >
-                {item.promo_image && (
-                  <img
-                    id={`c${item.promo_id}`}
-                    src={`${process.env.API_IMG_URL}${item.promo_image}`}
-                    alt="coupon-image"
-                  />
-                )}
-                <div id={`c${item.promo_id}`}>
-                  <h6 id={`c${item.promo_id}`}>{item.promo_name}</h6>
-                  <span id={`c${item.promo_id}`}>{item.promo_desc}</span>
+            {props.promos.length > 0 ? (
+              props.promos.map((item, index) => (
+                <div
+                  id={`c${item.promo_id}`}
+                  className={`${styles.coupon}`}
+                  // ${
+                  //   `
+                  //   ${selectedCoupon.c}${item.promo_id}` && styles.selectedCoupon
+                  // }
+                  key={item.promo_id}
+                  onClick={(e) => handleSelectCoupon(e)}
+                >
+                  {item.promo_image && (
+                    <img
+                      id={`c${item.promo_id}`}
+                      src={`${process.env.API_IMG_URL}${item.promo_image}`}
+                      alt="coupon-image"
+                    />
+                  )}
+                  <div id={`c${item.promo_id}`}>
+                    <h6 id={`c${item.promo_id}`}>{item.promo_name}</h6>
+                    <span id={`c${item.promo_id}`}>{item.promo_desc}</span>
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className={styles.emptyPromo}>
+                <p className="m-0 mb-lg-3">
+                  Sorry, We don't have have promo for now
+                </p>
+                <SmileySad size={32} weight="bold" />
               </div>
-            ))}
+            )}
           </div>
           <Button variant="secondary">Apply Coupon</Button>
           <section className={styles.termsCondition}>
