@@ -169,7 +169,7 @@ export default function Product(props) {
             ) : (
               <div className={styles.emptyPromo}>
                 <p className="m-0 mb-lg-3">
-                  Sorry, We don't have have promo for now
+                  Sorry, We don't have promo for now
                 </p>
                 <SmileySad size={32} weight="bold" />
               </div>

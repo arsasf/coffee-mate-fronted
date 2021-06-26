@@ -22,6 +22,15 @@
   color: #6a4029;
   font-weight: 700;
 }
+.filter {
+  width: 20%;
+  margin-top: 10em;
+}
+.filter button {
+  border: 1px solid #6a4029;
+  font-size: 1.2em;
+  padding: 0.5em 0 !important;
+}
 .container .chartContainer {
   margin: 5em 0;
 }
