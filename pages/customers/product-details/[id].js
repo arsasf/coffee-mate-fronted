@@ -36,7 +36,6 @@ export const getServerSideProps = async (context) => {
       headers: authorization,
     })
     .then((res) => {
-      console.log(res);
       return res.data.data[0];
     })
     .catch(() => {
