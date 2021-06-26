@@ -84,6 +84,21 @@
   height: 60px;
   border-radius: 20px;
 }
+.boxDropzone {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.btnChoose1 {
+  width: 300px;
+  height: 60px;
+  border-radius: 20px;
+}
+.btnChoose1:hover,
+.btnChoose1:active,
+.btnChoose1:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
 .btnSave {
   width: 300px;
   height: 60px;
@@ -191,7 +206,7 @@
   justify-content: space-between;
 }
 .textLabel {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #6a4029;
 }

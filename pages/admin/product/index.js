@@ -389,7 +389,7 @@ export default function Product(props) {
           <Button
             variant="secondary"
             className={styles.addNewProduct}
-            onClick={() => router.push("/admin/new-product/0")}
+            onClick={() => router.push("/admin/new-product")}
           >
             Add New Product
           </Button>

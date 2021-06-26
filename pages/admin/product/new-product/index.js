@@ -12,17 +12,16 @@ import {
   FormControl,
   Modal,
 } from "react-bootstrap";
-import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { authPage, adminPage } from "middleware/authPage";
 import axiosApiIntances from "utils/axios";
+import React, { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 
 export async function getServerSideProps(context) {
   const data = await authPage(context);
-  // console.log(data);
   await adminPage(context);
-  const id = context.query.id;
   //*======================== REQ API USER LOGIN ======================
   const result = await axiosApiIntances
     .get(`/user/by-id/${data.userId}`, {
@@ -31,7 +30,6 @@ export async function getServerSideProps(context) {
       },
     })
     .then((res) => {
-      // console.log(res.config.headers);
       return res.data.data[0];
     })
     .catch((err) => {
@@ -40,33 +38,12 @@ export async function getServerSideProps(context) {
     });
   //*==================== END REQ API USER LOGIN ======================
 
-  //*===================== REQ API PRODUCT BY ID ======================
-  const resultProduct =
-    id === "0"
-      ? {}
-      : await axiosApiIntances
-          .get(`/product/by-id/${id}`, {
-            headers: {
-              Authorization: `Bearer ${data.token || ""}`,
-            },
-          })
-          .then((res) => {
-            // console.log(res.config.headers);
-            return res.data.data[0];
-          })
-          .catch((err) => {
-            console.log(err);
-            return {};
-          });
-  //*================= END REQ API PRODUCT BY ID ======================
-
   return {
-    props: { data: result, userLogin: data, product: resultProduct },
+    props: { data: result, userLogin: data },
   };
 }
 
 export default function NewProduct(props) {
-  // console.log(props)
   //*=========================== UseState =============================
   const router = useRouter();
   const [title, setTitle] = useState("Add Product");
@@ -76,12 +53,8 @@ export default function NewProduct(props) {
   const [add, setAdd] = useState(false);
   const [show, setShow] = useState(false);
   const [info, setInfo] = useState("");
-  const [idProduct, setIdProduct] = useState(
-    !props.product.product_id ? "" : props.product.product_id
-  );
-  const [image, setImage] = useState(
-    !props.product.product_id ? null : props.product.product_image
-  );
+  const [preview, setPreview] = useState(false);
+  const [idProduct, setIdProduct] = useState("");
   const [category] = useState([
     "Select Category",
     "Coffee",
@@ -95,7 +68,7 @@ export default function NewProduct(props) {
       category: "Add Product",
     },
     {
-      link: "/admin/new-promo",
+      link: "/admin/new-promo/0",
       category: "Add Promo",
     },
     {
@@ -119,22 +92,72 @@ export default function NewProduct(props) {
   ]);
   const [form, setForm] = useState({
     productName: "",
-    productPrice: 0,
+    productPrice: "",
     productCategory: "",
     productDesc: "",
     productSize: "",
+    imageUser: null,
   });
   //*======================= End UseState =============================
 
   const resetData = () => {
     setForm({
       productName: "",
-      productPrice: 0,
+      productPrice: "",
       productCategory: "",
       productDesc: "",
       productSize: "",
     });
+    setPreview("");
+    setActive(false);
   };
+  //*================================ Drag & Drop Image ===============
+  const thumb = {
+    borderRadius: 100,
+    width: 250,
+    height: 250,
+    objectFit: "cover",
+  };
+  const thumbInner = {
+    display: "flex",
+    minWidth: 0,
+    overflow: "hidden",
+  };
+  const img = {
+    borderRadius: "100%",
+    width: "250px",
+    height: "250px",
+    objectFit: "cover",
+  };
+  const [files, setFiles] = useState([]);
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: "image/*",
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    },
+  });
+  const thumbs = files.map((file) => (
+    <div style={thumb} key={file.name}>
+      <div style={thumbInner}>
+        <img src={file.preview} style={img} />
+      </div>
+    </div>
+  ));
+
+  useEffect(
+    () => () => {
+      // Make sure to revoke the data uris to avoid memory leaks
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    },
+    [files]
+  );
+  //*============================ End Drag & Drop Image ===============
 
   //*========================== Handle Form Input =====================
   const handleClick = (params1, params2) => {
@@ -189,78 +212,9 @@ export default function NewProduct(props) {
     });
   };
   //*====================== End Handle Form Input =====================
-
   //*========================== Handle REQ API  =======================
-  const handleImage = (event) => {
-    // console.log("upload");
-    const formData = new FormData();
-    formData.append("productName", form.productName);
-    formData.append("productPrice", form.productPrice);
-    formData.append("productCategory", form.productCategory);
-    formData.append("productSize", form.productSize);
-    formData.append("productDesc", form.productDesc);
-    formData.append("imageUser", event.target.files[0]);
-    //*=========== Cek Form Data
-    // for (var pair of formData.entries()) {
-    //   console.log(pair[0] + ", " + pair[1]);
-    // }
-    //*=============== End
-    axiosApiIntances
-      .post("product/", formData, {
-        headers: {
-          Authorization: `Bearer ${props.userLogin.token || ""}`,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setShow(true);
-        setInfo("UPLOAD IMAGE PRODUCT");
-        setImage(res.data.data.product_image);
-        setIdProduct(res.data.data.id);
-        setMsg("Upload Image Product Succsess !");
-      })
-      .catch((err) => {
-        console.log(err);
-        setShow(true);
-        setInfo("ERROR : UPLOAD IMAGE");
-        setMsg(err.response.data.msg);
-      });
-  };
-  const handleChangeImage = (event) => {
-    // console.log("update");
-    const id = idProduct;
-    console.log(id);
-    const formData = new FormData();
-    formData.append("imageUser", event.target.files[0]);
-    //* ==================== Check Form Data ===================== */
-    // for (var pair of formData.entries()) {
-    //   console.log(pair[0] + ", " + pair[1]);
-    // }
-    //* ======================== End ============================== */
-    axiosApiIntances
-      .patch(`product/img/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${props.userLogin.token || ""}`,
-        },
-      })
-      .then((result) => {
-        console.log(result);
-        setShow(true);
-        setInfo("UPLOAD IMAGE PRODUCT");
-        setImage(result.data.data.product_image);
-        setMsg("Change Image Product Succsess !");
-        router.push(`/admin/new-product/${id}`);
-      })
-      .catch((err) => {
-        console.log(err);
-        setShow(true);
-        setInfo("ERROR : UPLOAD IMAGE");
-        setMsg(err.response.data.msg);
-      });
-  };
   const handleSave = () => {
-    console.log(form);
-    const id = props.product.product_id;
+    console.log("addImage");
     if (
       form.productName === "" ||
       parseInt(form.productPrice) === 0 ||
@@ -272,30 +226,37 @@ export default function NewProduct(props) {
       setInfo("ERROR : ADD PRODUCT");
       setMsg("Please Input Field !");
     } else {
-      const data = {
-        productName: form.productName,
-        productPrice: parseInt(form.productPrice),
-        productCategory: form.productCategory,
-        productDesc: form.productDesc,
-        productSize: form.productSize,
-      };
-      // console.log("running", data, form);
+      const formData = new FormData();
+      formData.append("productName", form.productName);
+      formData.append("productPrice", form.productPrice);
+      formData.append("productCategory", form.productCategory);
+      formData.append("productSize", form.productSize);
+      formData.append("productDesc", form.productDesc);
+      formData.append("imageUser", files[0]);
+      //*=========== Cek Form Data
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
+      //*=============== End
       axiosApiIntances
-        .patch(`product/${id}`, data, {
+        .post("product/", formData, {
           headers: {
             Authorization: `Bearer ${props.userLogin.token || ""}`,
           },
         })
-        .then((result) => {
-          console.log(result);
+        .then((res) => {
+          console.log(res);
+          setPreview(false);
           setShow(true);
-          setInfo("ADD PRODUCT");
-          setMsg(`Success add product with id : ${id}!`);
-          router.push(`/admin/new-product/${id}`);
           setAdd(true);
+          setIdProduct(res.data.data.id);
+          setInfo("ADD PRODUCT");
+          setMsg(`Success add product with id : ${res.data.data.id}!`);
+          router.push(`/admin/new-product`);
         })
         .catch((err) => {
           console.log(err);
+          setPreview(false);
           setAdd(false);
           setShow(true);
           setInfo("ERROR : ADD PRODUCT");
@@ -304,50 +265,29 @@ export default function NewProduct(props) {
         });
     }
   };
-  const handleDelete = () => {
-    console.log(idProduct);
-    axiosApiIntances
-      .delete(`product/${idProduct}`, {
-        headers: {
-          Authorization: `Bearer ${props.userLogin.token || ""}`,
-        },
-      })
-      .then((result) => {
-        console.log(result);
-        router.push(`/admin/product`);
-        resetData();
-      })
-      .catch((err) => {
-        console.log(err);
-        router.push(`/admin/product`);
-        resetData();
-      });
-  };
   //*======================= End Handle REQ API  =======================
 
   //*======================= Handle Modal  =============================
   const handleClose = () => {
     if (idProduct === "") {
-      router.push(`/admin/new-product/0`);
+      router.push(`/admin/new-product`);
       setShow(false);
-    } else if (
-      info === "ERROR : ADD PRODUCT" ||
-      info === "ERROR : UPLOAD IMAGE" ||
-      info === "UPLOAD IMAGE PRODUCT"
-    ) {
-      router.push(`/admin/new-product/${idProduct}`);
+      resetData();
+    } else if (info === "ERROR : ADD PRODUCT") {
+      router.push(`/admin/new-product`);
       setShow(false);
+      resetData();
     } else {
       router.push("/admin/product");
       setShow(false);
+      resetData();
     }
   };
   const handleAdd = () => {
-    setImage(null);
     setIdProduct("");
     setActive(false);
     setAdd(false);
-    router.push(`/admin/new-product/0`);
+    router.push(`/admin/new-product`);
     setShow(false);
     resetData();
   };
@@ -359,9 +299,8 @@ export default function NewProduct(props) {
   //*======================= End Handle Modal  ========================
 
   return (
-    <Layout title="New Product">
+    <Layout title="Add Product">
       <div>
-        {/* {console.log(image, cancel, form)} */}
         <Modal show={show} className={styles.modal}>
           <Modal.Header className={styles.modalHeader}>
             <Modal.Title className={styles.modalTitle}>INFO {info}</Modal.Title>
@@ -370,7 +309,9 @@ export default function NewProduct(props) {
           {add === true ? (
             <Modal.Footer>
               <Button onClick={handleBack}>Go to Product Page</Button>
-              <Button onClick={handleAdd}>Add Product Again</Button>
+              <Button className="btn-secondary" onClick={handleAdd}>
+                Add Another Product
+              </Button>
             </Modal.Footer>
           ) : (
             <Modal.Footer>
@@ -410,55 +351,42 @@ export default function NewProduct(props) {
             <Col xs={12} md={4} lg={5} className={styles.left}>
               <div className={styles.boxLeft}>
                 <div className={styles.boxImage}>
+                  <div {...getRootProps({ className: "dropzone" })}>
+                    <input {...getInputProps()} />
+                    {preview === true ? thumbs : ""}
+                  </div>
                   <Image
-                    src={
-                      image === null
-                        ? "/product/camera.png"
-                        : `${process.env.API_IMG_URL}${image}`
-                    }
-                    width={image === null ? "90px" : "250px"}
-                    height={image === null ? "83px" : "250px"}
+                    src="/product/camera.png"
+                    width="90px"
+                    height="83px"
                     alt=""
-                    className={image === null ? styles.img : styles.img1}
+                    className={styles.img}
                   />
                 </div>
-                <Form.Group className={styles.formUserImage}>
-                  {console.log(idProduct)}
-                  <Form.Label htmlFor="files" className={styles.boxUpdateImage}>
-                    {idProduct !== ""
-                      ? "Change image product"
-                      : "Choose from gallery"}
-                  </Form.Label>
-                  <Form.Control
-                    type="file"
-                    id="files"
-                    onChange={
-                      idProduct === ""
-                        ? (event) => handleImage(event)
-                        : (event) => handleChangeImage(event)
-                    }
-                    className={styles.updateImage}
-                  />
-                  <Button className={styles.btnChoose}>
+                <div
+                  {...getRootProps({ className: "dropzone" })}
+                  className={styles.boxDropzone}
+                >
+                  <input {...getInputProps()} />
+                  <Button
+                    className={styles.btnChoose1}
+                    onClick={() => setPreview(true)}
+                  >
                     {idProduct !== ""
                       ? "Change image product"
                       : "Choose from gallery"}
                   </Button>
-                </Form.Group>
+                </div>
                 <Button
                   className={`${styles.btnSave} btn-secondary`}
-                  onClick={() => handleSave(image)}
+                  onClick={() => handleSave()}
                 >
                   Save Product
                 </Button>
                 <Button
                   variant="fff"
                   className={styles.btnCancel}
-                  onClick={
-                    idProduct === ""
-                      ? () => router.push("/admin/product")
-                      : () => handleDelete()
-                  }
+                  onClick={() => router.push("/admin/product")}
                 >
                   Cancel
                 </Button>
@@ -486,7 +414,7 @@ export default function NewProduct(props) {
                     </Form.Label>
                     <FormControl
                       type="number"
-                      step="1"
+                      step="1000"
                       placeholder="Type the price"
                       className={styles.placeholder}
                       name="productPrice"

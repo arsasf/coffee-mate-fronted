@@ -23,16 +23,16 @@ module.exports = {
         destination: "/auth/forgot-password",
       },
       {
-        source: "/admin/new-product/:id",
-        destination: "/admin/product/new-product/:id",
+        source: "/admin/new-product",
+        destination: "/admin/product/new-product",
       },
       {
         source: "/admin/update-product/:id",
         destination: "/admin/product/update-product/:id",
       },
       {
-        source: "/admin/new-promo",
-        destination: "/admin/product/new-promo",
+        source: "/admin/new-promo/:id",
+        destination: "/admin/product/new-promo/:id",
       },
       {
         source: "/admin/update-promo/:id",
