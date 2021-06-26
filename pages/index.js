@@ -177,10 +177,10 @@ export default function Home() {
           </Row>
         </div>
         <div className={styles.map}>
-          <h2>Here is People's Favourite</h2>
+          <h2>Visit Our Store in the Spot on the Map Below</h2>
           <p>
-            Let's choose and have a bit taste of people's favourite. It might be
-            yours too!
+            See our store in every city on the spot and spen your good day
+            there. See you soon!
           </p>
           <div className={styles.mapContainer}>
             <Image src="/Huge Global.svg" alt="map" layout="fill" />
@@ -218,11 +218,15 @@ export default function Home() {
         </div>
 
         <div className={styles.customersFeedback}>
-          <h2 className="text-center">Here is People's Favourite</h2>
-          <p className="text-center">
-            Let's choose and have a bit taste of people's favourite. It might be
-            yours too!
-          </p>
+          <div className="d-flex flex-column align-items-center">
+            <h2 className="text-center">
+              Loved by Thousands of Happy Customer
+            </h2>
+            <p className="text-center">
+              These are the stories of our customers who have visited us with
+              great pleasure.
+            </p>
+          </div>
           <div className={styles.feedbackContainer}>
             <div className={styles.feedbackCard}>
               <div className={styles.head}>

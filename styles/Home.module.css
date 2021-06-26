@@ -44,6 +44,14 @@
   .subHero {
     padding: 20em 10em 5em !important;
   }
+  .customersFeedback h2,
+  .map h2 {
+    width: 30% !important;
+  }
+  .customersFeedback p,
+  .map p {
+    width: 40% !important;
+  }
   .favourite,
   .map,
   .sponsors {
@@ -61,6 +69,15 @@
   }
   .statistic > div h4 {
     text-align: left !important;
+  }
+  .map {
+    align-items: center;
+  }
+  .customersFeedback h2,
+  .customersFeedback p,
+  .map h2,
+  .map p {
+    width: 50%;
   }
 }
 
@@ -171,6 +188,7 @@
 .sponsors h2 {
   font-size: 2.4em;
   font-weight: 700;
+  margin-bottom: 1em;
 }
 .customersFeedback p,
 .favourite p,
