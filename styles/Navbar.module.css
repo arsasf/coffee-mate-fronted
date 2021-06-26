@@ -92,7 +92,7 @@
 .group {
   align-items: center;
   display: flex !important;
-  gap: 2em;
+  gap: 3em !important;
 }
 .group .searchIcon,
 .group .chatNotif {
