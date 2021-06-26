@@ -1,0 +1,321 @@
+/* For screen 992px above */
+@media (min-width: 992px) {
+  .hero {
+    font-size: 1.4em;
+  }
+  .hero h1,
+  .hero p {
+    width: 50% !important;
+  }
+}
+
+/* For screen 768px above */
+@media (min-width: 768px) {
+  .hero {
+    font-size: 1.2em;
+    padding: 0 10em !important;
+  }
+  .mapContainer {
+    margin-top: 3em;
+  }
+  .overflowCard {
+    align-items: center;
+    bottom: -7.5em !important;
+    flex-direction: row !important;
+    height: 15em !important;
+    justify-content: space-between !important;
+    margin: 0 10em !important;
+    padding: 0 5em !important;
+    position: absolute;
+    bottom: -7.5em;
+    left: 0;
+    right: 0;
+    text-align: left !important;
+  }
+  .overflowCard button {
+    border-radius: 10px !important;
+    font-size: 1.2em !important;
+    margin: 0 !important;
+    padding: 1.3em 5em !important;
+  }
+  .statistic {
+    margin: 0 10em !important;
+  }
+  .subHero,
+  .favourite,
+  .map,
+  .sponsors {
+    padding: 13em !important;
+  }
+}
+
+/* For screen 576px above */
+@media (min-width: 576px) {
+  /* .hero h1,
+  .hero p {
+    width: 50% !important;
+  } */
+  .statistic > div {
+    flex-direction: row !important;
+  }
+  .statistic > div h4 {
+    text-align: left !important;
+  }
+}
+
+/* For small screen 576px below */
+.container {
+  font-size: 62.5%;
+  position: relative;
+}
+.map,
+.sponsors {
+  padding: 10em 3.5em;
+}
+.favourite {
+  padding: 5em 3.5em;
+}
+.favourite,
+.map,
+.sponsors {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.card {
+  align-items: center;
+  border: 2px solid #dddddd;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  height: 55em;
+  padding-bottom: 5em;
+  position: relative;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s ease-in-out;
+}
+.card:hover {
+  border-color: #6a4029;
+  box-shadow: 0px 0px 25px 0px rgba(13, 16, 37, 0.205);
+}
+.card .price {
+  font-size: 2em;
+  font-weight: 700;
+  margin-bottom: 1em;
+}
+.card button {
+  background-color: #ffffff;
+  border: 2px solid #ffba33;
+  color: #6a4029;
+  padding: 0.5em 4em;
+}
+.card button:hover {
+  background-color: #ffba33;
+  color: #6a4029;
+}
+.card h6 {
+  font-size: 1.8em;
+  font-weight: 700;
+  margin-bottom: 1.5em;
+}
+.card ul {
+  padding: 0;
+  text-align: left;
+}
+.card ul li {
+  font-size: 1.4em;
+  list-style: none;
+  margin-bottom: 1em;
+}
+.card ul li::before {
+  content: url("/check.svg");
+  margin-right: 1em;
+}
+.card .productImg {
+  box-shadow: 0px 10px 35px 0px rgba(13, 16, 37, 0.13);
+  position: absolute;
+  top: -5em;
+}
+.card .productImg {
+  height: 10em;
+  position: relative;
+  width: 10em;
+}
+.card .productImg,
+.card .productImg img {
+  border-radius: 50%;
+}
+.card .productImg img {
+  object-fit: cover;
+}
+.favourite h2,
+.map h2,
+.overflowCard h2,
+.subDescription h2,
+.sponsors h2 {
+  font-size: 2.4em;
+  font-weight: 700;
+}
+.favourite p,
+.map p,
+.overflowCard span,
+.subDescription p,
+.subDescription li {
+  font-size: 1.4em;
+}
+.favourite h3 {
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+.favourite p {
+  font-size: 1.4em;
+}
+.mapContainer {
+  width: 100%;
+  position: relative;
+  height: 60vh;
+}
+.mapContainer img {
+  object-fit: fill;
+}
+.subHero {
+  padding: 10em 3.5em 5em;
+}
+.hero {
+  background-image: url("/hero-img-background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  padding: 0 3em;
+  position: relative;
+  z-index: 1;
+}
+.hero::after {
+  content: "";
+  background-color: rgba(4, 10, 26, 0.5);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+.hero h1,
+.hero p {
+  color: #ffffff;
+  text-shadow: 0px 2px rgba(13, 16, 37, 0.521);
+  width: 70%;
+}
+.hero h1 {
+  font-weight: 700;
+}
+.hero p {
+  font-size: 1.6em;
+  font-weight: 600;
+  margin: 2em 0;
+}
+.hero button {
+  border-radius: 10px !important;
+  box-shadow: 0px 20px 25px 0px rgba(13, 16, 37, 0.205);
+  font-size: 1.2em;
+  padding: 1.5em 5em;
+}
+.illustration {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.illustration img {
+  object-fit: cover;
+}
+.rowFavourite {
+  row-gap: 10em;
+  margin-top: 10em;
+}
+.sponsorLogo {
+  position: relative;
+  height: 8em;
+}
+.sponsorLogo img {
+  object-fit: scale-down;
+}
+.statistic,
+.overflowCard {
+  margin: 0 3em;
+}
+.statistic {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 30px 25px -30px rgba(13, 16, 37, 0.178);
+  height: 10em;
+  left: 0;
+  position: absolute;
+  right: 0;
+  bottom: -5em;
+  z-index: 10;
+}
+.statistic > div {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1em;
+}
+.statistic > div h4 {
+  color: #0b132a;
+  font-size: 1.4em;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+}
+.statistic > div span {
+  color: #4f5665;
+  font-size: 1.2em;
+}
+.statistic .staffIcon,
+.statistic .storesIcon,
+.statistic .customersIcon {
+  background-color: #ffba33;
+  border-radius: 50%;
+  font-size: 3.5em;
+  padding: 0.3em;
+}
+.subDescription p {
+  margin: 2em 0;
+}
+.subDescription li {
+  display: flex;
+  margin-bottom: 1.6em;
+  list-style: none;
+}
+.subDescription li::before {
+  content: url("/green-check.svg");
+  margin-right: 1em;
+}
+
+.overflowCard {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 6px 20px 0px #c4c4c4ab;
+  display: flex;
+  flex-direction: column;
+  height: 20em;
+  justify-content: center;
+  margin-bottom: 5em;
+  padding: 0 3em;
+  text-align: center;
+}
+.overflowCard button {
+  border-radius: 10px;
+  font-size: 1em;
+  margin-top: 2.5em;
+  padding: 1.5em 2em;
+}
+.overflowCard span {
+  color: #4f5665;
+}
