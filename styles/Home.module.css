@@ -48,7 +48,7 @@
   .map h2 {
     width: 30% !important;
   }
-  .customersFeedback p,
+  .customersFeedback h2 + p,
   .map p {
     width: 40% !important;
   }
@@ -74,7 +74,7 @@
     align-items: center;
   }
   .customersFeedback h2,
-  .customersFeedback p,
+  .customersFeedback h2 + p,
   .map h2,
   .map p {
     width: 50%;
@@ -229,14 +229,17 @@
 }
 .feedbackCard {
   border-radius: 10px;
+  display: grid;
   margin-right: 3em;
-  padding: 2em;
+  padding: 2.5em;
+  place-items: center;
   transition: all 0.2s ease-in-out;
 }
 .feedbackCard p {
   font-size: 1.2em;
   font-weight: 600;
   line-height: 2em;
+  margin: 0;
 }
 .feedbackCard .head {
   display: flex;
