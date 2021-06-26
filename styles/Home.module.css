@@ -13,7 +13,7 @@
 @media (min-width: 768px) {
   .hero {
     font-size: 1.2em;
-    padding: 0 10em !important;
+    padding: 0 8em !important;
   }
   .mapContainer {
     margin-top: 3em;
@@ -39,15 +39,15 @@
     padding: 1.3em 5em !important;
   }
   .statistic {
-    margin: 0 10em !important;
+    margin: 0 8em !important;
   }
   .subHero {
-    padding: 20em 13em 5em !important;
+    padding: 20em 10em 5em !important;
   }
   .favourite,
   .map,
   .sponsors {
-    padding: 13em !important;
+    padding: 10em !important;
   }
   .customersFeedback {
     padding: 10em !important;
