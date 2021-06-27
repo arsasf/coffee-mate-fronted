@@ -1,181 +1,163 @@
-@media (max-width: 512px) {
-  .btnClose {
-    margin: 0 auto !important;
-  }
+.actionBtn {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: -1.5em;
+  z-index: 100;
 }
-.modal {
-  margin: 0 auto;
-  /* border-radius: 50px !important; */
-}
-.bodyModal {
-  /* padding: 40px 80px; */
-  border-radius: 50px !important;
-  background-color: transparent;
-}
-.textDel {
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 25px;
-  line-height: 45px;
-  text-align: center;
-  color: #000000;
-}
-.btnClose {
-  background: #ffffff !important;
-  border: 3px solid #6a4029;
-  box-sizing: border-box;
-  border: 2px solid #6a4029 !important;
-  height: 50px;
-  padding: 5px 51px;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 25px;
-  line-height: 20px;
-  text-align: center;
-  color: #6a4029;
-  margin-left: 100px;
-}
-.btnDelete {
-  float: right;
-  height: 50px;
-  padding: 5px 51px;
-  background: #ffffff !important;
-  border-radius: 20px;
-  border: 2px solid #6a4029 !important;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 25px;
-  line-height: 20px;
-  text-align: center;
+.actionBtn .delete,
+.actionBtn .cancel {
+  border-radius: 50%;
   color: #ffffff;
-  margin-right: 100px;
+  padding: 0.85em;
+  height: 3em;
+  width: 3em;
 }
-.btnClose:hover {
-  background: #ffeeef;
-  border: 3px solid #6a4029;
-  box-sizing: border-box;
-  border-radius: 20px;
-  border: 2px solid #6a4029;
-  height: 50px;
-  padding: 5px 51px;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 25px;
-  line-height: 37px;
-  text-align: center;
-  color: #6a3154;
+.actionBtn .delete {
+  background-color: #ff2339;
+  margin-right: 0.5em;
 }
-.btnDelete:hover {
-  float: right;
-  height: 50px;
-  padding: 5px 51px;
-  background: #ffffff;
-  border-radius: 20px;
-  border: 1px solid #ffffff;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 25px;
-  line-height: 37px;
-  text-align: center;
-  color: #ffeeef;
-}
-.mainContainer {
-  background: url("/bghistorycustom.png");
+.actionBtn .cancel {
+  background-color: #ffba33;
 }
 .container {
-  padding: 100px 0px;
+  background: url("/bghistorycustom.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 15em 3em;
+  position: relative;
+  z-index: 1;
 }
-.text1 {
+.container::after {
+  content: "";
+  background-color: rgba(4, 10, 26, 0.5);
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+.container h1,
+.container h1 + p {
+  text-shadow: 0px 4px 4px #000000cc;
+}
+.container h1 {
   color: #ffffff;
   text-align: center;
   padding-top: 0.5em;
+  font-size: 2.4em;
+  font-weight: 700;
 }
-.text2 {
+.container h1 + p {
   color: #ffffff;
-  text-align: center;
-  font-size: 20px;
+  font-size: 1.4em;
   padding-bottom: 1em;
+  text-align: center;
 }
-.cardHistoryClick {
+.container {
+  font-size: 62.5%;
+}
+.card {
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 10px 30px rgba(230, 230, 230, 0.281);
+  cursor: pointer;
+  display: flex;
+  gap: 1.5em;
+  padding: 2em 3em;
   position: relative;
-  padding: 16px;
-  padding-right: 40px;
-  background: #ffffff;
-  opacity: 0.7;
-  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.03);
-  border-radius: 20px;
-  margin-bottom: 25px;
+  transition: all 0.1s ease-in-out;
+  z-index: 1;
 }
-.forDelete {
+.card:hover {
+  outline: 2px solid #6a4029;
+}
+.card h4 {
+  font-size: 1.6em;
+  font-weight: 700;
+  margin: 0;
+}
+.card span {
+  color: #ffba33;
+  display: block;
+  font-size: 1.2em;
+  font-weight: 600;
+  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.151);
+}
+.modal .btnCancel:hover,
+.modal .btnDelete:hover {
+  color: #ffffff;
+}
+.modal .btnCancel:hover {
+  background-color: #6a4029;
+}
+.modal .btnDelete:hover {
+  background-color: #ff2339;
+  border: 2px solid #ff2339;
+}
+.modal button {
+  border: 2px solid #6a4029;
+  font-size: 0.8em;
+  padding: 1em 2em;
+}
+.modal h5 {
+  font-weight: 600;
+  text-align: center;
+  width: 80%;
+}
+.modal h5 + div {
+  margin-top: 3em;
+  width: 70%;
+}
+.productImgContainer,
+.productImgContainer img {
+  border-radius: 50%;
+}
+.productImgContainer {
+  width: 6em;
+  height: 6em;
+  position: relative;
+}
+.productImgContainer img {
+  object-fit: cover;
+}
+.selectedCard {
+  outline: 2px solid #6a4029;
+  position: relative;
+}
+.selectedCard::after {
+  background-color: rgba(24, 14, 8, 0.671);
+  border-radius: 7.5px;
+  content: "";
+  height: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
   position: absolute;
-  width: 45px;
-  height: 45px;
-  top: -20px;
-  right: 40px;
-  cursor: pointer;
+  z-index: 1;
 }
-.forCancel {
-  position: absolute;
-  width: 45px;
-  height: 45px;
-  right: -10px;
-  top: -20px;
-  cursor: pointer;
+.showActionBtn {
+  display: inline-block;
 }
-.imgDelete {
-  width: 14px;
-  height: 16px;
-  position: absolute;
-  top: -7px;
-  right: 55px;
-  cursor: pointer;
-}
-.imgCancel {
-  position: absolute;
-  width: 14px;
-  height: 16px;
-  right: 5px;
-  top: -5px;
-  cursor: pointer;
-}
-.imgHistory {
-  width: 100%;
-  height: 83px;
-  margin-top: 30px;
-}
-.nameHistory {
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 25px;
-  line-height: 37px;
-  color: #000000;
-}
-.priceHistory {
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 30px;
-  color: #895537;
-}
-.statusHistory {
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 30px;
-  color: #6a4029;
-}
-.cardHistory {
-  padding: 16px;
-  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.03);
-  border-radius: 20px;
-  margin-bottom: 25px;
-  cursor: pointer;
+
+/* For screen 768px above */
+@media (min-width: 768px) {
+  .container {
+    padding: 15em 10em;
+  }
+  .container h1 {
+    font-size: 3.2em;
+  }
+  .container h1 + p {
+    font-size: 1.4em;
+  }
+  .card h4 {
+    font-size: 1.8em;
+  }
+  .card span {
+    font-size: 1.4em;
+  }
 }
