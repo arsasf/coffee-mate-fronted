@@ -149,7 +149,6 @@ export default function PaymentDetails(props) {
       setDiscount(0);
     }
   };
-
   const handleOrder = () => {
     if (cart.length > 0) {
       const setData = {
