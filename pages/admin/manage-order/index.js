@@ -40,24 +40,24 @@ export default function App() {
         <Navbar login={true} admin={true} order={true} />
         <Container fluid className={styles.container}>
           <Container>
-            <Row xs={1} lg={2} className="mb-3 mb-mb-0 gy-3">
-              <Col xs={12} md={12} lg={6} className={styles.left}>
-                <h1 className={styles.textTitle}>
-                  Finish your <br /> customer order now.
-                </h1>
-                <Swiper
-                  effect={"cube"}
-                  grabCursor={true}
-                  cubeEffect={{
-                    shadow: true,
-                    slideShadows: true,
-                    shadowOffset: 20,
-                    shadowScale: 0.94,
-                  }}
-                  pagination={true}
-                  className={styles.swiperContainer}
-                >
-                  <SwiperSlide className={styles.swiperSlide}>
+            <Swiper
+              effect={"cube"}
+              grabCursor={true}
+              cubeEffect={{
+                shadow: true,
+                slideShadows: true,
+                shadowOffset: 20,
+                shadowScale: 0.94,
+              }}
+              pagination={true}
+              className={styles.swiperContainer}
+            >
+              <SwiperSlide className={styles.swiperSlide}>
+                <Row xs={1} lg={2} className="mb-3 mb-mb-0 gy-3">
+                  <Col xs={12} md={12} lg={6} className={styles.left}>
+                    <h1 className={styles.textTitle}>
+                      Finish your <br /> customer order now.
+                    </h1>
                     <div className={styles.card}>
                       <h1 className={styles.textCardTitle}>
                         {"Delivery Order"}
@@ -108,103 +108,108 @@ export default function App() {
                         <h1 className={styles.textTotal}>{"IDR 150.000"}</h1>
                       </div>
                     </div>
-                  </SwiperSlide>
-                  <SwiperSlide className={styles.swiperSlide}>
-                    <img
-                      src="https://swiperjs.com/demos/images/nature-2.jpg"
-                      alt=""
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide className={styles.swiperSlide}>
-                    <img
-                      src="https://swiperjs.com/demos/images/nature-3.jpg"
-                      alt=""
-                    />
-                  </SwiperSlide>
-                  <SwiperSlide className={styles.swiperSlide}>
-                    <img
-                      src="https://swiperjs.com/demos/images/nature-4.jpg"
-                      alt=""
-                    />
-                  </SwiperSlide>
-                </Swiper>
-                <Button className={`${styles.buttonSwipe}`}>
-                  Slide to see upcoming orders
-                  <CaretRight size={30} />
-                </Button>
-              </Col>
-              <Col xs={12} md={12} lg={6} className={styles.right}>
-                <div className={styles.boxTitle}>
-                  <h1 className={styles.textRight}>Address details</h1>
-                </div>
-                <div className={styles.boxAddress}>
-                  <h1 className={styles.textAddress1}>
-                    <b> Delivery</b> to Iskandar Street
-                  </h1>
-                  <hr />
-                  <h1 className={styles.textAddress2}>
-                    Km 5 refinery road oppsite re public road, effurun, Jakarta
-                  </h1>
-                  <hr />
-                  <h1 className={styles.textAddress2}>+62 81348287878</h1>
-                </div>
-                <div>
-                  <h1 className={styles.boxTitle2}>Payment Method</h1>
-                </div>
-                <div className={styles.payment}>
-                  <div className={styles.boxIcon}>
-                    <input
-                      type="radio"
-                      className={
-                        card === true ? `${styles.radioCard}` : styles.radio
-                      }
-                      onClick={() => handleClick("card")}
-                    />
-                    <div className={styles.textRadio}>
-                      <div className={styles.icon}>
-                        <CreditCard color="#ffffff" weight="bold" size={25} />
-                      </div>
-                      <h1 className={styles.textIcon}>Card</h1>
+                    <Button className={`${styles.buttonSwipe}`}>
+                      Slide to see upcoming orders
+                      <CaretRight size={30} />
+                    </Button>
+                  </Col>
+                  <Col xs={12} md={12} lg={6} className={styles.right}>
+                    <div className={styles.boxTitle}>
+                      <h1 className={styles.textRight}>Address details</h1>
                     </div>
-                  </div>
-                  <hr />
-                  <div className={styles.boxIcon}>
-                    <input
-                      type="radio"
-                      className={
-                        bank === true ? `${styles.radioBank}` : styles.radio
-                      }
-                      onClick={() => handleClick("bank")}
-                    />
-                    <div className={styles.textRadio}>
-                      <div className={styles.icon2}>
-                        <Bank color="#ffffff" weight="bold" size={25} />
-                      </div>
-                      <h1 className={styles.textIcon}>Bank account</h1>
+                    <div className={styles.boxAddress}>
+                      <h1 className={styles.textAddress1}>
+                        <b> Delivery</b> to Iskandar Street
+                      </h1>
+                      <hr />
+                      <h1 className={styles.textAddress2}>
+                        Km 5 refinery road oppsite re public road, effurun,
+                        Jakarta
+                      </h1>
+                      <hr />
+                      <h1 className={styles.textAddress2}>+62 81348287878</h1>
                     </div>
-                  </div>
-                  <hr />
-                  <div className={styles.boxIcon}>
-                    <input
-                      type="radio"
-                      className={
-                        cod === true ? `${styles.radioCod}` : styles.radio
-                      }
-                      onClick={() => handleClick("cod")}
-                    />
-                    <div className={styles.textRadio}>
-                      <div className={styles.icon3}>
-                        <Car color="#000" weight="bold" size={25} />
-                      </div>
-                      <h1 className={styles.textIcon}>Cash on delivery</h1>
+                    <div>
+                      <h1 className={styles.boxTitle2}>Payment Method</h1>
                     </div>
-                  </div>
-                </div>
-                <Button className={`${styles.buttonDone} btn-secondary`}>
-                  Mark as done
-                </Button>
-              </Col>
-            </Row>
+                    <div className={styles.payment}>
+                      <div className={styles.boxIcon}>
+                        <input
+                          type="radio"
+                          className={
+                            card === true ? `${styles.radioCard}` : styles.radio
+                          }
+                          onClick={() => handleClick("card")}
+                        />
+                        <div className={styles.textRadio}>
+                          <div className={styles.icon}>
+                            <CreditCard
+                              color="#ffffff"
+                              weight="bold"
+                              size={25}
+                            />
+                          </div>
+                          <h1 className={styles.textIcon}>Card</h1>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className={styles.boxIcon}>
+                        <input
+                          type="radio"
+                          className={
+                            bank === true ? `${styles.radioBank}` : styles.radio
+                          }
+                          onClick={() => handleClick("bank")}
+                        />
+                        <div className={styles.textRadio}>
+                          <div className={styles.icon2}>
+                            <Bank color="#ffffff" weight="bold" size={25} />
+                          </div>
+                          <h1 className={styles.textIcon}>Bank account</h1>
+                        </div>
+                      </div>
+                      <hr />
+                      <div className={styles.boxIcon}>
+                        <input
+                          type="radio"
+                          className={
+                            cod === true ? `${styles.radioCod}` : styles.radio
+                          }
+                          onClick={() => handleClick("cod")}
+                        />
+                        <div className={styles.textRadio}>
+                          <div className={styles.icon3}>
+                            <Car color="#000" weight="bold" size={25} />
+                          </div>
+                          <h1 className={styles.textIcon}>Cash on delivery</h1>
+                        </div>
+                      </div>
+                    </div>
+                    <Button className={`${styles.buttonDone} btn-secondary`}>
+                      Mark as done
+                    </Button>
+                  </Col>
+                </Row>
+              </SwiperSlide>
+              <SwiperSlide className={styles.swiperSlide}>
+                <img
+                  src="https://swiperjs.com/demos/images/nature-2.jpg"
+                  alt=""
+                />
+              </SwiperSlide>
+              <SwiperSlide className={styles.swiperSlide}>
+                <img
+                  src="https://swiperjs.com/demos/images/nature-3.jpg"
+                  alt=""
+                />
+              </SwiperSlide>
+              <SwiperSlide className={styles.swiperSlide}>
+                <img
+                  src="https://swiperjs.com/demos/images/nature-4.jpg"
+                  alt=""
+                />
+              </SwiperSlide>
+            </Swiper>
           </Container>
         </Container>
         <Footer />

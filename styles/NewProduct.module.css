@@ -1,5 +1,5 @@
 .container {
-  padding: 8em 50px 0px 50px;
+  padding: 8em 6em 0px 6em;
 }
 
 .dropdownSort {
@@ -455,6 +455,7 @@
 
 .img1 {
   border-radius: 100%;
+  object-fit: cover;
 }
 
 .modal {
@@ -496,5 +497,9 @@
 @media (max-width: 900px) {
   .menuDropdown {
     width: max-content;
+  }
+
+  .container {
+    padding: 8em 2em 0px 2em;
   }
 }

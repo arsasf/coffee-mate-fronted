@@ -268,7 +268,7 @@ export default function NewProduct(props) {
       router.push(`/admin/update-product/${id}`);
       setShow(false);
     } else {
-      router.push("/admin/product");
+      router.push("/admin/product/all");
       setShow(false);
     }
   };

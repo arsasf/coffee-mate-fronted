@@ -8,23 +8,11 @@
   z-index: 0;
 }
 .swiperContainer {
-  margin-left: 0;
-  margin-top: 20px;
-  width: 70%;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-left: 0;
+  width: 100% !important;
 }
 
 .swiperSlide {
   width: 100% !important;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  background-position: left;
-  background-size: contain;
 }
 
 .swiperSlide img {
@@ -32,6 +20,32 @@
   width: 80px;
   height: 80px;
   border-radius: 20px;
+  object-fit: cover;
+}
+
+.modalHeader {
+  background-color: #6a4029;
+}
+
+.modalTitle {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.modalBody {
+  margin-left: 20px;
+  color: #4f5665;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.img {
+  border-radius: 15px;
+  object-fit: cover;
 }
 
 .left {
@@ -43,16 +57,25 @@
 .textTitle {
   width: 100%;
   text-align: left;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 700;
   color: white;
 }
 
-.card {
-  background-color: white;
-  padding: 50px 40px 50px 40px;
-  height: max-content;
+.textName {
   width: 100%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #362115;
+}
+
+.card {
+  margin-top: 20px;
+  background-color: white;
+  padding: 50px 30px 50px 30px;
+  height: max-content;
+  width: 70%;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -60,20 +83,33 @@
 }
 
 .cart {
-  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 200px;
+}
+
+.cart::-webkit-scrollbar-track {
+  border: 1px solid #9f9f9f;
+  padding: 2px 0;
+  background-color: #9f9f9f;
+  bottom: 0;
+  border-radius: 5px;
+}
+
+.cart::-webkit-scrollbar {
+  width: 10px;
+}
+
+.cart::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px #4f5665;
+  background-color: #4f5665;
+  border: 1px solid #4f5665;
 }
 
 .textCardTitle {
   width: 100%;
-  font-size: 30px;
-  font-weight: 700;
-  text-align: center;
-  color: #362115;
-}
-.textName {
-  width: 100%;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 700;
   text-align: center;
   color: #362115;
 }
@@ -91,13 +127,17 @@
 .textDesc {
   margin-bottom: 0;
   width: max-content;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   color: black;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
 }
 .textPrice {
-  width: 100%;
-  font-size: 18px;
+  width: 100% !important;
+  font-size: 16px;
   font-weight: 500;
   color: black;
   text-align: right;
@@ -116,20 +156,21 @@
 }
 
 .textOrder {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
 }
 .textTotal {
   margin-top: 20px;
   color: #362115;
-  font-size: 25px;
+  font-size: 18px;
   font-weight: 700;
 }
 .right {
+  padding-top: 5em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   height: max-content;
 }
 .textEdit {
@@ -144,24 +185,24 @@
   width: 450px;
   border-radius: 20px;
   background-color: white;
-  padding: 40px;
+  padding: 20px 30px 20px 30px;
 }
 .textAddress1 {
   width: max-content;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
 }
 .textAddress2 {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
 }
 .textRight {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
   color: white;
 }
 .boxIcon {
-  width: 100%;
+  width: max-content;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -172,16 +213,16 @@
 .radioBank[type="radio"],
 .radioCod[type="radio"],
 .radio[type="radio"] {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
 }
 
 .radioCard[type="radio"]:after,
 .radioBank[type="radio"]:after,
 .radioCod[type="radio"]:after,
 .radio[type="radio"]:after {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
   position: relative;
   background-color: white;
@@ -192,37 +233,37 @@
 }
 
 .radioCard[type="radio"]:checked:after {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
   position: relative;
   background-color: #f47b0a;
   content: "";
   display: inline-block;
   visibility: visible;
-  border: 8px solid white;
+  border: 4px solid white;
 }
 .radioBank[type="radio"]:checked:after {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
   position: relative;
   background-color: #895537;
   content: "";
   display: inline-block;
   visibility: visible;
-  border: 8px solid white;
+  border: 4px solid white;
 }
 .radioCod[type="radio"]:checked:after {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 100%;
   position: relative;
   background-color: #ffba33;
   content: "";
   display: inline-block;
   visibility: visible;
-  border: 8px solid white;
+  border: 4px solid white;
 }
 .textRadio {
   margin-left: 20px;
@@ -236,7 +277,7 @@
   align-items: center;
 }
 .boxTitle2 {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
   color: white;
   width: 450px;
@@ -245,8 +286,8 @@
 .payment {
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 450px;
-  padding: 40px 80px 40px 80px;
+  width: 450px !important;
+  padding: 20px 30px 20px 30px;
   border-radius: 20px;
   width: max-content;
   height: max-content;
@@ -254,7 +295,7 @@
 }
 .textIcon {
   margin-left: 20px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
 }
 .icon {
@@ -296,34 +337,95 @@
   margin-right: 0;
 }
 
+.dropdownSort1 {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0;
+  align-items: center;
+}
+.titleSort1 {
+  width: 100%;
+  font-size: 15px;
+  font-weight: 500 !important;
+  color: #9f9f9f;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #9f9f9f;
+}
+.titleSort1,
+.titleSort1::after,
+.titleSort1:hover {
+  box-shadow: none !important;
+  outline: none !important;
+  color: #9f9f9f;
+}
+
+.menuDropdown1 {
+  width: 100%;
+  height: max-content;
+  overflow-y: scroll;
+  background-color: #6a4029;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+  border: 0;
+}
+.menuDropdown1::-webkit-scrollbar-track {
+  border: 1px solid #6a4029;
+  padding: 2px 0;
+  background-color: #9f9f9f;
+  bottom: 0;
+  border-radius: 5px;
+}
+
+.menuDropdown1::-webkit-scrollbar {
+  width: 10px;
+}
+
+.menuDropdown1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px #6a4029;
+  background-color: #ffba33;
+  border: 1px solid #6a4029;
+}
+
+.listDiscount {
+  font-size: 16px !important;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.listDiscount:hover,
+.listDiscount:focus {
+  border: 0;
+  font-weight: 600;
+  border-radius: 10px;
+  background-color: #ffba33;
+  color: #4f5665;
+}
+
 @media (max-width: 900px) {
   .left {
     padding-left: 10px;
+  }
+  .right {
+    padding-top: 0;
+    align-items: flex-start;
   }
   .textTitle {
     width: 100%;
     padding: 0;
   }
+  .card {
+    width: 100%;
+  }
   .container {
     background-size: cover;
     padding: 100px 50px 4em 50px;
   }
-
-  .swiperSlide {
-    width: 100% !important;
-    margin-left: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
-
-  .swiperContainer {
-    width: 100%;
-    justify-content: center;
-    align-items: flex-start;
-  }
-
   .buttonDone,
   .buttonSwipe {
     width: 100%;
@@ -336,12 +438,6 @@
   }
   .cart {
     width: 100%;
-  }
-
-  .swiperSlide img {
-    width: 50px;
-    height: 50px;
-    border-radius: 10px;
   }
   .boxDesc {
     height: min-content;
@@ -369,13 +465,10 @@
     font-size: 14px;
   }
   .boxTitle2 {
+    width: 100%;
     text-align: left;
-    width: 100%;
-    justify-content: flex-start;
-    align-items: flex-start;
   }
-
   .payment {
-    width: 100%;
+    width: 360px !important;
   }
 }
