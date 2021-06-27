@@ -7,14 +7,6 @@ import Footer from "components/module/Footer";
 import styles from "styles/Home.module.css";
 import { ArrowLeft, ArrowRight, Heart, MapPin, User } from "phosphor-react";
 import { Button, Col, Row } from "react-bootstrap";
-import { unauthPage } from "middleware/authPage";
-
-// export const getServerSideProps = async (context) => {
-//   await unauthPage(context);
-//   return {
-//     props: {},
-//   };
-// };
 
 export default function Home() {
   const router = useRouter();

@@ -15,14 +15,15 @@ export default function Navbar(props) {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    axiosApiIntances
-      .get(`user/by-id/${userId}`)
-      .then((res) => {
-        setUserData(res.data.data[0]);
-      })
-      .catch(() => {
-        setUserData({});
-      });
+    userId &&
+      axiosApiIntances
+        .get(`user/by-id/${userId}`)
+        .then((res) => {
+          setUserData(res.data.data[0]);
+        })
+        .catch(() => {
+          setUserData({});
+        });
   }, []);
 
   return (

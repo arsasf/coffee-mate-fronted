@@ -11,6 +11,9 @@
 
 /* For screen 768px above */
 @media (min-width: 768px) {
+  .feedbackCard .head {
+    width: 35em !important;
+  }
   .hero {
     font-size: 1.2em;
     padding: 0 8em !important;
@@ -246,7 +249,7 @@
   align-items: center;
   margin-bottom: 2em;
   position: relative;
-  width: 40em;
+  width: 30em;
 }
 .feedbackCard .head h5 {
   font-weight: 700;
