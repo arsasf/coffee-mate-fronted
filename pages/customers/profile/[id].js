@@ -181,7 +181,7 @@ export default function Profile(props) {
 
   return (
     <Layout title="Profile">
-      <Navbar login={true} />
+      <Navbar login={true} userImageSSR={user_image} />
       <div className={styles.toastGroup}>
         <Toast
           onClose={() => setUpdateDataSuccess(false)}
@@ -316,7 +316,6 @@ export default function Profile(props) {
           <Col xs={12} md={4} lg={4}>
             <div className={`${styles.imageSection}`}>
               <div className={styles.avaContainer}>
-                {console.log(user_image)}
                 <Image
                   src={
                     user_image

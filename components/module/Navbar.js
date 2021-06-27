@@ -10,20 +10,24 @@ import { Button } from "react-bootstrap";
 
 export default function Navbar(props) {
   const router = useRouter();
+  const { userImageSSR } = props;
+  console.log(props.userImageSSR);
+
   const userId = Cookie.get("userId");
   const userRole = Cookie.get("userRole");
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    userId &&
-      axiosApiIntances
-        .get(`user/by-id/${userId}`)
-        .then((res) => {
-          setUserData(res.data.data[0]);
-        })
-        .catch(() => {
-          setUserData({});
-        });
+    userId && !userImageSSR
+      ? axiosApiIntances
+          .get(`user/by-id/${userId}`)
+          .then((res) => {
+            setUserData(res.data.data[0]);
+          })
+          .catch(() => {
+            setUserData({});
+          })
+      : "";
   }, []);
 
   return (
@@ -99,7 +103,9 @@ export default function Navbar(props) {
             >
               <Image
                 src={
-                  userData.user_image
+                  userImageSSR
+                    ? `http://localhost:3005/backend5/api/${userImageSSR}`
+                    : userData.user_image
                     ? `http://localhost:3005/backend5/api/${userData.user_image}`
                     : "/default-img-placeholder.png"
                 }
