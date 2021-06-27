@@ -6,7 +6,7 @@ import styles from "../../../styles/HistoryCustomer.module.css";
 import { useState, useEffect } from "react";
 import { authPage, customerPage } from "middleware/authPage";
 import axiosApiIntances from "utils/axios";
-
+import { useRouter } from "next/router"
 
 // export async function getServerSideProps(context) {
 //   const data = await authPage(context);
@@ -35,7 +35,11 @@ export const getServerSideProps = async (context) => {
     });
 
   const resres = await axiosApiIntances
-    .get(`invoice/history/${data.userId}`,)
+    .get(`invoice/history/${data.userId}`, {
+      headers: {
+        Authorization: `Bearer ${data.token || ""}`,
+      },
+    })
     .then((resres) => {
       // Console.log(data)
       return resres.data.data
@@ -50,11 +54,8 @@ export const getServerSideProps = async (context) => {
 };
 
 
-export default function historyCust(props) {
-
-
-
-
+export default function HistoryCust(props) {
+  const router = useRouter();
   // console.log(props);
   const [isClick, setIsClick] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -73,26 +74,24 @@ export default function historyCust(props) {
   };
   const handleCloseDelete = () => {
     setIsDelete(false);
+
   };
   const handleDeleteItem = () => {
     console.log("asdasdsad", orderId);
+    // window.location.reload();
+    // router.push(
+    //   `/customers/history-customer/${data.userId}`)
     axiosApiIntances
       .delete(`invoice/${orderId}`)
       .then((res) => {
-        // console.log(res.data.data);
+        console.log(res);
+        setIsDelete(false);
+        router.push(
+          `/customers/history-customer/${data.userId}`
+        );
         setShowAlert([true, res.data.msg]);
-        setTimeout(() => {
-          setShowAlert([false, ""]);
-        }, 3000);
-        // setUser(res.data.data);
       })
       .catch((err) => {
-        //   console.log(err.response);
-        //   setShowAlert([true, err.response.data.msg]);
-        //   setTimeout(() => {
-        //     setUserImage(`http://localhost:3004/backend3/api/${props.data.user_image}`);
-        //     setShowAlert([false, ""]);
-        //   }, 3000);
         return [];
       });
   };
@@ -131,6 +130,7 @@ export default function historyCust(props) {
 
           <Row>
             {props.resres.map((item, index) => {
+              console.log(item)
               return (
                 <Col key={index} sm={4}>
                   {isClick ? (
@@ -139,7 +139,7 @@ export default function historyCust(props) {
                         alt=""
                         src="/Ellipse 15.png"
                         className={styles.forDelete}
-                        onClick={() => { handleDelete(item.orders_id); }}
+                        onClick={() => { handleDelete(item.invoice_id); }}
                       />
                       <img
                         alt=""
@@ -151,7 +151,8 @@ export default function historyCust(props) {
                         alt=""
                         src="/Vector.png"
                         className={styles.imgDelete}
-                        onClick={() => { handleDelete(item.orders_id); }}
+                        onClick={() => { handleDelete(item.invoice_id); }}
+
                       />
                       <img
                         alt=""
@@ -207,6 +208,6 @@ export default function historyCust(props) {
         </Container>
       </Container>
       <Footer />
-    </Layout>
+    </Layout >
   );
 }

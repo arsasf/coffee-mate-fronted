@@ -7,6 +7,9 @@
 .left_column_text_1 {
   color: #6a4029;
 }
+.colom_addres {
+  padding-top: 40px;
+}
 
 .left_column_text_size {
   font-size: small;
@@ -54,7 +57,8 @@
 }
 
 .right_column_button_size {
-  width: 200px;
+  width: 320px;
+  height: 70px;
 }
 
 /* Responsive Design */

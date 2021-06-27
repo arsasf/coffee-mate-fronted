@@ -15,7 +15,7 @@ export default function PaymentDetails() {
         <div className={`${styles.payment_details_background} container-fluid`}>
           <div className="row ms-5">
             <div className="col mt-5 ms-5 mb-5">
-              <h3 className="text-light shadow">Checkout Your Item Now!</h3>
+              <h3 className="text-light shadow">Checkout Your <p>Item Now!</p></h3>
               <div className="row">
                 <div className={`${styles.left_column_1} col-8 bg-light ms-3`}>
                   <h3
@@ -86,11 +86,14 @@ export default function PaymentDetails() {
             </div>
             <div className="col mt-5 mb-5">
               <div className="row">
+                <div className="row">
+                  sdfsfd
+                </div>
                 <div className="col mt-2">
-                  <h5 className={`${styles.right_column_text} text-light`}>
+                  <h5 className={`${styles.colom_addres} text-light`}>
                     Address detail
                   </h5>
-                  <div className="row">
+                  <div className={`${styles.colom_addres} row`}>
                     <div className={`${styles.right_column_1} col-5 bg-light`}>
                       <p>
                         <b>Delivery</b> to Iskandar Street
@@ -164,7 +167,7 @@ export default function PaymentDetails() {
                 </div>
               </div>
               <button
-                className={`${styles.right_column_button_size} btn btn-secondary mt-4`}
+                className={`${styles.right_column_button_size} btn btn-secondary mt-3`}
               >
                 Confirm and Pay
               </button>
