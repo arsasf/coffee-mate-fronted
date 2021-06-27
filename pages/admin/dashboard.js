@@ -9,14 +9,31 @@ import { adminPage, authPage } from "middleware/authPage";
 import { Bar } from "react-chartjs-2";
 
 export const getServerSideProps = async (context) => {
+  let { time } = context.query;
+
   const data = await authPage(context);
   await adminPage(context);
   const authorization = {
     Authorization: `Bearer ${data.token || ""}`,
   };
 
-  const { time } = context.query;
-  const date = time != "thisWeek" ? time : new Date(Date.now()).toISOString();
+  // To get last week date
+  const today = new Date();
+  let lastWeek = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() - 7
+  );
+  const lastWeekDateFormat = `${lastWeek.getFullYear()}/${
+    lastWeek.getMonth() + 1
+  }/${lastWeek.getDate()}`;
+  // =====
+
+  const date =
+    !time || time === "thisWeek"
+      ? (time = new Date(Date.now()).toISOString())
+      : lastWeekDateFormat;
+
   const dataPerDay = await axiosApiIntances
     .get(`invoice/dashboard?time=${date}`, {
       headers: authorization,
@@ -36,12 +53,6 @@ export const getServerSideProps = async (context) => {
 export default function Dashboard(props) {
   const router = useRouter();
   const { dataPerDay } = props;
-  const today = new Date();
-  const lastWeek = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate() - 7
-  );
 
   const data = {
     labels: [
@@ -63,6 +74,7 @@ export default function Dashboard(props) {
           dataPerDay[3].total,
           dataPerDay[4].total,
           dataPerDay[5].total,
+          dataPerDay[6].total,
         ],
         backgroundColor: ["#ffba33"],
         borderColor: ["#ffba33"],
@@ -106,12 +118,7 @@ export default function Dashboard(props) {
             This Week
           </Dropdown.Item>
           <Dropdown.Item
-            onClick={() =>
-              router.push(
-                `/admin/dashboard?time=${lastWeek}`,
-                "/admin/dashboard?time=lastWeek"
-              )
-            }
+            onClick={() => router.push("/admin/dashboard?time=lastWeek")}
           >
             Last Week
           </Dropdown.Item>
