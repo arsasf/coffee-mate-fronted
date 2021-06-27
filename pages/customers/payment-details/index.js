@@ -222,7 +222,7 @@ export default function PaymentDetails(props) {
   return (
     <>
       <Layout title="Manage Order">
-        <Navbar login={true} admin={true} order={true} />
+        <Navbar login={true} cart={true} />
         <Modal show={show} className={styles.modal}>
           <Modal.Header className={styles.modalHeader}>
             <Modal.Title className={styles.modalTitle}>
