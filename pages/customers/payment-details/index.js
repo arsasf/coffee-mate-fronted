@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import "swiper/swiper.min.css";
 import "swiper/components/effect-cube/effect-cube.min.css";
 import "swiper/components/pagination/pagination.min.css";
@@ -27,6 +26,7 @@ import { useState } from "react";
 import { authPage, customerPage } from "middleware/authPage";
 import axiosApiIntances from "utils/axios";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export async function getServerSideProps(context) {
   const data = await authPage(context);
@@ -100,14 +100,16 @@ export default function PaymentDetails(props) {
     props.cart.length > 0
       ? props.cart.length === 1
         ? props.cart[0].product_sub_total
-        : props.cart.reduce((a, b) => a.product_sub_total + b.product_sub_total)
+        : props.cart.reduce(
+            (n, { product_sub_total }) => n + product_sub_total,
+            0
+          )
       : 0
   );
   const [discount, setDiscount] = useState(0);
-  const [tax, setTax] = useState(props.cart.length > 0 ? 10000 : 0);
+  const [tax] = useState(props.cart.length > 0 ? 10000 : 0);
   //*===================== Count Promo ==================================
   const subTotal = price - discount + tax;
-  console.log(price, props.cart.length);
   const date = Date.now();
   const formatDateDay = (dateString) => {
     const options = { day: "numeric" };
@@ -141,11 +143,30 @@ export default function PaymentDetails(props) {
       DateYear >= formatDateYear(expireStart) &&
       DateYear <= formatDateYear(expireEnd);
     const discountTotal = (price * parseInt(discount)) / 100;
-    if (price >= minPrice && discountTotal <= maxDiscount && date === true) {
+    if (price >= minPrice && discountTotal < maxDiscount && date === true) {
+      console.log(true);
       setDiscount(discountTotal);
-      setTax(10000);
       setCode(code);
     } else if (date === false) {
+      setDiscount(0);
+      setShow(true);
+      setLabel("Select Promo");
+      setInfo("ERROR : PROMO");
+      setMsg("Promo expired, choose other promo !");
+    } else if (price < minPrice) {
+      console.log(false);
+      setDiscount(0);
+      setShow(true);
+      setLabel("Select Promo");
+      setInfo("ERROR : PROMO");
+      setMsg(
+        `Sorry, min buy IDR ${minPrice.toLocaleString()} to use this promo !`
+      );
+    } else if (discountTotal >= maxDiscount) {
+      setDiscount(maxDiscount);
+    } else {
+      console.log(false);
+      setLabel("Select Promo");
       setDiscount(0);
     }
   };
@@ -210,23 +231,23 @@ export default function PaymentDetails(props) {
 
   //*========================= Handle For Modal =======================
   const handleClose = () => {
-    if (info === "ERROR : CREATE ORDER") {
+    if (info === "ERROR : CREATE ORDER" || info === "ERROR : PROMO") {
       router.push(`/customers/payment-details`);
       setShow(false);
     } else {
-      router.push("/customers/payment-details");
+      router.push(`/customers/history-customer/${props.user.user_id}`);
       setShow(false);
     }
   };
   //*===================== End Handle For Modal =======================
   return (
     <>
-      <Layout title="Manage Order">
-        <Navbar login={true} admin={true} order={true} />
+      <Layout title="My Cart">
+        <Navbar login={true} cart={true} />
         <Modal show={show} className={styles.modal}>
           <Modal.Header className={styles.modalHeader}>
             <Modal.Title className={styles.modalTitle}>
-              {info === "ERROR : CREATE ORDER" ? (
+              {info === "ERROR : CREATE ORDER" || info === "ERROR : PROMO" ? (
                 <XCircle size={30} color="#ff3d33" />
               ) : (
                 <CheckCircle size={30} color="#33ff8b" />
@@ -244,25 +265,24 @@ export default function PaymentDetails(props) {
         </Modal>
         <Container fluid className={styles.container}>
           <Container>
-            <Row xs={1} lg={2} className="mb-3 mb-mb-0 gy-3">
+            <Row xs={1} lg={2} className={`${styles.row} mb-3 mb-mb-0 gy-3`}>
               <Col xs={12} md={12} lg={6} className={styles.left}>
-                <h1 className={styles.textTitle}>
-                  Checkout your <br /> item now!
-                </h1>
-
+                <h1 className={styles.textTitle}>Checkout your item now!</h1>
                 <div className={styles.card}>
                   <h1 className={styles.textCardTitle}>{"Order Summary"}</h1>
                   <div className={styles.cart}>
                     {cart.map((item, index) => {
                       return (
                         <div className={styles.boxCart} key={index}>
-                          <img
+                          <Image
                             src={
                               item.product_image
                                 ? `${process.env.API_IMG_URL}${item.product_image}`
                                 : "/default-img-placeholder.png"
                             }
                             alt=""
+                            width={"120px"}
+                            height={"120px"}
                             className={styles.img}
                           />
                           <div className={styles.boxDesc}>
@@ -376,9 +396,7 @@ export default function PaymentDetails(props) {
                     {props.user.user_phone}
                   </h1>
                 </div>
-                <div>
-                  <h1 className={styles.boxTitle2}>Payment Method</h1>
-                </div>
+                <h1 className={styles.boxTitle2}>Payment Method</h1>
                 <div className={styles.payment}>
                   <div className={styles.boxIcon}>
                     <input

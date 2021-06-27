@@ -91,19 +91,19 @@ export default function ProductDetails(props) {
   };
 
   const handleProductSize = (event) => {
-    if (event === "R") {
+    if (event === "R" || event === "250gr") {
       setCount(1);
-      setSize("R");
+      setSize(event);
       setPrice(props.product.product_base_price);
       setInitialPrice(props.product.product_base_price);
-    } else if (event === "L") {
+    } else if (event === "L" || event === "300gr") {
       setCount(1);
-      setSize("L");
+      setSize(event);
       setPrice(props.product.product_base_price + 3000);
       setInitialPrice(props.product.product_base_price + 3000);
     } else {
       setCount(1);
-      setSize("XL");
+      setSize(event);
       setPrice(props.product.product_base_price + 5000);
       setInitialPrice(props.product.product_base_price + 5000);
     }
