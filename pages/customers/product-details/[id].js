@@ -92,17 +92,20 @@ export default function ProductDetails(props) {
 
   const handleProductSize = (event) => {
     if (event === "R") {
+      setCount(1);
+      setSize("R");
       setPrice(props.product.product_base_price);
       setInitialPrice(props.product.product_base_price);
-      setSize("R");
     } else if (event === "L") {
+      setCount(1);
+      setSize("L");
       setPrice(props.product.product_base_price + 3000);
       setInitialPrice(props.product.product_base_price + 3000);
-      setSize("L");
     } else {
+      setCount(1);
+      setSize("XL");
       setPrice(props.product.product_base_price + 5000);
       setInitialPrice(props.product.product_base_price + 5000);
-      setSize("XL");
     }
   };
 
