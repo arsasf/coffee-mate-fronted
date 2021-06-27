@@ -44,7 +44,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 5.5em;
 }
 
 .right_column_2 {
@@ -137,11 +136,6 @@
   height: 100px;
   border-radius: 100%;
 }
-
-.left {
-  padding-left: 5.5em;
-}
-
 .textPromo {
   font-weight: 600;
   color: #4f5665;
@@ -171,7 +165,7 @@
   margin: 0.5em 0;
 }
 .buttonCart {
-  width: 100%;
+  width: 90%;
   height: 60px;
 }
 .countProduct h4 {
@@ -198,13 +192,20 @@
 }
 
 /* For screen 768px below */
-@media only screen and (max-width: 768px) {
+@media only screen and (min-width: 768px) {
+  .left {
+    padding-left: 12em;
+  }
+  .right {
+    padding-right: 10em;
+  }
 }
 
 /* For screen 576px below */
 @media only screen and (max-width: 576px) {
   .left {
-    padding-right: 50px;
+    padding-left: 4em;
+    padding-right: 4em;
   }
   .right {
     padding-left: 50px;

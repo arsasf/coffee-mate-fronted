@@ -6,13 +6,16 @@
   .errorAlert {
     font-size: 1.3em !important;
   }
+  .leftBanner,
+  .rightSide {
+    height: 100%;
+  }
   .leftBanner {
     display: block !important;
     background-image: url("/auth-img-background.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 100%;
     position: relative;
   }
   .leftBanner::after {
@@ -43,26 +46,39 @@
     font-size: 1.1em !important;
   }
   .overflowCard {
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 6px 20px 0px #c4c4c4ab;
+    display: flex !important;
+    height: 22em;
+    justify-content: space-between;
+    margin: 0 10em;
+    padding: 0 8em;
     position: absolute;
-    bottom: -70%;
+    bottom: -37em;
     left: 0;
     right: 0;
-    align-items: center;
-    flex-direction: row !important;
-    justify-content: space-between;
-    margin: 0 18em !important;
-    padding: 5em 8em !important;
   }
   .overflowCard button {
     height: fit-content;
-    margin: 0 !important;
-    padding: 1.2em 5em !important;
+    margin: 0;
+    padding: 1.2em 5em;
   }
   .overflowCard div {
     width: 40%;
   }
+  .overflowCard h2 {
+    font-weight: 600;
+  }
+  .overflowCard span {
+    font-size: 1.4em !important;
+  }
   .rightSide {
-    padding: 5em 10em 30em !important;
+    padding: 5em 10em 0 !important;
+  }
+  .stackCard {
+    display: none !important;
   }
 }
 
@@ -86,6 +102,13 @@
   .signupBtn {
     font-size: 1.6em !important;
   }
+  .overflowCard {
+    height: 27em;
+    bottom: -56em;
+  }
+  .outerContainer {
+    height: 110em !important;
+  }
 }
 
 /* Small device (768px below) */
@@ -94,7 +117,8 @@
   display: flex;
 }
 .brand span,
-.overflowCard h2 {
+.overflowCard h2,
+.stackCard h2 {
   color: #0b132a;
 }
 .brand .brandLogo {
@@ -135,7 +159,7 @@
   color: #412719;
 }
 .loginForm h1,
-.overflowCard h2 {
+.stackCard h2 {
   font-size: 2.5em;
 }
 .loginForm h1 {
@@ -155,7 +179,7 @@
 .loginForm input,
 .loginForm .googleBtn,
 .loginForm .loginBtn,
-.overflowCard button {
+.stackCard button {
   border-radius: 1em;
   font-size: 1em;
   padding: 1.5em 2em;
@@ -178,21 +202,26 @@
 .outerContainer {
   display: relative;
   font-size: 62.5%;
+  height: 90em;
 }
 .overflowCard {
+  display: none;
+}
+.stackCard {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 6px 20px 0px #c4c4c4ab;
   display: flex;
   flex-direction: column;
   margin-top: 5em;
-  padding: 2em;
+  padding: 3em;
 }
-.overflowCard button {
+.stackCard button {
   margin-top: 1.5em;
 }
 .loginForm label,
-.overflowCard span {
+.overflowCard span,
+.stackCard span {
   color: #4f5665;
 }
 .signupBtn {

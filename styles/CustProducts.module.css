@@ -1,5 +1,16 @@
+/* For screen 768px above */
+@media (min-width: 768px) {
+  .container {
+    padding-left: 10em !important;
+    padding-right: 10em !important;
+  }
+}
 /* For screen 992px above */
 @media (min-width: 992px) {
+  .emptyPromo {
+    font-size: 2em !important;
+    padding: 2em !important;
+  }
   .container {
     flex-direction: row !important;
     font-size: 0.6em !important;
@@ -28,18 +39,20 @@
   .coupon span {
     font-size: 0.9em !important;
   }
-  .products,
+  .products {
+    padding-left: 4em !important;
+  }
   .promoSection {
-    padding: inherit 4em !important;
+    padding-right: 4em !important;
   }
   .products {
-    width: 65% !important;
+    width: 70% !important;
   }
   .productList {
     padding: 12em 0 !important;
   }
   .promoSection {
-    width: 35% !important;
+    width: 30% !important;
     border-bottom: none !important;
     border-right: 0.5px solid #9f9f9f;
   }
@@ -65,13 +78,8 @@
 @media (min-width: 1200px) {
   .container {
     font-size: 0.7em !important;
-  }
-  .products,
-  .promoSection {
-    padding: inherit 5em !important;
-  }
-  .promoSection {
-    width: 30% !important;
+    padding-left: 9em !important;
+    padding-right: 9em !important;
   }
   .promoSection .head p {
     width: 90% !important;
@@ -80,6 +88,7 @@
 
 /* For small device 992px below */
 .container {
+  padding: 0 3em;
   display: flex;
   flex-direction: column;
   font-size: 62.5%;
@@ -90,18 +99,12 @@
   height: 100px;
   overflow: auto;
   padding: 0.5em;
-  /*For disabling scroll bar in mozilla*/
   scrollbar-width: none;
-  /*===*/
   width: 100%;
 }
-
-/* Disabling scroll bar in chrome, opera, edge, safari, etc */
 .coupons::-webkit-scrollbar {
   display: none;
 }
-/* === */
-
 .coupon {
   align-items: center;
   background-color: #88b788;
@@ -134,9 +137,8 @@
 }
 .products,
 .promoSection {
-  padding: 12em 3em !important;
+  padding: 12em 0;
 }
-
 .cardProduct {
   align-items: center;
   border-radius: 30px;
@@ -179,7 +181,6 @@
   object-fit: cover;
   width: 100%;
 }
-
 .category {
   display: flex;
   gap: 3em !important;
@@ -215,6 +216,18 @@
   height: 0.15em;
   left: 0;
   position: absolute;
+}
+.emptyPromo {
+  border: 2px solid #c7c7c7;
+  border-radius: 10px;
+  color: #c7c7c7;
+  display: grid;
+  place-items: center;
+  font-size: 1.2em;
+  font-weight: 700;
+  padding: 1em 0;
+  text-align: center;
+  width: 100%;
 }
 .productList {
   padding: 5em 0 10em !important;
@@ -311,7 +324,6 @@
 .pagination ul {
   padding-left: 0 !important;
 }
-
 .pagination > li > a {
   background-color: #ffffff;
   border: 0.5px solid #dedede;
@@ -322,14 +334,12 @@
   cursor: pointer;
   border-radius: 8px;
 }
-
 .pagination > li:last-child > a,
 .pagination > li:first-child > a {
   border: none !important;
   background-color: transparent !important;
   display: none;
 }
-
 .pagination > .active > a,
 .pagination > .active > span,
 .pagination > .active > a:hover,

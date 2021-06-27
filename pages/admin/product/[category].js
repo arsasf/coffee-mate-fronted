@@ -20,7 +20,7 @@ import {
 } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
 import { MagnifyingGlass } from "phosphor-react";
-import { X, PencilSimple, Warning } from "phosphor-react";
+import { X, PencilSimple, SmileySad, Warning } from "phosphor-react";
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
@@ -251,42 +251,50 @@ export default function Product(props) {
             <p>Coupons will be updated every weeks. Check them out!</p>
           </div>
           <div className={styles.coupons}>
-            {/* LOOP HERE */}
-            {promos.map((item, index) => (
-              <div className={styles.coupon} key={index}>
-                {item.promo_image && (
-                  <img
-                    src={`${process.env.API_IMG_URL}${item.promo_image}`}
-                    alt="coupon-image"
-                  />
-                )}
-                <div>
-                  <h6>{item.promo_name}</h6>
-                  <span>{item.promo_desc}</span>
+            {props.promos.length > 0 ? (
+              promos.map((item, index) => (
+                <div className={styles.coupon} key={index}>
+                  {item.promo_image && (
+                    <img
+                      src={`${process.env.API_IMG_URL}${item.promo_image}`}
+                      alt="coupon-image"
+                    />
+                  )}
+                  <div>
+                    <h6>{item.promo_name}</h6>
+                    <span>{item.promo_desc}</span>
+                  </div>
+                  <div
+                    className={styles.delete}
+                    onClick={() => {
+                      setConfirmModal(true),
+                        setDeleteCoupon({
+                          ...deleteCoupon,
+                          true: true,
+                          id: item.promo_id,
+                        });
+                    }}
+                  >
+                    <X color="#ffffff" weight="bold" />
+                  </div>
+                  <div
+                    className={styles.edit}
+                    onClick={() =>
+                      router.push(`/admin/update-promo/${item.promo_id}`)
+                    }
+                  >
+                    <PencilSimple color="#ffffff" weight="bold" />
+                  </div>
                 </div>
-                <div
-                  className={styles.delete}
-                  onClick={() => {
-                    setConfirmModal(true),
-                      setDeleteCoupon({
-                        ...deleteCoupon,
-                        true: true,
-                        id: item.promo_id,
-                      });
-                  }}
-                >
-                  <X color="#ffffff" weight="bold" />
-                </div>
-                <div
-                  className={styles.edit}
-                  onClick={() =>
-                    router.push(`/admin/update-promo/${item.promo_id}`)
-                  }
-                >
-                  <PencilSimple color="#ffffff" weight="bold" />
-                </div>
+              ))
+            ) : (
+              <div className={styles.emptyPromo}>
+                <p className="m-0 mb-lg-3">
+                  Sorry, We don't have promo for now
+                </p>
+                <SmileySad size={32} weight="bold" />
               </div>
-            ))}
+            )}
           </div>
           <Button
             variant="secondary"

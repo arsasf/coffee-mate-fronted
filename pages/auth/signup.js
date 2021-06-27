@@ -54,7 +54,7 @@ export default function Signup() {
   return (
     <Layout title="Signup">
       <div className={styles.outerContainer}>
-        <Row xs={1} md={2} className="g-0">
+        <Row xs={1} md={2} className="g-0 h-100">
           <Col>
             <div className={`${styles.leftBanner}`} />
           </Col>
@@ -181,7 +181,7 @@ export default function Signup() {
                   Sign up with Google
                 </Button>
               </Form>
-              <div className={styles.overflowCard}>
+              <div className={styles.stackCard}>
                 <div>
                   <h2>Get your member card now!</h2>
                   <span>
@@ -199,6 +199,19 @@ export default function Signup() {
             </div>
           </Col>
         </Row>
+        <div className={styles.overflowCard}>
+          <div>
+            <h2>Get your member card now!</h2>
+            <span>{"Let's join with our member and enjoy the deals."}</span>
+          </div>
+          <Button
+            variant="primary"
+            type="button"
+            onClick={() => router.push("/signup")}
+          >
+            Create Now
+          </Button>
+        </div>
       </div>
       <Footer home={false} />
     </Layout>
