@@ -3,25 +3,28 @@ import axiosApiIntances from "utils/axios";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { authPage, customerPage } from "middleware/authPage";
-import styles from "styles/CustProducts.module.css";
+import { authPage, adminPage } from "middleware/authPage";
+import styles from "styles/AdminProducts.module.css";
 import Layout from "components/Layout";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
 import {
+  Alert,
   Button,
   Col,
   Dropdown,
   DropdownButton,
   Form,
+  Modal,
   Row,
 } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
 import { MagnifyingGlass } from "phosphor-react";
+import { X, PencilSimple, Warning } from "phosphor-react";
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
-  await customerPage(context);
+  await adminPage(context);
 
   const authorization = { Authorization: `Bearer ${data.token || ""}` };
   let { category } = context.params;
@@ -44,7 +47,6 @@ export const getServerSideProps = async (context) => {
   !keyword ? (keyword = "") : keyword;
   !order ? (order = "") : order;
   !page ? (page = "1") : page;
-
   let products;
   if (category) {
     products = await axiosApiIntances
@@ -72,6 +74,7 @@ export const getServerSideProps = async (context) => {
         return { data: [], pagination: { totalPage: "0" } };
       });
   }
+
   return {
     props: { pagination: products.pagination, products: products.data, promos },
   };
@@ -79,31 +82,78 @@ export const getServerSideProps = async (context) => {
 
 export default function Product(props) {
   const router = useRouter();
+  const { pagination, products, promos } = props;
   const [page, setPage] = useState("1");
   const [order, setOrder] = useState("");
   const [keyword, setKeyword] = useState("");
-  const [selectedCoupon, setSelectedCoupon] = useState({});
+  const [confirmModal, setConfirmModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [deleteCoupon, setDeleteCoupon] = useState({ true: false });
+  const [deleteProduct, setDeleteProduct] = useState({ true: false });
 
-  const handleSelectCoupon = (e) => {
-    setSelectedCoupon({
-      [e.target.id]: true,
+  const handleDeleteCoupon = (id) => {
+    axiosApiIntances.delete(`promo/${id}`).then(() => {
+      setDeleteCoupon({ true: false });
+      keyword && order
+        ? router.push({
+            pathname: `/admin/product/${selectedCategory}`,
+            query: { keyword, order, page },
+          })
+        : keyword
+        ? router.push({
+            pathname: `/admin/product/${selectedCategory}`,
+            query: { keyword, page },
+          })
+        : order
+        ? router.push({
+            pathname: `/admin/product/${selectedCategory}`,
+            query: { order, page },
+          })
+        : router.push({
+            pathname: `/admin/product/${selectedCategory}`,
+            query: { page },
+          });
+    });
+  };
+
+  const handleDeleteProduct = (id) => {
+    axiosApiIntances.delete(`product/${id}`).then(() => {
+      setDeleteProduct({ true: false });
+      keyword && order
+        ? router.push({
+            pathname: `/admin/product/${selectedCategory}`,
+            query: { keyword, order, page },
+          })
+        : keyword
+        ? router.push({
+            pathname: `/admin/product/${selectedCategory}`,
+            query: { keyword, page },
+          })
+        : order
+        ? router.push({
+            pathname: `/admin/product/${selectedCategory}`,
+            query: { order, page },
+          })
+        : router.push({
+            pathname: `/admin/product/${selectedCategory}`,
+            query: { page },
+          });
     });
   };
 
   const handleSearch = () => {
     keyword && order
       ? router.push({
-          pathname: `/customers/product/${selectedCategory}`,
+          pathname: `/admin/product/${selectedCategory}`,
           query: { keyword, order },
         })
       : keyword
       ? router.push({
-          pathname: `/customers/product/${selectedCategory}`,
+          pathname: `/admin/product/${selectedCategory}`,
           query: { keyword },
         })
       : router.push({
-          pathname: `/customers/product/${selectedCategory}`,
+          pathname: `/admin/product/${selectedCategory}`,
           query: { order },
         });
   };
@@ -114,62 +164,136 @@ export default function Product(props) {
 
     keyword && order
       ? router.push({
-          pathname: `/customers/product/${selectedCategory}`,
+          pathname: `/admin/product/${selectedCategory}`,
           query: { keyword, order, page: selectedPage },
         })
       : keyword
       ? router.push({
-          pathname: `/customers/product/${selectedCategory}`,
+          pathname: `/admin/product/${selectedCategory}`,
           query: { keyword, page: selectedPage },
         })
       : order
       ? router.push({
-          pathname: `/customers/product/${selectedCategory}`,
+          pathname: `/admin/product/${selectedCategory}`,
           query: { order, page: selectedPage },
         })
       : router.push({
-          pathname: `/customers/product/${selectedCategory}`,
+          pathname: `/admin/product/${selectedCategory}`,
           query: { page: selectedPage },
         });
   };
 
   return (
     <Layout title="Products">
-      <Navbar product={true} login={true} />
+      <Navbar login={true} product={true} />
       <div className={styles.container}>
+        <Modal
+          size="sm"
+          show={confirmModal}
+          onHide={() => {
+            setConfirmModal(false),
+              setDeleteCoupon({ true: false }),
+              setDeleteProduct({ true: false });
+          }}
+          aria-labelledby="example-modal-sizes-title-sm"
+        >
+          <Modal.Header>
+            <Modal.Title id="example-modal-sizes-title-sm">
+              Delete Item
+            </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body className="text-start">
+            Are you sure want to delete this item?
+            <Alert
+              variant="danger"
+              className="d-flex flex-column align-items-center justify-content-center text-bold text-center mt-3"
+              style={{
+                fontSize: ".8em",
+                fontWeight: "600",
+                backgroundColor: "#ff9aa4",
+                color: "#b91929",
+              }}
+            >
+              <Warning weight="bold" size={28} className="mb-2" />
+              Warning! Unable to recover data while action is executed.
+            </Alert>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              style={{ height: "36px", padding: "0px 10%" }}
+              variant="light"
+              onClick={() => {
+                setConfirmModal(false);
+                setDeleteCoupon({ true: false });
+                setDeleteProduct({ true: false });
+              }}
+            >
+              Close
+            </Button>
+            <Button
+              style={{ height: "36px", padding: "0px 10%" }}
+              variant="primary"
+              onClick={() => {
+                setConfirmModal(false);
+                deleteCoupon.true
+                  ? handleDeleteCoupon(deleteCoupon.id)
+                  : handleDeleteProduct(deleteProduct.id);
+              }}
+            >
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <section className={styles.promoSection}>
           <div className={styles.head}>
             <h1>Promo Today</h1>
             <p>Coupons will be updated every weeks. Check them out!</p>
           </div>
           <div className={styles.coupons}>
-            {/* LOOPING HERE */}
-            {props.promos.map((item, index) => (
-              <div
-                id={`c${item.promo_id}`}
-                className={`${styles.coupon}`}
-                // ${
-                //   `
-                //   ${selectedCoupon.c}${item.promo_id}` && styles.selectedCoupon
-                // }
-                key={item.promo_id}
-                onClick={(e) => handleSelectCoupon(e)}
-              >
+            {/* LOOP HERE */}
+            {promos.map((item, index) => (
+              <div className={styles.coupon} key={index}>
                 {item.promo_image && (
                   <img
-                    id={`c${item.promo_id}`}
                     src={`${process.env.API_IMG_URL}${item.promo_image}`}
                     alt="coupon-image"
                   />
                 )}
-                <div id={`c${item.promo_id}`}>
-                  <h6 id={`c${item.promo_id}`}>{item.promo_name}</h6>
-                  <span id={`c${item.promo_id}`}>{item.promo_desc}</span>
+                <div>
+                  <h6>{item.promo_name}</h6>
+                  <span>{item.promo_desc}</span>
+                </div>
+                <div
+                  className={styles.delete}
+                  onClick={() => {
+                    setConfirmModal(true),
+                      setDeleteCoupon({
+                        ...deleteCoupon,
+                        true: true,
+                        id: item.promo_id,
+                      });
+                  }}
+                >
+                  <X color="#ffffff" weight="bold" />
+                </div>
+                <div
+                  className={styles.edit}
+                  onClick={() =>
+                    router.push(`/admin/update-promo/${item.promo_id}`)
+                  }
+                >
+                  <PencilSimple color="#ffffff" weight="bold" />
                 </div>
               </div>
             ))}
           </div>
-          <Button variant="secondary">Apply Coupon</Button>
+          <Button
+            variant="secondary"
+            onClick={() => router.push("/admin/new-promo")}
+          >
+            Add New Promo
+          </Button>
           <section className={styles.termsCondition}>
             <h2>Terms and Condition</h2>
             <ol>
@@ -189,8 +313,7 @@ export default function Product(props) {
               }
               onClick={(e) => {
                 setSelectedCategory(e.target.id),
-                  setPage(1),
-                  router.push(`/customers/product/${e.target.id}?page=1`);
+                  router.push(`/admin/product/${e.target.id}?page=1`);
               }}
             >
               All Products
@@ -202,21 +325,19 @@ export default function Product(props) {
               }
               onClick={(e) => {
                 setSelectedCategory(e.target.id),
-                  setPage(1),
-                  router.push(`/customers/product/${e.target.id}?page=1`);
+                  router.push(`/admin/product/${e.target.id}?page=1`);
               }}
             >
               Coffee
             </h4>
             <h4
-              id="noncoffee"
+              id="nonCoffee"
               className={
-                selectedCategory === "noncoffee" ? styles.activeCategory : ""
+                selectedCategory === "nonCoffee" ? styles.activeCategory : ""
               }
               onClick={(e) => {
                 setSelectedCategory(e.target.id),
-                  setPage(1),
-                  router.push(`/customers/product/${e.target.id}?page=1`);
+                  router.push(`/admin/product/${e.target.id}?page=1`);
               }}
             >
               Non Coffee
@@ -228,21 +349,19 @@ export default function Product(props) {
               }
               onClick={(e) => {
                 setSelectedCategory(e.target.id),
-                  setPage(1),
-                  router.push(`/customers/product/${e.target.id}?page=1`);
+                  router.push(`/admin/product/${e.target.id}?page=1`);
               }}
             >
               Foods
             </h4>
             <h4
-              id="addon"
+              id="addOn"
               className={
-                selectedCategory === "addon" ? styles.activeCategory : ""
+                selectedCategory === "addOn" ? styles.activeCategory : ""
               }
               onClick={(e) => {
                 setSelectedCategory(e.target.id),
-                  setPage(1),
-                  router.push(`/customers/product/${e.target.id}?page=1`);
+                  router.push(`/admin/product/${e.target.id}?page=1`);
               }}
             >
               Add-On
@@ -289,7 +408,8 @@ export default function Product(props) {
           </div>
           <main className={styles.productList}>
             <Row xs={2} md={4} className={`gx-3 ${styles.row}`}>
-              {props.products.length === 0 ? (
+              {/* LOOP HERE */}
+              {products.length === 0 ? (
                 <Col style={{ width: "100%" }}>
                   <div
                     style={{
@@ -302,15 +422,8 @@ export default function Product(props) {
                   </div>
                 </Col>
               ) : (
-                props.products.map((item, index) => (
-                  <Col
-                    key={index}
-                    onClick={() =>
-                      router.push(
-                        `/customers/product-details/${item.product_id}`
-                      )
-                    }
-                  >
+                products.map((item, index) => (
+                  <Col key={index}>
                     <div className={styles.cardProduct}>
                       <div className={styles.imgContainer}>
                         <Image
@@ -329,6 +442,31 @@ export default function Product(props) {
                           IDR {item.product_base_price.toLocaleString("id-ID")}
                         </span>
                       </div>
+                      <div className={styles.actionBtn}>
+                        <div
+                          className={styles.delete}
+                          onClick={() => {
+                            setConfirmModal(true),
+                              setDeleteProduct({
+                                ...deleteProduct,
+                                true: true,
+                                id: item.product_id,
+                              });
+                          }}
+                        >
+                          <X color="#ffffff" weight="bold" />
+                        </div>
+                        <div
+                          className={styles.edit}
+                          onClick={() =>
+                            router.push(
+                              `/admin/update-product/${item.product_id}`
+                            )
+                          }
+                        >
+                          <PencilSimple color="#ffffff" weight="bold" />
+                        </div>
+                      </div>
                     </div>
                   </Col>
                 ))
@@ -343,7 +481,7 @@ export default function Product(props) {
               nextLabel={""}
               breakLabel={"..."}
               breakClassName={"break-me"}
-              pageCount={props.pagination.totalPage} // Total page
+              pageCount={pagination.totalPage} // Total page
               marginPagesDisplayed={2}
               pageRangeDisplayed={2}
               onPageChange={(e) => handlePageClick(e)}
@@ -352,6 +490,13 @@ export default function Product(props) {
               activeClassName={styles.active}
             />
           </div>
+          <Button
+            variant="secondary"
+            className={styles.addNewProduct}
+            onClick={() => router.push("/admin/new-product")}
+          >
+            Add New Product
+          </Button>
         </section>
       </div>
       <Footer />

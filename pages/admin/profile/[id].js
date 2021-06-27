@@ -32,7 +32,11 @@ export const getServerSideProps = async (context) => {
   const data = await authPage(context);
   await adminPage(context);
   const res = await axiosApiIntances
-    .get(`user/by-id/${data.userId}`)
+    .get(`user/by-id/${data.userId}`, {
+      headers: {
+        Authorization: `Bearer ${data.token || ""}`,
+      },
+    })
     .then((res) => {
       return res.data.data[0];
     })

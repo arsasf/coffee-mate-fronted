@@ -12,10 +12,9 @@
   .coupon {
     cursor: pointer;
     padding: 1em !important;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+    transition: transform 0.2s ease-in-out !important;
   }
   .coupon:hover {
-    box-shadow: -4px 4px 5px 0px rgba(57, 57, 57, 0.25);
     transform: translateX(0.5em);
   }
   .coupon img {
@@ -110,10 +109,6 @@
   cursor: pointer;
   display: flex;
   padding: 1em 2em;
-  transition: box-shadow 0.2s ease-in-out;
-}
-.coupon:hover {
-  box-shadow: 0 0px 30px 0px rgba(57, 57, 57, 0.25);
 }
 .coupon img {
   height: 100%;
@@ -277,9 +272,22 @@
   justify-content: center;
   margin: 4em 0;
 }
-/* .searchBar input {
-  width: 50%;
-} */
+.searchBar .searchBtn {
+  align-items: center;
+  border: 1px solid #c4c4c4;
+  color: #3a3d42;
+  font-size: 1.8em;
+  display: flex;
+  padding: 0.5em;
+}
+.searchBtn:hover {
+  background-color: #ffba33;
+  border: 1px solid #ffba33;
+  color: #ffffff;
+}
+.searchBar .sortBtn button {
+  height: 100%;
+}
 .searchBar button {
   border-radius: 5px !important;
   font-size: 1.2em;
