@@ -13,3 +13,10 @@ export const register = (data) => {
     payload: axiosApiIntances.post("auth/register", data),
   };
 };
+
+export const forgotPassword = (data) => {
+  return {
+    type: "FORGOT_PASSWORD",
+    payload: axiosApiIntances.post("auth/request-otp", data)
+  }
+}
