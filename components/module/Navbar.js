@@ -11,7 +11,6 @@ import { Button } from "react-bootstrap";
 export default function Navbar(props) {
   const router = useRouter();
   const { userImageSSR } = props;
-  console.log(props.userImageSSR);
 
   const userId = Cookie.get("userId");
   const userRole = Cookie.get("userRole");
