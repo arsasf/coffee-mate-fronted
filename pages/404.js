@@ -42,8 +42,8 @@ export default function Page404() {
             router.push(
               `${
                 Cookie.get("userRole") === "user"
-                  ? "/customers/product"
-                  : "/admin/product"
+                  ? "/customers/product/all"
+                  : "/admin/product/all"
               }`
             )
           }

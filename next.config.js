@@ -23,6 +23,10 @@ module.exports = {
         destination: "/auth/forgot-password",
       },
       {
+        source: "/change-password",
+        destination: "/auth/change-password",
+      },
+      {
         source: "/admin/new-product",
         destination: "/admin/product/new-product",
       },
@@ -37,6 +41,10 @@ module.exports = {
       {
         source: "/admin/update-promo/:id",
         destination: "/admin/product/update-promo/:id",
+      },
+      {
+        source: "/historycust",
+        destination: "/historycustomer",
       },
     ];
   },

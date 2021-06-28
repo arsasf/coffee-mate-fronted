@@ -10,34 +10,69 @@ import {
   Form,
   Button,
   FormControl,
+  Modal,
 } from "react-bootstrap";
-import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { authPage, adminPage } from "middleware/authPage";
+import axiosApiIntances from "utils/axios";
+import React, { useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 
-export default function NewProduct() {
+export async function getServerSideProps(context) {
+  const data = await authPage(context);
+  await adminPage(context);
+  //*======================== REQ API USER LOGIN ======================
+  const result = await axiosApiIntances
+    .get(`/user/by-id/${data.userId}`, {
+      headers: {
+        Authorization: `Bearer ${data.token || ""}`,
+      },
+    })
+    .then((res) => {
+      return res.data.data[0];
+    })
+    .catch((err) => {
+      console.log(err);
+      return [];
+    });
+  //*==================== END REQ API USER LOGIN ======================
+
+  return {
+    props: { data: result, userLogin: data },
+  };
+}
+
+export default function NewProduct(props) {
+  //*=========================== UseState =============================
   const router = useRouter();
   const [title, setTitle] = useState("Add Product");
   const [label, setLabel] = useState("Select Category");
+  const [active, setActive] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [add, setAdd] = useState(false);
+  const [show, setShow] = useState(false);
+  const [info, setInfo] = useState("");
+  const [preview, setPreview] = useState(false);
+  const [idProduct, setIdProduct] = useState("");
   const [category] = useState([
     "Select Category",
-    "Coffe",
+    "Coffee",
     "Non Coffee",
     "Food",
     "Add On",
   ]);
-  const [active, setActive] = useState(false);
   const [menuProduct] = useState([
     {
-      link: "/admin/new-product",
+      link: "/admin/new-product/0",
       category: "Add Product",
     },
     {
-      link: "/admin/new-promo",
+      link: "/admin/new-promo/0",
       category: "Add Promo",
     },
     {
-      link: "/admin/update-product/1",
+      link: `/admin/update-product/${idProduct}`,
       category: "Update Product",
     },
     {
@@ -45,7 +80,6 @@ export default function NewProduct() {
       category: "Update Promo",
     },
   ]);
-
   const [sizeDrink] = useState([
     { category: "coffee", size: "R" },
     { category: "coffee", size: "L" },
@@ -56,29 +90,236 @@ export default function NewProduct() {
     { category: "food", size: 300 },
     { category: "food", size: 500 },
   ]);
+  const [form, setForm] = useState({
+    productName: "",
+    productPrice: 0,
+    productCategory: "",
+    productDesc: "",
+    productSize: "",
+    imageUser: null,
+  });
+  //*======================= End UseState =============================
 
+  const resetData = () => {
+    setForm({
+      productName: "",
+      productPrice: 0,
+      productCategory: "",
+      productDesc: "",
+      productSize: "",
+    });
+    setPreview("");
+    setActive(false);
+  };
+  //*================================ Drag & Drop Image ===============
+  const thumb = {
+    borderRadius: 100,
+    width: 250,
+    height: 250,
+    objectFit: "cover",
+  };
+  const thumbInner = {
+    display: "flex",
+    minWidth: 0,
+    overflow: "hidden",
+  };
+  const img = {
+    borderRadius: "100%",
+    width: "250px",
+    height: "250px",
+    objectFit: "cover",
+  };
+  const [files, setFiles] = useState([]);
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: "image/*",
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
+      );
+    },
+  });
+  const thumbs = files.map((file) => (
+    <div style={thumb} key={file.name}>
+      <div style={thumbInner}>
+        <img src={file.preview} style={img} />
+      </div>
+    </div>
+  ));
+
+  useEffect(
+    () => () => {
+      // Make sure to revoke the data uris to avoid memory leaks
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    },
+    [files]
+  );
+  //*============================ End Drag & Drop Image ===============
+
+  //*========================== Handle Form Input =====================
   const handleClick = (params1, params2) => {
     router.push(params1);
     setTitle(params2);
   };
-
   const handleClickCategory = (param) => {
     setLabel(param);
+    if (param === "Food") {
+      setForm({
+        ...form,
+        productCategory: "food",
+      });
+    } else if (param === "Coffee") {
+      setForm({
+        ...form,
+        productCategory: "coffee",
+      });
+    } else if (param === "Non Coffee") {
+      setForm({
+        ...form,
+        productCategory: "noncoffee",
+      });
+    } else if (param === "Add On") {
+      setForm({
+        ...form,
+        productCategory: "addon",
+      });
+    }
   };
-
   const handleClickSize = (param) => {
     if (param === "R" || param === "L" || param === "XL") {
       setActive("coffee");
+      setForm({
+        ...form,
+        productSize: "R, L, XL",
+      });
     } else if (param === 250 || param === 300 || param === 500) {
       setActive("food");
+      setForm({
+        ...form,
+        productSize: "250gr, 300gr, 500gr",
+      });
     } else {
       setActive(false);
     }
   };
+  const changeText = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+  //*====================== End Handle Form Input =====================
+  //*========================== Handle REQ API  =======================
+  const handleSave = () => {
+    console.log("addImage");
+    if (
+      form.productName === "" ||
+      parseInt(form.productPrice) === 0 ||
+      form.productCategory === "" ||
+      form.productDesc === "" ||
+      form.productSize === ""
+    ) {
+      setShow(true);
+      setInfo("ERROR : ADD PRODUCT");
+      setMsg("Please Input Field !");
+    } else {
+      const formData = new FormData();
+      formData.append("productName", form.productName);
+      formData.append("productPrice", form.productPrice);
+      formData.append("productCategory", form.productCategory);
+      formData.append("productSize", form.productSize);
+      formData.append("productDesc", form.productDesc);
+      formData.append("imageUser", files[0]);
+      //*=========== Cek Form Data
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
+      //*=============== End
+      axiosApiIntances
+        .post("product/", formData, {
+          headers: {
+            Authorization: `Bearer ${props.userLogin.token || ""}`,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setPreview(false);
+          setShow(true);
+          setAdd(true);
+          setIdProduct(res.data.data.id);
+          setInfo("ADD PRODUCT");
+          setMsg(`Success add product with id : ${res.data.data.id}!`);
+          router.push(`/admin/new-product`);
+        })
+        .catch((err) => {
+          console.log(err);
+          setPreview(false);
+          setAdd(false);
+          setShow(true);
+          setInfo("ERROR : ADD PRODUCT");
+          setMsg(err.response.data.msg);
+          resetData();
+        });
+    }
+  };
+  //*======================= End Handle REQ API  =======================
+
+  //*======================= Handle Modal  =============================
+  const handleClose = () => {
+    if (idProduct === "") {
+      router.push(`/admin/new-product`);
+      setShow(false);
+      resetData();
+    } else if (info === "ERROR : ADD PRODUCT") {
+      router.push(`/admin/new-product`);
+      setShow(false);
+      resetData();
+    } else {
+      router.push("/admin/product/all");
+      setShow(false);
+      resetData();
+    }
+  };
+  const handleAdd = () => {
+    setIdProduct("");
+    setActive(false);
+    setAdd(false);
+    router.push(`/admin/new-product`);
+    setShow(false);
+    resetData();
+  };
+
+  const handleBack = () => {
+    router.push(`/admin/product/all`);
+    setShow(false);
+  };
+  //*======================= End Handle Modal  ========================
+
   return (
-    <Layout title="New Product">
+    <Layout title="Add Product">
       <div>
-        <Navbar product={true} login={true} admin={true} />
+        <Modal show={show} className={styles.modal}>
+          <Modal.Header className={styles.modalHeader}>
+            <Modal.Title className={styles.modalTitle}>INFO {info}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className={styles.modalBody}>{msg}</Modal.Body>
+          {add === true ? (
+            <Modal.Footer>
+              <Button onClick={handleBack}>Go to Product Page</Button>
+              <Button className="btn-secondary" onClick={handleAdd}>
+                Add Another Product
+              </Button>
+            </Modal.Footer>
+          ) : (
+            <Modal.Footer>
+              <Button onClick={handleClose}>Close</Button>
+            </Modal.Footer>
+          )}
+        </Modal>
+        <Navbar login={true} />
         <Container fluid className={styles.container}>
           <Dropdown>
             <div className={styles.dropdownSort}>
@@ -110,6 +351,10 @@ export default function NewProduct() {
             <Col xs={12} md={4} lg={5} className={styles.left}>
               <div className={styles.boxLeft}>
                 <div className={styles.boxImage}>
+                  <div {...getRootProps({ className: "dropzone" })}>
+                    <input {...getInputProps()} />
+                    {preview === true ? thumbs : ""}
+                  </div>
                   <Image
                     src="/product/camera.png"
                     width="90px"
@@ -118,24 +363,31 @@ export default function NewProduct() {
                     className={styles.img}
                   />
                 </div>
-                <Form.Group className={styles.formUserImage}>
-                  <Form.Label htmlFor="files" className={styles.boxUpdateImage}>
-                    Choose from gallery
-                  </Form.Label>
-                  <Form.Control
-                    type="file"
-                    id="files"
-                    // onChange={(event) => handleImage(event)}
-                    className={styles.updateImage}
-                  />
-                  <Button className={styles.btnChoose}>
-                    Choose from gallery
+                <div
+                  {...getRootProps({ className: "dropzone" })}
+                  className={styles.boxDropzone}
+                >
+                  <input {...getInputProps()} />
+                  <Button
+                    className={styles.btnChoose1}
+                    onClick={() => setPreview(true)}
+                  >
+                    {idProduct !== ""
+                      ? "Change image product"
+                      : "Choose from gallery"}
                   </Button>
-                </Form.Group>
-                <Button className={`${styles.btnSave} btn-secondary`}>
+                </div>
+                <Button
+                  className={`${styles.btnSave} btn-secondary`}
+                  onClick={() => handleSave()}
+                >
                   Save Product
                 </Button>
-                <Button variant="fff" className={styles.btnCancel}>
+                <Button
+                  variant="fff"
+                  className={styles.btnCancel}
+                  onClick={() => router.push("/admin/product")}
+                >
                   Cancel
                 </Button>
               </div>
@@ -146,9 +398,13 @@ export default function NewProduct() {
                   <Form.Label className={styles.textLabel}>Name :</Form.Label>
                   <FormControl
                     type="text"
-                    placeholder="Type product name min. 50 characters"
+                    placeholder="Type product name max 20 characters"
                     className={styles.placeholder}
-                    aria-label="Search"
+                    maxLength="20"
+                    name="productName"
+                    value={form.productName}
+                    onChange={(e) => changeText(e)}
+                    required
                   />
                 </Form.Group>
                 <div className={styles.boxFormRow}>
@@ -158,9 +414,13 @@ export default function NewProduct() {
                     </Form.Label>
                     <FormControl
                       type="number"
-                      step="1"
+                      step="1000"
                       placeholder="Type the price"
                       className={styles.placeholder}
+                      name="productPrice"
+                      value={form.productPrice}
+                      onChange={(e) => changeText(e)}
+                      required
                     />
                   </Form.Group>
                   <Form.Group className={styles.formRow}>
@@ -174,6 +434,7 @@ export default function NewProduct() {
                           title="product"
                           id="dropdown-basic"
                           className={styles.titleSort1}
+                          required
                         >
                           {label}
                         </Dropdown.Toggle>
@@ -183,8 +444,11 @@ export default function NewProduct() {
                           return (
                             <Dropdown.Item
                               key={index}
+                              id={item}
                               className={styles.listDiscount}
                               onClick={() => handleClickCategory(item)}
+                              onChange={(e) => changeText(e)}
+                              required
                             >
                               {item}
                             </Dropdown.Item>
@@ -202,6 +466,10 @@ export default function NewProduct() {
                     type="text"
                     placeholder="Describe your product min. 150 characters"
                     className={styles.placeholder}
+                    name="productDesc"
+                    value={form.productDesc}
+                    onChange={(e) => changeText(e)}
+                    required
                   />
                 </Form.Group>
                 <Form.Group className={styles.formGroup}>
@@ -219,12 +487,14 @@ export default function NewProduct() {
                       return (
                         <Button
                           key={index}
+                          id={item.size}
                           className={`${styles.buttonCoffee} ${
                             active === item.category
                               ? "btn-secondary"
                               : "btn-primary"
                           }`}
                           onClick={() => handleClickSize(item.size)}
+                          onChange={(e) => changeText(e)}
                         >
                           {item.size}
                         </Button>
@@ -235,6 +505,7 @@ export default function NewProduct() {
                       return (
                         <Button
                           key={index}
+                          id={item.size}
                           variant="fff"
                           className={`${styles.buttonFood} ${
                             active === "food"
@@ -242,6 +513,7 @@ export default function NewProduct() {
                               : `${styles.buttonFood}`
                           }`}
                           onClick={() => handleClickSize(item.size)}
+                          onChange={(e) => changeText(e)}
                         >
                           {item.size} gr
                         </Button>

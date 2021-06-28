@@ -18,7 +18,7 @@ import Layout from "components/Layout";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
 import styles from "styles/Profile.module.css";
-import { authPage, customerPage } from "middleware/authPage";
+import { authPage, adminPage } from "middleware/authPage";
 import moment from "moment";
 import {
   Info,
@@ -30,9 +30,12 @@ import {
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
-  await customerPage(context);
+  await adminPage(context);
+  const authorization = { Authorization: `Bearer ${data.token || ""}` };
   const res = await axiosApiIntances
-    .get(`user/by-id/${data.userId}`)
+    .get(`user/by-id/${data.userId}`, {
+      headers: authorization,
+    })
     .then((res) => {
       return res.data.data[0];
     })
@@ -102,7 +105,6 @@ export default function Profile(props) {
   };
 
   const handleUpload = (id, data) => {
-    // console.log("running");
     setUploading(true);
     const formData = new FormData();
     for (const field in data) {
@@ -110,8 +112,7 @@ export default function Profile(props) {
     }
     axiosApiIntances
       .patch(`user/img/${id}`, formData)
-      .then((res) => {
-        // console.log(res);
+      .then(() => {
         setImageUser(null);
         setImageSuccess(true);
         router.push(`/admin/profile/${id}`);
@@ -126,7 +127,7 @@ export default function Profile(props) {
 
   const handleDeleteImage = (id) => {
     axiosApiIntances.patch(`user/delete-img/${id}`).then(() => {
-      router.push(`admin/profile/${id}`);
+      router.push(`/admin/profile/${id}`);
     });
   };
 
@@ -179,7 +180,7 @@ export default function Profile(props) {
 
   return (
     <Layout title="Profile">
-      <Navbar profile={true} login={true} user={props.user} admin={true} />
+      <Navbar login={true} userImageSSR={user_image} />
       <div className={styles.toastGroup}>
         <Toast
           onClose={() => setUpdateDataSuccess(false)}
@@ -314,7 +315,7 @@ export default function Profile(props) {
           <Col xs={12} md={4} lg={4}>
             <div className={`${styles.imageSection}`}>
               <div className={styles.avaContainer}>
-                {console.log(user_image)}
+                {/* {console.log(user_image)} */}
                 <Image
                   src={
                     user_image

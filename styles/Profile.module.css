@@ -1,5 +1,8 @@
 /* For screen 768px above */
 @media (min-width: 768px) {
+  .container {
+    padding: 12em 10em !important;
+  }
   .container label {
     font-size: 1.6em !important;
   }
@@ -138,7 +141,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   font-size: 62.5%;
-  padding: 15em 5em 5em;
+  padding: 12em 3em;
   position: relative;
   z-index: 0;
 }

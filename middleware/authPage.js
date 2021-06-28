@@ -7,8 +7,8 @@ export function unauthPage(context) {
     if (allCookies.token) {
       let location = "";
       allCookies.userRole === "user"
-        ? (location = "/customers/product")
-        : (location = "/admin/product");
+        ? (location = "/customers/product/all")
+        : (location = "/admin/product/all");
 
       return context.res
         .writeHead(302, {
@@ -46,7 +46,7 @@ export function customerPage(context) {
     if (allCookies.userRole != "user") {
       return context.res
         .writeHead(302, {
-          Location: "/admin/product",
+          Location: "/admin/product/all",
         })
         .end();
     }
@@ -60,7 +60,7 @@ export function adminPage(context) {
     if (allCookies.userRole != "admin") {
       return context.res
         .writeHead(302, {
-          Location: "/customers/product",
+          Location: "/customers/product/all",
         })
         .end();
     }
