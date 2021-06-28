@@ -71,7 +71,12 @@ export const getServerSideProps = async (context) => {
       });
   }
   return {
-    props: { pagination: products.pagination, products: products.data, promos },
+    props: {
+      pagination: products.pagination,
+      products: products.data,
+      promos,
+      userLogin: data,
+    },
   };
 };
 
@@ -82,6 +87,7 @@ export default function Product(props) {
   const [keyword, setKeyword] = useState("");
   const [selectedCoupon, setSelectedCoupon] = useState({});
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [coupon, setCoupon] = useState(false);
 
   const handleSelectCoupon = (e) => {
     setSelectedCoupon({
@@ -131,6 +137,20 @@ export default function Product(props) {
         });
   };
 
+  const handleCoupon = () => {
+    await axiosApiIntances
+      .patch(`/order/update-coupon/${data.userLogin.userId}`, {
+        headers: {
+          Authorization: `Bearer ${data.userLogin.token || ""}`,
+        },
+      })
+      .then((res) => {
+        setCoupon(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <Layout title="Products">
       <Navbar product={true} login={true} />
@@ -175,7 +195,9 @@ export default function Product(props) {
               </div>
             )}
           </div>
-          <Button variant="secondary">Apply Coupon</Button>
+          <Button variant="secondary" onClick={() => handleCoupon()}>
+            {coupon === false ? "Apply Coupon" : "Coupon Already Added"}
+          </Button>
           <section className={styles.termsCondition}>
             <h2>Terms and Condition</h2>
             <ol>
