@@ -6,15 +6,7 @@ import styles from "../../../styles/HistoryCustomer.module.css";
 import { useState, useEffect } from "react";
 import { authPage, customerPage } from "middleware/authPage";
 import axiosApiIntances from "utils/axios";
-import { useRouter } from "next/router"
-
-// export async function getServerSideProps(context) {
-//   const data = await authPage(context);
-
-//   return {
-//     props: {},
-//   };
-// }
+import { useRouter } from "next/router";
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
@@ -28,7 +20,7 @@ export const getServerSideProps = async (context) => {
       },
     })
     .then((res) => {
-      return res.data.data[0]
+      return res.data.data[0];
     })
     .catch((err) => {
       return [];
@@ -42,7 +34,7 @@ export const getServerSideProps = async (context) => {
     })
     .then((resres) => {
       // Console.log(data)
-      return resres.data.data
+      return resres.data.data;
     })
     .catch((err) => {
       return [];
@@ -52,7 +44,6 @@ export const getServerSideProps = async (context) => {
     props: { resres, res },
   };
 };
-
 
 export default function HistoryCust(props) {
   const router = useRouter();
@@ -86,9 +77,7 @@ export default function HistoryCust(props) {
       .then((res) => {
         console.log(res);
         setIsDelete(false);
-        router.push(
-          `/customers/history-customer/${data.userId}`
-        );
+        router.push(`/customers/history-customer/${data.userId}`);
         setShowAlert([true, res.data.msg]);
       })
       .catch((err) => {
@@ -97,8 +86,6 @@ export default function HistoryCust(props) {
   };
   return (
     <Layout title="History Customer">
-
-
       <Modal
         show={isDelete}
         size="lg"
@@ -109,7 +96,8 @@ export default function HistoryCust(props) {
         <Modal.Body className={styles.bodyModal}>
           <div>
             <p className={styles.textDel}>
-              Are you sure want to delete <br />the selected items?
+              Are you sure want to delete <br />
+              the selected items?
             </p>
             <Button onClick={handleCloseDelete} className={styles.btnClose}>
               Cancel
@@ -130,7 +118,7 @@ export default function HistoryCust(props) {
 
           <Row>
             {props.resres.map((item, index) => {
-              console.log(item)
+              console.log(item);
               return (
                 <Col key={index} sm={4}>
                   {isClick ? (
@@ -139,7 +127,9 @@ export default function HistoryCust(props) {
                         alt=""
                         src="/Ellipse 15.png"
                         className={styles.forDelete}
-                        onClick={() => { handleDelete(item.invoice_id); }}
+                        onClick={() => {
+                          handleDelete(item.invoice_id);
+                        }}
                       />
                       <img
                         alt=""
@@ -151,8 +141,9 @@ export default function HistoryCust(props) {
                         alt=""
                         src="/Vector.png"
                         className={styles.imgDelete}
-                        onClick={() => { handleDelete(item.invoice_id); }}
-
+                        onClick={() => {
+                          handleDelete(item.invoice_id);
+                        }}
                       />
                       <img
                         alt=""
@@ -173,9 +164,16 @@ export default function HistoryCust(props) {
                           />
                         </Col>
                         <Col xs={8}>
-                          <h1 className={styles.nameHistory}>{item.invoice_code}</h1>
-                          <p className={styles.priceHistory}> Rp {item.invoice_sub_total.toLocaleString()}</p>
-                          <p className={styles.statusHistory}>{item.orders_status}</p>
+                          <h1 className={styles.nameHistory}>
+                            {item.invoice_code}
+                          </h1>
+                          <p className={styles.priceHistory}>
+                            {" "}
+                            Rp {item.invoice_sub_total.toLocaleString()}
+                          </p>
+                          <p className={styles.statusHistory}>
+                            {item.orders_status}
+                          </p>
                         </Col>
                       </Row>
                     </Card>
@@ -194,9 +192,16 @@ export default function HistoryCust(props) {
                           />
                         </Col>
                         <Col xs={8}>
-                          <h1 className={styles.nameHistory}>{item.invoice_code}</h1>
-                          <p className={styles.priceHistory}> Rp {item.invoice_sub_total.toLocaleString()}</p>
-                          <p className={styles.statusHistory}>{item.orders_status}</p>
+                          <h1 className={styles.nameHistory}>
+                            {item.invoice_code}
+                          </h1>
+                          <p className={styles.priceHistory}>
+                            {" "}
+                            Rp {item.invoice_sub_total.toLocaleString()}
+                          </p>
+                          <p className={styles.statusHistory}>
+                            {item.orders_status}
+                          </p>
                         </Col>
                       </Row>
                     </Card>

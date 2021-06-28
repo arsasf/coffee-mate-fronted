@@ -1,181 +1,463 @@
-/* eslint-disable @next/next/no-img-element */
-import Layout from "components/Layout";
+import "swiper/swiper.min.css";
+import "swiper/components/effect-cube/effect-cube.min.css";
+import "swiper/components/pagination/pagination.min.css";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  Dropdown,
+  Modal,
+} from "react-bootstrap";
 import styles from "styles/PaymentDetails.module.css";
-import { BiCreditCardFront } from "react-icons/bi";
-import { AiOutlineBank } from "react-icons/ai";
-import { FaTruck } from "react-icons/fa";
+import {
+  CreditCard,
+  Bank,
+  Car,
+  ShoppingCart,
+  XCircle,
+  CheckCircle,
+} from "phosphor-react";
+import Layout from "components/Layout";
 import Navbar from "components/module/Navbar";
 import Footer from "components/module/Footer";
+import { useState } from "react";
+import { authPage, customerPage } from "middleware/authPage";
+import axiosApiIntances from "utils/axios";
+import { useRouter } from "next/router";
+import Image from "next/image";
 
-export default function PaymentDetails() {
+export async function getServerSideProps(context) {
+  const data = await authPage(context);
+  await customerPage(context);
+  //*======================== REQ API USER LOGIN ======================
+  const result = await axiosApiIntances
+    .get(`/user/by-id/${data.userId}`, {
+      headers: {
+        Authorization: `Bearer ${data.token || ""}`,
+      },
+    })
+    .then((res) => {
+      return res.data.data[0];
+    })
+    .catch((err) => {
+      console.log(err);
+      return {};
+    });
+
+  //*==================== END REQ API USER LOGIN ======================
+  //*=========================== REQ API Cart =========================
+  const cart = await axiosApiIntances
+    .get(`/cart/by-id-user/${data.userId}`, {
+      headers: {
+        Authorization: `Bearer ${data.token || ""}`,
+      },
+    })
+    .then((res) => {
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return {};
+    });
+  //*======================= End REQ API Cart =========================
+
+  //*=========================== REQ API Cart =========================
+  const promo = await axiosApiIntances
+    .get(`/promo/`, {
+      headers: {
+        Authorization: `Bearer ${data.token || ""}`,
+      },
+    })
+    .then((res) => {
+      return res.data.data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return [];
+    });
+  //*======================= End REQ API Cart =========================
+  return {
+    props: { user: result, userLogin: data, cart: cart, promo: promo },
+  };
+}
+
+export default function PaymentDetails(props) {
+  const router = useRouter();
+  const [label, setLabel] = useState("Select Promo");
+  const [card, setCard] = useState(false);
+  const [bank, setBank] = useState(false);
+  const [cod, setCod] = useState(false);
+  const [code, setCode] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [show, setShow] = useState(false);
+  const [info, setInfo] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [cart] = useState(props.cart.length > 0 ? props.cart : []);
+  const [promo] = useState(props.promo.length > 0 ? props.promo : []);
+  const [price] = useState(
+    props.cart.length > 0
+      ? props.cart.length === 1
+        ? props.cart[0].product_sub_total
+        : props.cart.reduce(
+          (n, { product_sub_total }) => n + product_sub_total,
+          0
+        )
+      : 0
+  );
+  const [discount, setDiscount] = useState(0);
+  const [tax] = useState(props.cart.length > 0 ? 10000 : 0);
+  //*===================== Count Promo ==================================
+  const subTotal = price - discount + tax;
+  const date = Date.now();
+  const formatDateDay = (dateString) => {
+    const options = { day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+  const formatDateYear = (dateString) => {
+    const options = { year: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+  const formatDateMonth = (dateString) => {
+    const options = { month: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+  const DateYear = formatDateYear(date);
+  const DateMonth = formatDateMonth(date);
+  const DateDay = formatDateDay(date);
+  const handlePromo = (
+    code,
+    discount,
+    minPrice,
+    maxDiscount,
+    expireStart,
+    expireEnd
+  ) => {
+    setLabel(code);
+    const date =
+      DateDay >= formatDateDay(expireStart) &&
+      DateDay <= formatDateDay(expireEnd) &&
+      DateMonth >= formatDateMonth(expireStart) &&
+      DateMonth <= formatDateMonth(expireEnd) &&
+      DateYear >= formatDateYear(expireStart) &&
+      DateYear <= formatDateYear(expireEnd);
+    const discountTotal = (price * parseInt(discount)) / 100;
+    if (price >= minPrice && discountTotal < maxDiscount && date === true) {
+      console.log(true);
+      setDiscount(discountTotal);
+      setCode(code);
+    } else if (date === false) {
+      setDiscount(0);
+      setShow(true);
+      setLabel("Select Promo");
+      setInfo("ERROR : PROMO");
+      setMsg("Promo expired, choose other promo !");
+    } else if (price < minPrice) {
+      console.log(false);
+      setDiscount(0);
+      setShow(true);
+      setLabel("Select Promo");
+      setInfo("ERROR : PROMO");
+      setMsg(
+        `Sorry, min buy IDR ${minPrice.toLocaleString()} to use this promo !`
+      );
+    } else if (discountTotal >= maxDiscount) {
+      setDiscount(maxDiscount);
+    } else {
+      console.log(false);
+      setLabel("Select Promo");
+      setDiscount(0);
+    }
+  };
+  const handleOrder = () => {
+    if (cart.length > 0) {
+      const setData = {
+        paymentMethod: paymentMethod,
+        promoCode: code,
+        discount: discount,
+        totalPriceProduct: price,
+        totalOrders: subTotal,
+        tax: tax,
+      };
+      console.log(setData);
+
+      axiosApiIntances
+        .post(`/order/`, setData, {
+          headers: {
+            Authorization: `Bearer ${props.userLogin.token || ""}`,
+          },
+        })
+        .then((res) => {
+          setShow(true);
+          setInfo("CREATE ORDER");
+          setMsg("Success, Thank you !");
+          console.log(res);
+          router.push("/customers/payment-details");
+        })
+        .catch((err) => {
+          console.log(err);
+          setShow(true);
+          setInfo("ERROR : CREATE ORDER");
+          setMsg(err.response.data.msg);
+        });
+    } else {
+      setShow(true);
+      setInfo("ERROR : CREATE ORDER");
+      setMsg("Please Choose Product !");
+    }
+  };
+
+  //*===================== End Count Promo ==============================
+
+  const handleClick = (param1) => {
+    if (param1 === "bank") {
+      setBank(true);
+      setCard(false);
+      setCod(false);
+      setPaymentMethod("bank");
+    } else if (param1 === "card") {
+      setCard(true);
+      setCod(false);
+      setBank(false);
+      setPaymentMethod("card");
+    } else if (param1 === "cod") {
+      setCod(true);
+      setBank(false);
+      setCard(false);
+      setPaymentMethod("cod");
+    }
+  };
+
+  //*========================= Handle For Modal =======================
+  const handleClose = () => {
+    if (info === "ERROR : CREATE ORDER" || info === "ERROR : PROMO") {
+      router.push(`/customers/payment-details`);
+      setShow(false);
+    } else {
+      router.push(`/customers/history-customer/${props.user.user_id}`);
+      setShow(false);
+    }
+  };
+  //*===================== End Handle For Modal =======================
   return (
-    <div>
-      <Layout title="Payment Details">
+    <>
+      <Layout title="My Cart">
         <Navbar login={true} cart={true} />
-        <div className={`${styles.payment_details_background} container-fluid`}>
-          <div className="row ms-5">
-            <div className="col mt-5 ms-5 mb-5">
-              <h3 className="text-light shadow">Checkout Your <p>Item Now!</p></h3>
-              <div className="row">
-                <div className={`${styles.left_column_1} col-8 bg-light ms-3`}>
-                  <h3
-                    className={`${styles.left_column_text_1} text-center my-3`}
-                  >
-                    Order Summary
-                  </h3>
-                  {/* ****************** */}
-                  <div className="row">
-                    <div className="col">
-                      <img src="/payment-img-menu-1.png" alt="payment menu 1" />
-                    </div>
-                    <div className="col">
-                      <p>Hazelnut Latte</p>
-                      <p>x 1</p>
-                      <p>Regular</p>
-                    </div>
-                    <div className="col my-3">
-                      <p>IDR 24.000</p>
-                    </div>
+        <Modal show={show} className={styles.modal}>
+          <Modal.Header className={styles.modalHeader}>
+            <Modal.Title className={styles.modalTitle}>
+              {info === "ERROR : CREATE ORDER" || info === "ERROR : PROMO" ? (
+                <XCircle size={30} color="#ff3d33" />
+              ) : (
+                <CheckCircle size={30} color="#33ff8b" />
+              )}
+              {info}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className={styles.modalBody}>
+            <ShoppingCart size={72} color="#ffba33" />
+            {msg}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={handleClose}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+        <Container fluid className={styles.container}>
+          <Container>
+            <Row xs={1} lg={2} className={`${styles.row} mb-3 mb-mb-0 gy-3`}>
+              <Col xs={12} md={12} lg={6} className={styles.left}>
+                <h1 className={styles.textTitle}>Checkout your item now!</h1>
+                <div className={styles.card}>
+                  <h1 className={styles.textCardTitle}>{"Order Summary"}</h1>
+                  <div className={styles.cart}>
+                    {cart.map((item, index) => {
+                      return (
+                        <div className={styles.boxCart} key={index}>
+                          <Image
+                            src={
+                              item.product_image
+                                ? `${process.env.API_IMG_URL}${item.product_image}`
+                                : "/default-img-placeholder.png"
+                            }
+                            alt=""
+                            width={"120px"}
+                            height={"120px"}
+                            className={styles.img}
+                          />
+                          <div className={styles.boxDesc}>
+                            <h1 className={styles.textDesc}>
+                              {item.product_name}
+                            </h1>
+                            <h1 className={styles.textDesc}>
+                              x {item.product_qty}
+                            </h1>
+                            <h1 className={styles.textDesc}>
+                              {item.product_size === "R"
+                                ? "Reguler"
+                                : item.product_size === "L"
+                                  ? "Large"
+                                  : item.product_size === "XL"
+                                    ? "Extra Large"
+                                    : item.product_size}
+                            </h1>
+                          </div>
+                          <h1 className={styles.textPrice}>
+                            IDR {item.product_sub_total.toLocaleString("id-ID")}
+                          </h1>
+                        </div>
+                      );
+                    })}
                   </div>
-                  {/* ****************** */}
-                  <div className="row">
-                    <div className="col">
-                      <img src="/payment-img-menu-2.png" alt="payment menu 2" />
-                    </div>
-                    <div className="col">
-                      <p>Chicken Fire Wings</p>
-                      <p>x 2</p>
-                      <p>250 gr</p>
-                    </div>
-                    <div className="col">
-                      <p>IDR 30.000</p>
-                    </div>
-                  </div>
-                  {/* ****************** */}
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                  >
-                    <option selected>Select Promo...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                  <div className="row mt-4 mx-auto">
-                    <div className="col">
-                      <p>DISCOUNT</p>
-                      <p>SUBTOTAL</p>
-                      <p>TAX &amp; FEES</p>
-                    </div>
-                    <div className="col">
-                      <p>IDR 10.000</p>
-                      <p>IDR 120.000</p>
-                      <p>IDR 20.000</p>
-                    </div>
-                  </div>
-                  <div className="row mt-4 mb-4 mx-auto">
-                    <div className="col">
-                      <h5 className={styles.left_column_text_1}>Total</h5>
-                    </div>
-                    <div className="col">
-                      <h5 className={styles.left_column_text_1}>IDR 130.000</h5>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col mt-5 mb-5">
-              <div className="row">
-                <div className="row">
-                  sdfsfd
-                </div>
-                <div className="col mt-2">
-                  <h5 className={`${styles.colom_addres} text-light`}>
-                    Address detail
-                  </h5>
-                  <div className={`${styles.colom_addres} row`}>
-                    <div className={`${styles.right_column_1} col-5 bg-light`}>
-                      <p>
-                        <b>Delivery</b> to Iskandar Street
-                      </p>
-                      <p>
-                        Km 5 refinery road oppsite re public road, effurun,
-                        Jakarta
-                      </p>
-                      <p>+62 81348287878</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col mt-5">
-                  <h5 className={`${styles.right_column_text} text-light`}>
-                    Payment method
-                  </h5>
-                  <div className="row">
-                    <div className={`${styles.right_column_2} col-5 bg-light`}>
-                      <div className="form-check my-3">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
-                        />
-                        <label className="form-check-label">
-                          <i>
-                            <BiCreditCardFront
-                              className={styles.right_column_icon_size_1}
-                            />
-                          </i>{" "}
-                          Card
-                        </label>
+                  <hr />
+                  <Form.Group className={styles.formRow}>
+                    <Dropdown className={styles.placeholder}>
+                      <div className={styles.dropdownSort1}>
+                        <Dropdown.Toggle
+                          variant="#fff"
+                          title="product"
+                          id="dropdown-basic"
+                          className={styles.titleSort1}
+                        >
+                          {label}
+                        </Dropdown.Toggle>
                       </div>
-                      <div className="form-check my-3">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
-                        />
-                        <label className="form-check-label">
-                          <i>
-                            <AiOutlineBank
-                              className={styles.right_column_icon_size_2}
-                            />
-                          </i>{" "}
-                          Bank account
-                        </label>
+                      <Dropdown.Menu className={styles.menuDropdown1}>
+                        {props.user.user_coupon === "yes" ? (
+                          promo.map((item, index) => {
+                            return (
+                              <Dropdown.Item
+                                key={index}
+                                className={styles.listDiscount}
+                                onClick={() =>
+                                  handlePromo(
+                                    item.promo_code,
+                                    item.promo_discount,
+                                    item.promo_min_price,
+                                    item.promo_max_discount,
+                                    item.promo_expire_start,
+                                    item.promo_expire_end
+                                  )
+                                }
+                              >
+                                {item.promo_code}
+                              </Dropdown.Item>
+                            );
+                          })
+                        ) : (
+                          <Dropdown.Item className={styles.listDiscount}>
+                            Not Found Promo
+                          </Dropdown.Item>
+                        )}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </Form.Group>
+                  <hr />
+                  <div className={styles.boxTotal}>
+                    <div className={styles.boxOrder}>
+                      <h1 className={styles.textOrder}>SUBTOTAL</h1>
+                      <h1 className={styles.textOrder}>DISCOUNT</h1>
+                      <h1 className={styles.textOrder}>TAX & FEES</h1>
+                    </div>
+                    <div className={styles.boxOrder}>
+                      <h1 className={styles.textOrder}>
+                        IDR {price.toLocaleString("id-ID")}
+                      </h1>
+                      <h1 className={styles.textOrder}>
+                        IDR {discount.toLocaleString("id-ID")}
+                      </h1>
+                      <h1 className={styles.textOrder}>
+                        IDR {tax.toLocaleString("id-ID")}
+                      </h1>
+                    </div>
+                  </div>
+                  <div className={styles.boxTotal}>
+                    <h1 className={styles.textTotal}>TOTAL</h1>
+                    <h1 className={styles.textTotal}>
+                      IDR {subTotal.toLocaleString("id-ID")}
+                    </h1>
+                  </div>
+                </div>
+              </Col>
+              <Col xs={12} md={12} lg={6} className={styles.right}>
+                <div className={styles.boxTitle}>
+                  <h1 className={styles.textRight}>Address details</h1>
+                </div>
+                <div className={styles.boxAddress}>
+                  <h1 className={styles.textAddress1}>
+                    <b> Delivery</b> to {props.user.user_name}
+                  </h1>
+                  <hr />
+                  <h1 className={styles.textAddress2}>
+                    {props.user.user_address}
+                  </h1>
+                  <hr />
+                  <h1 className={styles.textAddress2}>
+                    {props.user.user_phone}
+                  </h1>
+                </div>
+                <h1 className={styles.boxTitle2}>Payment Method</h1>
+                <div className={styles.payment}>
+                  <div className={styles.boxIcon}>
+                    <input
+                      type="radio"
+                      className={
+                        card === true ? `${styles.radioCard}` : styles.radio
+                      }
+                      onClick={() => handleClick("card")}
+                    />
+                    <div className={styles.textRadio}>
+                      <div className={styles.icon}>
+                        <CreditCard color="#ffffff" weight="bold" size={20} />
                       </div>
-                      <div className="form-check my-3">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
-                        />
-                        <label className="form-check-label">
-                          <i>
-                            <FaTruck
-                              className={styles.right_column_icon_size_3}
-                            />
-                          </i>{" "}
-                          Cash on delivery
-                        </label>
+                      <h1 className={styles.textIcon}>Card</h1>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className={styles.boxIcon}>
+                    <input
+                      type="radio"
+                      className={
+                        bank === true ? `${styles.radioBank}` : styles.radio
+                      }
+                      onClick={() => handleClick("bank")}
+                    />
+                    <div className={styles.textRadio}>
+                      <div className={styles.icon2}>
+                        <Bank color="#ffffff" weight="bold" size={20} />
                       </div>
+                      <h1 className={styles.textIcon}>Bank account</h1>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className={styles.boxIcon}>
+                    <input
+                      type="radio"
+                      className={
+                        cod === true ? `${styles.radioCod}` : styles.radio
+                      }
+                      onClick={() => handleClick("cod")}
+                    />
+                    <div className={styles.textRadio}>
+                      <div className={styles.icon3}>
+                        <Car color="#000" weight="bold" size={20} />
+                      </div>
+                      <h1 className={styles.textIcon}>Cash on delivery</h1>
                     </div>
                   </div>
                 </div>
-              </div>
-              <button
-                className={`${styles.right_column_button_size} btn btn-secondary mt-3`}
-              >
-                Confirm and Pay
-              </button>
-            </div>
-          </div>
-        </div>
+                <Button
+                  className={`${styles.buttonDone} btn-secondary`}
+                  onClick={() => handleOrder()}
+                >
+                  Confirm and Pay
+                </Button>
+              </Col>
+            </Row>
+          </Container>
+        </Container>
         <Footer />
       </Layout>
-    </div>
+    </>
   );
 }

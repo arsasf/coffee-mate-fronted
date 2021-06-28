@@ -1,5 +1,5 @@
 .container {
-  padding: 8em 50px 0px 50px;
+  padding: 8em 6em 0px 6em;
 }
 
 .dropdownSort {
@@ -83,6 +83,21 @@
   width: 300px;
   height: 60px;
   border-radius: 20px;
+}
+.boxDropzone {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.btnChoose1 {
+  width: 300px;
+  height: 60px;
+  border-radius: 20px;
+}
+.btnChoose1:hover,
+.btnChoose1:active,
+.btnChoose1:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 .btnSave {
   width: 300px;
@@ -191,7 +206,7 @@
   justify-content: space-between;
 }
 .textLabel {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #6a4029;
 }
@@ -395,7 +410,7 @@
 }
 
 .listDiscount {
-  font-size: 18px;
+  font-size: 16px !important;
   font-weight: 600;
   color: #ffffff;
 }
@@ -440,6 +455,7 @@
 
 .img1 {
   border-radius: 100%;
+  object-fit: cover;
 }
 
 .modal {
@@ -481,5 +497,9 @@
 @media (max-width: 900px) {
   .menuDropdown {
     width: max-content;
+  }
+
+  .container {
+    padding: 8em 2em 0px 2em;
   }
 }

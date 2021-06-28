@@ -23,7 +23,8 @@ export async function getServerSideProps(context) {
   // console.log(data);
   await adminPage(context);
   const id = context.query.id;
-  console.log(id);
+  // console.log(id);
+  //*======================= REQ API USER LOGIN =======================
   const result = await axiosApiIntances
     .get(`/user/by-id/${data.userId}`, {
       headers: {
@@ -38,6 +39,9 @@ export async function getServerSideProps(context) {
       console.log(err);
       return [];
     });
+  //*=================== END REQ API USER LOGIN =======================
+
+  //*======================= REQ API PRODUCT BY ID ====================
   const resultProduct = await axiosApiIntances
     .get(`/product/by-id/${id}`, {
       headers: {
@@ -52,28 +56,32 @@ export async function getServerSideProps(context) {
       console.log(err);
       return [];
     });
+  //*=================== End REQ API PRODUCT BY ID ====================
+
   return {
     props: { data: result, userLogin: data, product: resultProduct },
   };
 }
 export default function NewProduct(props) {
-  console.log(props);
-
+  // console.log(props);
+  //*================================ UseState ========================
   const router = useRouter();
-  const [title, setTitle] = useState("Add Product");
-  const [label, setLabel] = useState("Select Category");
-  const [category, setCategory] = useState([
+  const [title, setTitle] = useState("Update Product");
+  const [msg, setMsg] = useState("");
+  const [show, setShow] = useState(false);
+  const [info, setInfo] = useState("");
+  const [change, setChange] = useState(false);
+  const [active, setActive] = useState(props.product.product_category);
+  const [category] = useState([
     "Select Category",
     "Coffee",
     "Non Coffee",
     "Food",
     "Add On",
   ]);
-
-  const [active, setActive] = useState(props.product.product_category);
   const [menuProduct] = useState([
     {
-      link: "/admin/new-product",
+      link: "/admin/new-product/0",
       category: "Add Product",
     },
     {
@@ -81,7 +89,7 @@ export default function NewProduct(props) {
       category: "Add Promo",
     },
     {
-      link: "/admin/update-product/1",
+      link: `/admin/update-product/${props.product.product_id}`,
       category: "Update Product",
     },
     {
@@ -89,7 +97,6 @@ export default function NewProduct(props) {
       category: "Update Promo",
     },
   ]);
-
   const [sizeDrink] = useState([
     { category: "coffee", size: "R" },
     { category: "coffee", size: "L" },
@@ -100,10 +107,6 @@ export default function NewProduct(props) {
     { category: "food", size: 300 },
     { category: "food", size: 500 },
   ]);
-  const [msg, setMsg] = useState("");
-  const [show, setShow] = useState(false);
-  const [info, setInfo] = useState("");
-  const [image, setImage] = useState("");
   const [form, setForm] = useState({
     productName: props.product.product_name,
     productPrice: props.product.product_base_price,
@@ -111,15 +114,23 @@ export default function NewProduct(props) {
     productDesc: props.product.product_desc,
     productSize: props.product.product_size,
   });
-  const [uplod, setUpload] = useState({
-    productImage: `${process.env.API_IMG_URL}${props.product.product_image}`,
-    imageUser: props.product.product_image,
-  });
+  //*======================== End UseState ============================
+
+  const resetData = () => {
+    setForm({
+      productName: "",
+      productPrice: "",
+      productCategory: "",
+      productDesc: "",
+      productSize: "",
+    });
+  };
+
+  //*============================= Handle Form Input ==================
   const handleClick = (params1, params2) => {
     router.push(params1);
     setTitle(params2);
   };
-
   const handleClickCategory = (param) => {
     if (param === "Food") {
       setForm({
@@ -143,7 +154,6 @@ export default function NewProduct(props) {
       });
     }
   };
-
   const handleClickSize = (param) => {
     if (param === "R" || param === "L" || param === "XL") {
       setActive("coffee");
@@ -161,15 +171,17 @@ export default function NewProduct(props) {
       setActive(false);
     }
   };
-
-  const handleImage = (event) => {
-    // console.log(props);
-    setUpload({
-      productImage: URL.createObjectURL(event.target.files[0]),
-      imageUser: event.target.files[0],
+  const changeText = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
     });
+  };
+  //*========================= End Handle Form Input ==================
+
+  //*============================ Handle API Request ==================
+  const handleImage = (event) => {
     const id = props.product.product_id;
-    console.log(id);
     const formData = new FormData();
     formData.append("imageUser", event.target.files[0]);
 
@@ -186,10 +198,11 @@ export default function NewProduct(props) {
         },
       })
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         setShow(true);
         setInfo("UPLOAD IMAGE PRODUCT");
         setMsg(result.data.msg);
+        setChange(true);
         router.push(`/admin/update-product/${id}`);
       })
       .catch((err) => {
@@ -199,68 +212,67 @@ export default function NewProduct(props) {
         setMsg(err.response.data.msg);
       });
   };
-
-  const resetData = () => {
-    setForm({
-      productName: "",
-      productPrice: "",
-      productCategory: "",
-      productDesc: "",
-      productSize: "",
-    });
-  };
-  const changeText = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
   const handleSave = () => {
     const id = props.product.product_id;
-    const data = {
-      productName: form.productName,
-      productPrice: parseInt(form.productPrice),
-      productCategory: form.productCategory,
-      productDesc: form.productDesc,
-      productSize: form.productSize,
-    };
-    // console.log("running", data, form);
-    axiosApiIntances
-      .patch(`product/${id}`, data, {
-        headers: {
-          Authorization: `Bearer ${props.userLogin.token || ""}`,
-        },
-      })
-      .then((result) => {
-        console.log(result);
-        setShow(true);
-        setInfo("UPDATE PRODUCT");
-        setMsg(result.data.msg);
-        router.push(`/admin/update-product${id}`);
-        resetData();
-      })
-      .catch((err) => {
-        console.log(err);
-        setShow(true);
-        setInfo("ERROR : UPDATE PRODUCT");
-        setMsg(err.response.data.msg);
-        resetData();
-      });
+    if (
+      form.productName === "" ||
+      parseInt(form.productPrice) === 0 ||
+      form.productCategory === "" ||
+      form.productDesc === "" ||
+      form.productSize === ""
+    ) {
+      setShow(true);
+      setInfo("ERROR : UPDATE PRODUCT");
+      setMsg("Please Input Field !");
+    } else {
+      const data = {
+        productName: form.productName,
+        productPrice: parseInt(form.productPrice),
+        productCategory: form.productCategory,
+        productDesc: form.productDesc,
+        productSize: form.productSize,
+      };
+      // console.log("running", data, form);
+      axiosApiIntances
+        .patch(`product/${id}`, data, {
+          headers: {
+            Authorization: `Bearer ${props.userLogin.token || ""}`,
+          },
+        })
+        .then((result) => {
+          // console.log(result);
+          setShow(true);
+          setInfo("UPDATE PRODUCT");
+          setMsg(result.data.msg);
+          resetData();
+        })
+        .catch((err) => {
+          console.log(err);
+          setShow(true);
+          setInfo("ERROR : UPDATE PRODUCT");
+          setMsg(err.response.data.msg);
+          resetData();
+        });
+    }
   };
+  //*======================== End Handle API Request ==================
 
+  //*========================= Handle For Modal =======================
   const handleClose = () => {
     const id = props.product.product_id;
-    if (info === "ERROR : UPDATE PRODUCT" || info === "ERROR : UPLOAD IMAGE") {
-      router.push(`/admin/update-product/${id}`);
-      setShow(false);
-    } else if (info === "UPLOAD IMAGE PRODUCT") {
+    if (
+      info === "ERROR : UPDATE PRODUCT" ||
+      info === "ERROR : UPLOAD IMAGE" ||
+      info === "UPLOAD IMAGE PRODUCT"
+    ) {
       router.push(`/admin/update-product/${id}`);
       setShow(false);
     } else {
-      router.push("/admin/product");
+      router.push("/admin/product/all");
       setShow(false);
     }
   };
+  //*===================== End Handle For Modal =======================
 
   return (
     <Layout title="Update Product">
@@ -328,7 +340,9 @@ export default function NewProduct(props) {
                 </div>
                 <Form.Group className={styles.formUserImage}>
                   <Form.Label htmlFor="files" className={styles.boxUpdateImage}>
-                    Choose from gallery
+                    {change === true
+                      ? "Change image product"
+                      : "Choose from gallery"}
                   </Form.Label>
                   <Form.Control
                     type="file"
@@ -337,7 +351,9 @@ export default function NewProduct(props) {
                     className={styles.updateImage}
                   />
                   <Button className={styles.btnChoose}>
-                    Choose from gallery
+                    {change === true
+                      ? "Change image product"
+                      : "Choose from gallery"}
                   </Button>
                 </Form.Group>
                 <Button
@@ -346,7 +362,11 @@ export default function NewProduct(props) {
                 >
                   Update Product
                 </Button>
-                <Button variant="fff" className={styles.btnCancel}>
+                <Button
+                  variant="fff"
+                  className={styles.btnCancel}
+                  onClick={() => router.push("/admin/product")}
+                >
                   Cancel
                 </Button>
               </div>
@@ -357,7 +377,7 @@ export default function NewProduct(props) {
                   <Form.Label className={styles.textLabel}>Name :</Form.Label>
                   <FormControl
                     type="text"
-                    placeholder="Type product name min. 50 characters"
+                    placeholder="Type product name max. 20 characters"
                     className={styles.placeholder}
                     maxLength="20"
                     name="productName"
@@ -392,7 +412,9 @@ export default function NewProduct(props) {
                           id="dropdown-basic"
                           className={styles.titleSort1}
                         >
-                          {form.productCategory}
+                          {form.productCategory === ""
+                            ? "Select Category"
+                            : form.productCategory}
                         </Dropdown.Toggle>
                       </div>
                       <Dropdown.Menu className={styles.menuDropdown1}>
