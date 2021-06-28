@@ -12,6 +12,7 @@ export default function Navbar(props) {
   const router = useRouter();
   const { userImageSSR } = props;
 
+  const token = Cookie.get("token");
   const userId = Cookie.get("userId");
   const userRole = Cookie.get("userRole");
   const [userData, setUserData] = useState({});
@@ -19,7 +20,11 @@ export default function Navbar(props) {
   useEffect(() => {
     userId && !userImageSSR
       ? axiosApiIntances
-          .get(`user/by-id/${userId}`)
+          .get(`user/by-id/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token || ""}`,
+            },
+          })
           .then((res) => {
             setUserData(res.data.data[0]);
           })

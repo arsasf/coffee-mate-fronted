@@ -8,7 +8,6 @@ import Footer from "components/module/Footer";
 import styles from "styles/ProductDetails.module.css";
 import { Row, Col } from "react-bootstrap";
 import { authPage, customerPage } from "middleware/authPage";
-import { ShoppingCart } from "phosphor-react";
 import { Button, Modal } from "react-bootstrap";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
@@ -91,19 +90,19 @@ export default function ProductDetails(props) {
   };
 
   const handleProductSize = (event) => {
-    if (event === "R") {
+    if (event === "R" || event === "250gr") {
       setCount(1);
-      setSize("R");
+      setSize(event);
       setPrice(props.product.product_base_price);
       setInitialPrice(props.product.product_base_price);
-    } else if (event === "L") {
+    } else if (event === "L" || event === "300gr") {
       setCount(1);
-      setSize("L");
+      setSize(event);
       setPrice(props.product.product_base_price + 3000);
       setInitialPrice(props.product.product_base_price + 3000);
     } else {
       setCount(1);
-      setSize("XL");
+      setSize(event);
       setPrice(props.product.product_base_price + 5000);
       setInitialPrice(props.product.product_base_price + 5000);
     }
@@ -142,10 +141,7 @@ export default function ProductDetails(props) {
           >
             <Modal.Header>
               <Modal.Title id="example-modal-sizes-title-md">
-                <div className="d-flex flex-row align-items-center me-2">
-                  <ShoppingCart width="bold" className="me-2" />
-                  <span>Added To Your Cart</span>
-                </div>
+                <span>Added To Your Cart</span>
               </Modal.Title>
             </Modal.Header>
 

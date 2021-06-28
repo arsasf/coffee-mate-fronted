@@ -48,18 +48,26 @@ export default function historyCust(props) {
   const router = useRouter();
   const { user_id } = props.res;
 
+  const [id, setId] = useState("");
   const [showButton, setShowButton] = useState(false);
   const [selected, setSelected] = useState({ id: null });
   const [confirmModal, setConfirmModal] = useState(false);
 
   const handleSelect = (id) => {
+    setId(id);
     showButton ? setShowButton(false) : setShowButton(true);
-    setSelected({ ...selected, id });
+    selected.id === id
+      ? setSelected({ id: null })
+      : setSelected({ ...selected, id });
   };
 
   const handleDeleteItem = () => {
     axiosApiIntances
-      .delete(`invoice/${selected.id}`)
+      .delete(`invoice/${id}`, {
+        headers: {
+          Authorization: `Bearer ${props.res.token || ""}`,
+        },
+      })
       .then(() => {
         setConfirmModal(false);
         router.push(`/customers/history-customer/${user_id}`);
