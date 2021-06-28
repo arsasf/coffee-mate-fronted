@@ -37,11 +37,38 @@ REACT_APP_ENDPOINT = [Backend API]
 
 5. Type `npm run serve`
 
+## Feature
+
+- Admin =
+
+1. Sign Up & Login
+2. Create & Update Promo
+3. Create & Update Product
+4. Manage Order
+5. Update Profile Admin
+
+- User =
+
+1. Sign Up & Login
+2. Read Product
+3. Create Invoice
+4. Update Profile User
+5. Read Product Details
+6. Read & Delete History
+
 ## Acknowledgements
 
 - [Axios](https://www.npmjs.com/package/axios)
 - [React](https://reactjs.org/)
 - [React Bootstrap](https://react-bootstrap.github.io/)
+- [Moment](https://www.npmjs.com/package/moment)
+- [Next](https://www.npmjs.com/package/next)
+- [Phosphor-React](https://www.npmjs.com/package/phosphor-react)
+- [Swiper](https://www.npmjs.com/package/swiper)
+- [ENV](https://www.npmjs.com/package/dotenv)
+- [Redux](https://github.com/reduxjs/react-redux)
+- [Cookie](https://www.npmjs.com/package/js-cookie)
+- [Chart](https://www.npmjs.com/package/chart.js?activeTab=readme)
 
 ## Team
 
