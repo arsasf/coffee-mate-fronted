@@ -7,7 +7,7 @@
     <a href="https://github.com/arkbootcamp/week5-web9-beginerFrontend/pulls">Request Feature</a>
   </p>
 
-![Image Banner](src/assets/img/bannerREADME.png)
+![Image Banner](public/readme-img-background.JPG)
 
 ## About The Project
 
