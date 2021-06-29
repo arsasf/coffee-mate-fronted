@@ -142,9 +142,9 @@ export default function Product(props) {
 
   const handleCoupon = () => {
     axiosApiIntances
-      .patch(`/order/update-coupon/${data.userLogin.userId}`, {
+      .patch(`/order/update-coupon/${props.userLogin.userId}`, {
         headers: {
-          Authorization: `Bearer ${data.userLogin.token || ""}`,
+          Authorization: `Bearer ${props.userLogin.token || ""}`,
         },
       })
       .then((res) => {

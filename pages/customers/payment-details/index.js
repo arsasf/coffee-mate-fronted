@@ -93,6 +93,7 @@ export default function PaymentDetails(props) {
   const [msg, setMsg] = useState("");
   const [show, setShow] = useState(false);
   const [info, setInfo] = useState("");
+  const [url, setUrl] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [cart] = useState(props.cart.length > 0 ? props.cart : []);
   const [promo] = useState(props.promo.length > 0 ? props.promo : []);
@@ -189,9 +190,11 @@ export default function PaymentDetails(props) {
           },
         })
         .then((res) => {
+          console.log(res);
           setShow(true);
           setInfo("CREATE ORDER");
-          setMsg("Success, Thank you !");
+          setMsg(res.data.msg);
+          setUrl(res.data.data.redirectUrl);
           console.log(res);
           router.push("/customers/payment-details");
         })
@@ -235,7 +238,7 @@ export default function PaymentDetails(props) {
       router.push(`/customers/payment-details`);
       setShow(false);
     } else {
-      router.push(`/customers/history-customer/${props.user.user_id}`);
+      router.push(url);
       setShow(false);
     }
   };
