@@ -76,7 +76,12 @@ export const getServerSideProps = async (context) => {
   }
 
   return {
-    props: { pagination: products.pagination, products: products.data, promos },
+    props: {
+      category,
+      pagination: products.pagination,
+      products: products.data,
+      promos,
+    },
   };
 };
 
@@ -87,7 +92,9 @@ export default function Product(props) {
   const [order, setOrder] = useState("");
   const [keyword, setKeyword] = useState("");
   const [confirmModal, setConfirmModal] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState(
+    props.category ? props.category : "all"
+  );
   const [deleteCoupon, setDeleteCoupon] = useState({ true: false });
   const [deleteProduct, setDeleteProduct] = useState({ true: false });
 

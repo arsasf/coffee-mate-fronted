@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import axiosApiIntances from "utils/axios";
 import Layout from "components/Layout";
@@ -53,6 +54,7 @@ export const getServerSideProps = async (context) => {
 export default function Dashboard(props) {
   const router = useRouter();
   const { dataPerDay } = props;
+  const token = Cookies.get("token");
 
   const data = {
     labels: [
@@ -98,7 +100,15 @@ export default function Dashboard(props) {
   };
 
   const handleDownloadReport = () => {
-    window.alert("Download report");
+    axiosApiIntances
+      .get(`invoice/export?time=${props.date}`, {
+        headers: {
+          Authorization: `Bearer ${token || ""}`,
+        },
+      })
+      .then((res) => {
+        router.push(res.data.data.url);
+      });
   };
 
   return (

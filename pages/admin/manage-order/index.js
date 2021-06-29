@@ -2,7 +2,7 @@ import "swiper/swiper.min.css";
 import "swiper/components/effect-cube/effect-cube.min.css";
 import "swiper/components/pagination/pagination.min.css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import styles from "styles/ManageOrder.module.css";
 import SwiperCore, { EffectCube, Pagination } from "swiper/core";
 import {

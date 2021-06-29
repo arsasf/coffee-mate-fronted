@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import axiosApiIntances from "utils/axios";
@@ -49,6 +50,7 @@ export const getServerSideProps = async (context) => {
 export default function ProductDetails(props) {
   const router = useRouter();
   const data = props.product.product_size.split(", ");
+  const token = Cookies.get("token");
 
   const [size, setSize] = useState("R");
   const [count, setCount] = useState(1);
@@ -67,7 +69,11 @@ export default function ProductDetails(props) {
       productSize: size,
     };
     axiosApiIntances
-      .post("cart/", data)
+      .post("cart/", data, {
+        headers: {
+          Authorization: `Bearer ${token || ""}`,
+        },
+      })
       .then((res) => {
         setModal(true);
       })
@@ -75,7 +81,6 @@ export default function ProductDetails(props) {
         window.alert(err.response.data.msg);
       });
   };
-
   const handleCheckOut = () => {
     const data = {
       userId: props.user.user_id,
@@ -84,9 +89,15 @@ export default function ProductDetails(props) {
       productQty: count,
       productSize: size,
     };
-    axiosApiIntances.post("cart/", data).then((res) => {
-      router.push("/customers/payment-details");
-    });
+    axiosApiIntances
+      .post("cart/", data, {
+        headers: {
+          Authorization: `Bearer ${token || ""}`,
+        },
+      })
+      .then((res) => {
+        router.push("/customers/payment-details");
+      });
   };
 
   const handleProductSize = (event) => {
