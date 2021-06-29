@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import axiosApiIntances from "utils/axios";
 import Image from "next/image";
 import { useState } from "react";

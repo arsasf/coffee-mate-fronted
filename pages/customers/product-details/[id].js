@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";

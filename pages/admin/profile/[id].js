@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Cookie from "js-cookie";
 import Image from "next/image";
 import axiosApiIntances from "utils/axios";

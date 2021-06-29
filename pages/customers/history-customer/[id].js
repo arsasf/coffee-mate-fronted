@@ -124,9 +124,8 @@ export default function historyCust(props) {
 
         <Row className="g-4 g-md-3 mt-4">
           {props.resres.map((item, index) => (
-            <Col>
+            <Col key={index}>
               <div
-                key={index}
                 id={item.invoice_id}
                 className={`${
                   selected.id === item.invoice_id ? styles.selectedCard : ""
