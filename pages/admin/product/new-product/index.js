@@ -278,7 +278,7 @@ export default function NewProduct(props) {
       setShow(false);
       resetData();
     } else {
-      router.push("/admin/product");
+      router.push("/admin/product/all");
       setShow(false);
       resetData();
     }
@@ -293,7 +293,7 @@ export default function NewProduct(props) {
   };
 
   const handleBack = () => {
-    router.push(`/admin/product`);
+    router.push(`/admin/product/all`);
     setShow(false);
   };
   //*======================= End Handle Modal  ========================
@@ -319,7 +319,7 @@ export default function NewProduct(props) {
             </Modal.Footer>
           )}
         </Modal>
-        <Navbar product={true} login={true} admin={true} user={props.data} />
+        <Navbar login={true} />
         <Container fluid className={styles.container}>
           <Dropdown>
             <div className={styles.dropdownSort}>

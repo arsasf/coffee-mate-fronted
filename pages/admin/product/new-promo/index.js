@@ -245,7 +245,7 @@ export default function NewPromo(props) {
       setShow(false);
       resetData();
     } else {
-      router.push("/admin/product");
+      router.push("/admin/product/all");
       setShow(false);
       resetData();
     }
@@ -259,7 +259,7 @@ export default function NewPromo(props) {
   };
 
   const handleBack = () => {
-    router.push(`/admin/product`);
+    router.push(`/admin/product/all`);
     setShow(false);
   };
   //*======================= End Handle Modal  ========================

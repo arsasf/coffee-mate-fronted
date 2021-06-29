@@ -43,7 +43,7 @@ export default function Page404() {
               `${
                 Cookie.get("userRole") === "user"
                   ? "/customers/product/all"
-                  : "/admin/product"
+                  : "/admin/product/all"
               }`
             )
           }

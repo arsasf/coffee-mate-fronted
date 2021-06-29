@@ -1,299 +1,134 @@
-/* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
+import Image from "next/image";
+import Cookie from "js-cookie";
+import axiosApiIntances from "utils/axios";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { Container, Button, Modal, Form, FormControl } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import styles from "styles/Navbar.module.css";
-import cookies from "next-cookies";
+import { ChatsCircle, MagnifyingGlass } from "phosphor-react";
+import { Button } from "react-bootstrap";
 
-export default function NavbarComponent(props, context) {
-  const allCookies = cookies(context);
-  const [id] = useState(allCookies.userId ? allCookies.userId : "1");
-  const [image] = useState(props.user ? props.user : "");
-  const [login] = useState(props.login ? props.login : false);
-  const [admin] = useState(props.admin ? props.admin : false);
-  const [home] = useState(props.home ? props.home : false);
-  const [product] = useState(props.product ? props.product : false);
-  const [cart] = useState(props.cart ? props.cart : false);
-  const [history] = useState(props.history ? props.history : false);
-  const [dashboard] = useState(props.dashboard ? props.dashboard : false);
-  const [order] = useState(props.order ? props.order : false);
-  const [pageProfile] = useState(props.profile ? props.profile : false);
-  const [chat] = useState(props.chat ? props.chat : false);
-  const [modalShow, setModalShow] = useState(false);
-
+export default function Navbar(props) {
   const router = useRouter();
+  const { userImageSSR } = props;
 
-  const handleClose = () => {
-    setModalShow(false);
-  };
-  const handleSearch = () => {
-    setModalShow(true);
-  };
+  const token = Cookie.get("token");
+  const userId = Cookie.get("userId");
+  const userRole = Cookie.get("userRole");
+  const [userData, setUserData] = useState({});
 
-  const handleMenu = (param) => {
-    if (admin === true) {
-      router.push(`/admin/${param}`);
-    } else if (admin === false) {
-      router.push(`/customers/${param}`);
-    }
-  };
+  useEffect(() => {
+    userId && !userImageSSR
+      ? axiosApiIntances
+          .get(`user/by-id/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token || ""}`,
+            },
+          })
+          .then((res) => {
+            setUserData(res.data.data[0]);
+          })
+          .catch(() => {
+            setUserData({});
+          })
+      : "";
+  }, []);
 
   return (
     <>
-      <Container fluid className={styles.fullArea}>
-        <Container fluid className={styles.container}>
-          <Modal
-            show={modalShow}
-            onHide={handleClose}
-            backdrop="static"
-            keyboard={false}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
+      <div
+        className={`d-flex align-items-center justify-content-between ${styles.navbarContainer}`}
+      >
+        <Link href="/">
+          <div className={styles.brand}>
+            <div className={styles.logoContainer}>
+              <Image src="/coffee-icon.png" layout="fill" alt="logo" />
+            </div>
+            <span>Coffee Mate</span>
+          </div>
+        </Link>
+        <ul className={styles.navigationMenu}>
+          <Link href="/">
+            <li className={props.home ? styles.active : ""}>Home</li>
+          </Link>
+          <Link
+            href={
+              userRole === "admin"
+                ? "/admin/product/all"
+                : "/customers/product/all"
+            }
           >
-            <Modal.Header className={styles.modalHeader}>
-              <Modal.Title
-                className={styles.modalTitle}
-                id="contained-modal-title-vcenter"
-              >
-                <Form className={`${styles.form} d-flex`}>
-                  <FormControl
-                    type="search"
-                    placeholder="Search here.."
-                    className={styles.placeholder}
-                    aria-label="Search"
-                  />
-                  <Button>Search</Button>
-                </Form>
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Ini hasil Search</Modal.Body>
-            <Modal.Footer className={styles.modalFooter}>
-              <Button className="btn-secondary" onClick={handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          <div className={styles.boxLogo}>
-            <img src="/navbar/coffee.png" alt="" className={styles.imgLogo} />
-            <h1 className={styles.textLogo}>Coffee Mate</h1>
-          </div>
-          <div className={styles.listMenu}>
-            <div className={styles.boxMenu}>
-              <Button variant="light" className={styles.boxImgMenu}>
-                <img
-                  src={
-                    home === true
-                      ? "/navbar/homeactive.png"
-                      : "/navbar/home.png"
-                  }
-                  alt=""
-                  className={styles.imgMenu}
-                />
-              </Button>
-              <h1
-                className={
-                  home === true ? styles.textMenuActive : styles.textMenu
-                }
-              >
-                Home
-              </h1>
-            </div>
-            <div
-              className={styles.boxMenu}
-              onClick={() => handleMenu("product")}
-            >
-              <Button variant="light" className={styles.boxImgMenu}>
-                <img
-                  src={
-                    product === true
-                      ? "/navbar/productactive.png"
-                      : "/navbar/product.png"
-                  }
-                  alt=""
-                  className={styles.imgMenu}
-                />
-              </Button>
-              <h1
-                className={
-                  product === true ? styles.textMenuActive : styles.textMenu
-                }
-              >
-                Product
-              </h1>
-            </div>
-            {admin === true ? (
-              <div
-                className={styles.boxMenu}
-                onClick={() => handleMenu("manage-order")}
-              >
-                <Button variant="light" className={styles.boxImgMenu}>
-                  <img
-                    src={
-                      order === true
-                        ? "/navbar/orderactive.png"
-                        : "/navbar/order.png"
-                    }
-                    alt=""
-                    className={styles.imgMenu}
-                  />
-                </Button>
-                <h1
-                  className={
-                    order === true ? styles.textMenuActive : styles.textMenu
-                  }
-                >
-                  Orders
-                </h1>
-              </div>
-            ) : (
-              <div
-                className={styles.boxMenu}
-                onClick={() => handleMenu("payment-details")}
-              >
-                <Button variant="light" className={styles.boxImgMenu}>
-                  <img
-                    src={
-                      cart === true
-                        ? "/navbar/cartactive.png"
-                        : "/navbar/cart.png"
-                    }
-                    alt=""
-                    className={styles.imgMenu}
-                  />
-                </Button>
-                <h1
-                  className={
-                    cart === true ? styles.textMenuActive : styles.textMenu
-                  }
-                >
-                  Your Cart
-                </h1>
-              </div>
-            )}
-            {admin === true ? (
-              <div className={styles.boxMenu}>
-                <Button variant="light" className={styles.boxImgMenu}>
-                  <img
-                    src={
-                      dashboard === true
-                        ? "/navbar/dashboardactive.png"
-                        : "/navbar/dashboard.png"
-                    }
-                    alt=""
-                    className={styles.imgMenu}
-                  />
-                </Button>
-                <h1
-                  className={
-                    dashboard === true ? styles.textMenuActive : styles.textMenu
-                  }
-                >
+            <li className={props.product ? styles.active : ""}>Product</li>
+          </Link>
+          {userRole === "admin" ? (
+            <>
+              <Link href="/admin/manage-order">
+                <li className={props.orders ? styles.active : ""}>Orders</li>
+              </Link>
+              <Link href={`/admin/dashboard`}>
+                <li className={props.dashboard ? styles.active : ""}>
                   Dashboard
-                </h1>
-              </div>
-            ) : (
-              <div
-                className={styles.boxMenu}
-                onClick={() => handleMenu(`history-customer/${id}`)}
-              >
-                <Button variant="light" className={styles.boxImgMenu}>
-                  <img
-                    src={
-                      history === true
-                        ? "/navbar/historyactive.png"
-                        : "/navbar/history.png"
-                    }
-                    alt=""
-                    className={styles.imgMenu}
-                  />
-                </Button>
-                <h1
-                  className={
-                    history === true ? styles.textMenuActive : styles.textMenu
-                  }
-                >
-                  History
-                </h1>
-              </div>
-            )}
-          </div>
-          {login === true ? (
-            <div>
-              <div className={styles.boxMenu1}>
-                <Button
-                  variant="light"
-                  className={styles.profile}
-                  onClick={() => handleSearch()}
-                >
-                  <img
-                    src="/navbar/search.png"
-                    alt=""
-                    className={styles.imgMenuProfile}
-                  />
-                </Button>
-                <Button
-                  variant="light"
-                  className={chat === true ? styles.profile1 : styles.profile}
-                >
-                  <img
-                    src="/navbar/chat.png"
-                    alt=""
-                    className={styles.imgMenuProfile}
-                  />
-                </Button>
-                <Button
-                  variant="light"
-                  className={
-                    pageProfile === true ? styles.profile1 : styles.profile
-                  }
-                  onClick={() => handleMenu(`profile/${id}`)}
-                >
-                  {/* {console.log(image)} */}
-                  <img
-                    src={
-                      image === ""
-                        ? "/navbar/img-not-found.png"
-                        : `${process.env.API_IMG_URL}${image.user_image}`
-                    }
-                    alt=""
-                    className={styles.imgProfile}
-                  />
-                </Button>
-              </div>
-            </div>
+                </li>
+              </Link>
+            </>
           ) : (
-            <div>
-              <div className={styles.boxMenu1}>
-                <Button
-                  variant="light"
-                  className={styles.login}
-                  onClick={() => router.push("/login")}
-                >
-                  <img
-                    src="/navbar/login.png"
-                    alt=""
-                    className={styles.imgMenu}
-                  />
-                  <h1 className={styles.textMenu2}>Login</h1>
-                </Button>
-                <Button
-                  variant="light"
-                  className={styles.signUp}
-                  onClick={() => router.push("/signup")}
-                >
-                  <img
-                    src="/navbar/signup.png"
-                    alt=""
-                    className={styles.imgMenu}
-                  />
-                  <h1 className={styles.textMenu2}>Sign Up </h1>
-                </Button>
-              </div>
-            </div>
+            <>
+              {" "}
+              <Link href="/customers/payment-details">
+                <li className={props.cart ? styles.active : ""}>My Cart</li>
+              </Link>
+              <Link href={`/customers/history-customer/${userId}`}>
+                <li className={props.history ? styles.active : ""}>History</li>
+              </Link>
+            </>
           )}
-        </Container>
-      </Container>
+        </ul>
+        {props.login ? (
+          <div className={styles.group}>
+            <MagnifyingGlass
+              color="#3a3d42"
+              size={24}
+              className={styles.searchIcon}
+            />
+            <ChatsCircle
+              color="#3a3d42"
+              size={24}
+              className={styles.chatNotif}
+            />
+            <div
+              className={`${styles.avatar}`}
+              onClick={() =>
+                router.push(
+                  userRole === "user"
+                    ? `/customers/profile/${userId}`
+                    : `/admin/profile/${userId}`
+                )
+              }
+            >
+              <Image
+                src={
+                  userImageSSR
+                    ? `http://localhost:3005/backend5/api/${userImageSSR}`
+                    : userData.user_image
+                    ? `http://localhost:3005/backend5/api/${userData.user_image}`
+                    : "/default-img-placeholder.png"
+                }
+                layout="fill"
+                alt="avatar"
+              />
+            </div>
+          </div>
+        ) : (
+          <div className={`${styles.group} ${styles.modifyGap}`}>
+            <Button variant="light" onClick={() => router.push("/login")}>
+              Login
+            </Button>
+            <Button variant="primary" onClick={() => router.push("/signup")}>
+              Sign Up
+            </Button>
+          </div>
+        )}
+      </div>
     </>
   );
 }

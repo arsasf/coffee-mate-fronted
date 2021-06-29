@@ -1,20 +1,36 @@
 .container {
+  font-size: 62.5%;
   padding-top: 7em;
   padding-bottom: 5em;
-  background-color: #bcbaba;
+  background-color: #ebebeb;
 }
-
-.left_column_text_1 {
+.textPromo span {
   margin-left: 10px;
-  font-size: 20px;
   font-weight: 700;
   color: #6a4029;
 }
-
-.left_column_image {
-  height: 300px;
-  width: auto;
+.lgImageContainer img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
   border-radius: 100%;
+}
+.lgImageContainer {
+  height: 20em;
+  width: 20em;
+  margin: 4em 0;
+  border-radius: 100%;
+}
+.smImageContainer {
+  height: 8em;
+  width: 8em;
+  border-radius: 50% !important;
+}
+.smImageContainer img {
+  border-radius: 50% !important;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
 .boxSize {
   display: flex;
@@ -28,65 +44,74 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-left: 8em;
-  padding-right: 8em;
 }
 
 .right_column_2 {
   border-radius: 10px;
 }
 
-.boxRight1 {
-  margin-top: 50px;
-  width: 100%;
-  height: auto;
-  border-radius: 20px;
-  background-color: white;
+.buttonCart,
+.chooseSizeSection,
+.checkoutSection,
+.lgImageContainer {
+  box-shadow: 0px 10px 25px 0px rgba(57, 57, 57, 0.212);
 }
 
-.boxRight2 {
-  display: flex;
-  align-items: center;
-  padding: 20px;
+.chooseSizeSection {
+  background-color: white;
+  border-radius: 20px;
+  height: auto;
   margin-top: 50px;
   width: 100%;
-  height: auto;
-  border-radius: 20px;
-  background-color: white;
 }
-.boxCounter {
+
+.checkoutSection {
+  align-items: center;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  height: auto;
+  justify-content: space-between;
+  margin-top: 3em;
+  padding: 5em;
   width: 100%;
 }
-.size {
-  margin-bottom: 0;
-  margin-left: 20px;
-  font-size: 25px;
+.countProduct {
+  width: auto;
+}
+.countProduct h4 {
+  font-size: 1.6em !important;
+}
+.quantity {
+  padding: 0 1em;
+  margin: 0;
+  font-size: 1.4em;
   font-weight: 900;
 }
-.buttonCounter {
+.btnCount {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  margin-top: 1.5em;
 }
-.buttonMinus {
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
+.minus,
+.plus {
+  height: 0.7em !important;
+  width: 0.7em !important;
+  align-items: center;
+  display: flex;
+  padding: 1em;
+  justify-content: center;
+  font-weight: 800 !important;
 }
-.buttonPlus {
-  margin-left: 20px;
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
-}
-.textRight1 {
+.chooseSizeSection p {
   font-size: 20px;
   font-weight: 500;
   color: #6a4029;
   padding: 40px;
 }
 
-.textRight2 {
+.chooseSizeSection h5 {
   width: 100%;
   text-align: center;
   font-size: 25px;
@@ -94,14 +119,16 @@
   color: black;
 }
 
-.textRight3 {
+.boxCheckout h4 {
   font-size: 25px;
   font-weight: 700;
 }
 
-.right_circle_button {
-  width: 50px;
-  height: 50px;
+.boxSize button {
+  width: 5em;
+  height: 5em;
+  font-weight: 800;
+  font-size: 1.6em;
 }
 
 .right_circle_image {
@@ -109,94 +136,148 @@
   height: 100px;
   border-radius: 100%;
 }
-
-.left {
-  padding-left: 50px;
-}
-
 .textPromo {
-  font-size: 20px;
-  font-weight: 400;
+  font-weight: 600;
   color: #4f5665;
+}
+.textPromo,
+.textPromo span {
+  font-size: 1.4em;
 }
 .row {
   align-items: center;
   display: flex;
   justify-content: center;
-  padding: 20px 40px 20px 40px;
 }
 
 .textDrink {
-  width: 100%;
-  font-size: 30px;
-  font-weight: 900;
+  width: 80%;
+  font-size: 2.5em;
+  font-weight: 800;
   text-align: center;
 }
 
 .textPrice {
   width: 100%;
   text-align: center;
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 2.5em;
+  font-weight: 800;
+  margin: 0.5em 0;
 }
 .buttonCart {
-  width: 100%;
+  width: 90%;
   height: 60px;
 }
-.textRight4 {
+.countProduct h4 {
   width: 100%;
   font-size: 25px;
   font-weight: 900;
   text-align: center;
 }
 .boxCheckout {
+  align-items: center;
   display: flex;
   margin-left: 10px;
 }
+.boxCheckout h4 {
+  margin-right: 1em;
+}
+.btnCheckout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3em;
+  width: 3em;
+  border-radius: 50% !important;
+}
 
-/* Responsive Website */
-
-@media only screen and (max-width: 500px) {
-  .container {
-    padding-top: 8em;
-    padding-bottom: 40px;
-  }
+/* For screen 768px below */
+@media only screen and (min-width: 768px) {
   .left {
-    padding-right: 50px;
+    padding-left: 12em;
+  }
+  .right {
+    padding-right: 10em;
+  }
+}
+
+/* For screen 576px below */
+@media only screen and (max-width: 576px) {
+  .left {
+    padding-left: 4em;
+    padding-right: 4em;
   }
   .right {
     padding-left: 50px;
     padding-right: 50px;
   }
-  .boxRight1 {
+  .chooseSizeSection {
     width: 100%;
   }
-  .boxRight2 {
+  .chooseSizeSection p {
+    font-size: 1.4em;
+  }
+  .chooseSizeSection h5 {
+    font-size: 1.8em;
+  }
+  .checkoutSection {
     width: 100%;
     flex-direction: column;
     align-items: center;
+  }
+  .boxSize {
+    padding-top: 1em;
+  }
+  .btnCheckout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4em;
+    width: 4em;
   }
   .boxCheckout {
     width: 100%;
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 40px;
-    margin-left: 0;
+    margin: 0;
   }
-  .textRight4 {
+  .boxCheckout h4 {
+    margin: 0;
+    margin-bottom: 0.5em;
+  }
+  .CountProduct h4 {
     text-align: center;
+    font-size: 1.6em !important;
   }
-  .boxCounter {
+  .countProduct {
     display: flex;
     flex-direction: column;
+    margin: 2em 0;
   }
-  .size {
+  .quantity {
     margin-left: 0;
   }
-  .left_column_image {
-    height: 250px;
-    width: auto;
+  .boxSize button {
+    font-size: 1em;
+  }
+  .textPromo,
+  .textPromo span {
+    font-size: 1.2em;
+  }
+  .lgImageContainer {
+    height: 20em;
+    width: 20em;
+  }
+  .smImageContainer {
     border-radius: 100%;
+    height: 10em;
+    width: 10em;
+  }
+  .smImageContainer img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
   }
 }

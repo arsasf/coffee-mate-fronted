@@ -1,44 +1,39 @@
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { useState } from "react";
+import axiosApiIntances from "utils/axios";
 import Layout from "components/Layout";
 import NavBar from "components/module/NavBar";
 import Footer from "components/module/footer";
-import { Container, Row, Col, Card, Modal, Button } from "react-bootstrap";
 import styles from "../../../styles/HistoryCustomer.module.css";
-import { useState, useEffect } from "react";
 import { authPage, customerPage } from "middleware/authPage";
-import axiosApiIntances from "utils/axios";
-
-
-// export async function getServerSideProps(context) {
-//   const data = await authPage(context);
-
-//   return {
-//     props: {},
-//   };
-// }
+import { Button, Col, Modal, Row } from "react-bootstrap";
+import { X, Trash } from "phosphor-react";
 
 export const getServerSideProps = async (context) => {
   const data = await authPage(context);
   await customerPage(context);
-  // console.log(data.userId)
+  const authorization = {
+    Authorization: `Bearer ${data.token || ""}`,
+  };
 
   const res = await axiosApiIntances
     .get(`user/by-id/${data.userId}`, {
-      headers: {
-        Authorization: `Bearer ${data.token || ""}`,
-      },
+      headers: authorization,
     })
     .then((res) => {
-      return res.data.data[0]
+      return res.data.data[0];
     })
-    .catch((err) => {
-      return [];
+    .catch(() => {
+      return {};
     });
 
   const resres = await axiosApiIntances
-    .get(`invoice/history/${data.userId}`,)
+    .get(`invoice/history/${data.userId}`, {
+      headers: authorization,
+    })
     .then((resres) => {
-      // Console.log(data)
-      return resres.data.data
+      return resres.data.data;
     })
     .catch((err) => {
       return [];
@@ -49,163 +44,137 @@ export const getServerSideProps = async (context) => {
   };
 };
 
-
 export default function historyCust(props) {
+  const router = useRouter();
+  const { user_id } = props.res;
 
+  const [id, setId] = useState("");
+  const [showButton, setShowButton] = useState(false);
+  const [selected, setSelected] = useState({ id: null });
+  const [confirmModal, setConfirmModal] = useState(false);
 
-
-
-  // console.log(props);
-  const [isClick, setIsClick] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
-  const [orderId, setOrderId] = useState(0);
-
-  const handleClick = () => {
-    setIsClick(true);
+  const handleSelect = (id) => {
+    setId(id);
+    showButton ? setShowButton(false) : setShowButton(true);
+    selected.id === id
+      ? setSelected({ id: null })
+      : setSelected({ ...selected, id });
   };
-  const handleCloseClick = () => {
-    setIsClick(false);
-  };
-  const handleDelete = (id) => {
-    setOrderId(id);
-    setIsDelete(true);
-    setIsClick(false);
-  };
-  const handleCloseDelete = () => {
-    setIsDelete(false);
-  };
+
   const handleDeleteItem = () => {
-    console.log("asdasdsad", orderId);
     axiosApiIntances
-      .delete(`invoice/${orderId}`)
-      .then((res) => {
-        // console.log(res.data.data);
-        setShowAlert([true, res.data.msg]);
-        setTimeout(() => {
-          setShowAlert([false, ""]);
-        }, 3000);
-        // setUser(res.data.data);
+      .delete(`invoice/${id}`, {
+        headers: {
+          Authorization: `Bearer ${props.res.token || ""}`,
+        },
       })
-      .catch((err) => {
-        //   console.log(err.response);
-        //   setShowAlert([true, err.response.data.msg]);
-        //   setTimeout(() => {
-        //     setUserImage(`http://localhost:3004/backend3/api/${props.data.user_image}`);
-        //     setShowAlert([false, ""]);
-        //   }, 3000);
+      .then(() => {
+        setConfirmModal(false);
+        router.push(`/customers/history-customer/${user_id}`);
+      })
+      .catch(() => {
         return [];
       });
   };
+
+  const handleCancel = () => {
+    setShowButton(false);
+    setSelected({ id: null });
+  };
+
   return (
     <Layout title="History Customer">
-
-
       <Modal
-        show={isDelete}
-        size="lg"
+        show={confirmModal}
+        size="md"
         centered
         className={styles.modal}
-        onHide={handleCloseDelete}
+        onHide={() => setConfirmModal(false)}
       >
-        <Modal.Body className={styles.bodyModal}>
-          <div>
-            <p className={styles.textDel}>
-              Are you sure want to delete <br />the selected items?
-            </p>
-            <Button onClick={handleCloseDelete} className={styles.btnClose}>
-              Cancel
-            </Button>
-            <Button onClick={handleDeleteItem} className={styles.btnDelete}>
-              Delete
-              {/* {console.log("wdijwdi")} */}
-            </Button>
-          </div>
+        <Modal.Body
+          className="d-flex flex-column align-items-center"
+          style={{ margin: "3em auto" }}
+        >
+          <>
+            <h5>Are you sure want to delete the selected items?</h5>
+            <div className="d-flex justify-content-between">
+              <Button
+                variant="light"
+                className={styles.btnCancel}
+                onClick={() => setConfirmModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="light"
+                className={styles.btnDelete}
+                onClick={handleDeleteItem}
+              >
+                Delete
+              </Button>
+            </div>
+          </>
         </Modal.Body>
       </Modal>
 
-      <NavBar profile={true} login={true} />
-      <Container fluid className={styles.mainContainer}>
-        <Container className={styles.container}>
-          <h1 className={styles.text1}>Let’s see what you have bought!</h1>
-          <p className={styles.text2}>Long press to delete item</p>
+      <NavBar history={true} login={true} />
+      <div className={styles.container}>
+        <h1>Let’s see what you have bought!</h1>
+        <p>Click card to delete item</p>
 
-          <Row>
-            {props.resres.map((item, index) => {
-              return (
-                <Col key={index} sm={4}>
-                  {isClick ? (
-                    <Card className={styles.cardHistoryClick}>
-                      <img
-                        alt=""
-                        src="/Ellipse 15.png"
-                        className={styles.forDelete}
-                        onClick={() => { handleDelete(item.orders_id); }}
-                      />
-                      <img
-                        alt=""
-                        src="/Ellipse 183.png"
-                        className={styles.forCancel}
-                        onClick={handleCloseClick}
-                      />
-                      <img
-                        alt=""
-                        src="/Vector.png"
-                        className={styles.imgDelete}
-                        onClick={() => { handleDelete(item.orders_id); }}
-                      />
-                      <img
-                        alt=""
-                        src="/x.png"
-                        className={styles.imgCancel}
-                        onClick={handleCloseClick}
-                      />
-                      <Row>
-                        <Col xs={4}>
-                          <img
-                            alt=""
-                            src={
-                              item.product_image.length > 0
-                                ? `${process.env.API_IMG_URL}/${item.product_image}`
-                                : "/image 2.png"
-                            }
-                            className={styles.imgHistory}
-                          />
-                        </Col>
-                        <Col xs={8}>
-                          <h1 className={styles.nameHistory}>{item.invoice_code}</h1>
-                          <p className={styles.priceHistory}> Rp {item.invoice_sub_total.toLocaleString()}</p>
-                          <p className={styles.statusHistory}>{item.orders_status}</p>
-                        </Col>
-                      </Row>
-                    </Card>
-                  ) : (
-                    <Card className={styles.cardHistory} onClick={handleClick}>
-                      <Row>
-                        <Col xs={4}>
-                          <img
-                            alt=""
-                            src={
-                              item.product_image.length > 0
-                                ? `${process.env.API_IMG_URL}/${item.product_image}`
-                                : "/image 2.png"
-                            }
-                            className={styles.imgHistory}
-                          />
-                        </Col>
-                        <Col xs={8}>
-                          <h1 className={styles.nameHistory}>{item.invoice_code}</h1>
-                          <p className={styles.priceHistory}> Rp {item.invoice_sub_total.toLocaleString()}</p>
-                          <p className={styles.statusHistory}>{item.orders_status}</p>
-                        </Col>
-                      </Row>
-                    </Card>
-                  )}
-                </Col>
-              );
-            })}
-          </Row>
-        </Container>
-      </Container>
+        <Row className="g-4 g-md-3 mt-4">
+          {props.resres.map((item, index) => (
+            <Col>
+              <div
+                key={index}
+                id={item.invoice_id}
+                className={`${
+                  selected.id === item.invoice_id ? styles.selectedCard : ""
+                } ${styles.card}`}
+                onClick={() => handleSelect(item.invoice_id)}
+              >
+                <div className={styles.productImgContainer}>
+                  <Image
+                    src={
+                      item.product_image
+                        ? `${process.env.API_IMG_URL}/${item.product_image}`
+                        : "/public/default-img-placeholder.png"
+                    }
+                    alt="product image"
+                    layout="fill"
+                  />
+                </div>
+                <div>
+                  <h4>{item.invoice_code}</h4>
+                  <span className={styles.subTotal}>
+                    IDR {item.invoice_sub_total.toLocaleString("id-ID")}
+                  </span>
+                  <span className={styles.status}>{item.orders_status}</span>
+                </div>
+                <div
+                  className={`${
+                    (showButton && selected.id === item.invoice_id) ||
+                    selected.id === item.invoice_id
+                      ? styles.showActionBtn
+                      : ""
+                  } ${styles.actionBtn}`}
+                >
+                  <Trash
+                    weight="bold"
+                    className={styles.delete}
+                    onClick={() => setConfirmModal(true)}
+                  />
+                  <X
+                    weight="bold"
+                    className={styles.cancel}
+                    onClick={handleCancel}
+                  />
+                </div>
+              </div>
+            </Col>
+          ))}
+        </Row>
+      </div>
       <Footer />
     </Layout>
   );
