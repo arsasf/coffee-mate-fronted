@@ -1,6 +1,6 @@
 <h1 align='center'>Next JS - Coffe Matte </h1>
   <p align="center">
-    <a href="link_deploy">View Demo</a>
+    <a href="https://coffeemate-frontend.vercel.app/">View Demo</a>
     ·
     <a href="https://github.com/arsasf/coffee-mate-fronted/issues">Report Bug</a>
     ·
